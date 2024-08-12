@@ -1,0 +1,20 @@
+.button-control-cont {
+  display: flex;
+  gap: 10px;
+  .button-control {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 5px 15px;
+    &.red {
+      color: rgb(221, 16, 16);
+    }
+    &:hover {
+      // @include rotateButtonAnim();
+      animation: $rotateButtonAnim;
+      background-color: #c9c9c9;
+    }
+  }
+}

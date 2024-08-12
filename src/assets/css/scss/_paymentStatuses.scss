@@ -1,0 +1,18 @@
+.payment-status {
+  padding: 3px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.payment-status-false {
+  background-color: #e43c3c;
+  color: #fff;
+}
+.payment-status-true {
+  background-color: #42aa2d;
+  color: #fff;
+}
+.payment-status-null {
+  background-color: #9c9c9c;
+  color: #fff;
+}

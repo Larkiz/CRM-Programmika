@@ -1,0 +1,49 @@
+.fixed-bottom-custom {
+  position: fixed;
+  bottom: 0;
+  z-index: 9999;
+}
+
+.fixed-top-custom {
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+}
+
+.month-controller {
+  background-color: #236fc7;
+  width: 300px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px 15px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 25px;
+  button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    transition: 0.5s;
+    border-radius: 10px;
+    font-size: 30px;
+    padding: 15px;
+    &:hover {
+      animation: $rotateButtonAnim;
+      background-color: #1e62af;
+    }
+  }
+}
+// .month-controller button:not([name="current-day"]) {
+//   background-color: transparent;
+//   color: #fff;
+//   border: none;
+//   transition: 0.5s;
+//   border-radius: 10px;
+//   font-size: 30px;
+//   padding: 15px;
+// }
+
+// .month-controller button:not([name="current-day"]):hover {
+//   background-color: #1e62af;
+// }

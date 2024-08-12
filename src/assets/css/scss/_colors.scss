@@ -1,0 +1,31 @@
+.green-bg {
+  background-color: #42aa2d !important;
+  border: none;
+
+  &[type="button"] {
+    border: 1px solid #2c9717;
+
+    &:hover {
+      background-color: #359b20 !important;
+    }
+  }
+}
+
+.red-bg {
+  background-color: #e43c3c;
+  border: none;
+
+  &[type="button"] {
+    border: 1px solid #ca2f2f;
+    &:hover {
+      background-color: #ca2f2f !important;
+    }
+  }
+}
+
+.icon-blue {
+  color: #3860bc;
+}
+.btn-primary {
+  background-color: #2979d4;
+}

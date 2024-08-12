@@ -1,0 +1,9 @@
+.schedule-input {
+  border: 1px solid #fff;
+
+  outline: none;
+  &:focus {
+    box-shadow: none;
+    border: 1px solid #fff;
+  }
+}

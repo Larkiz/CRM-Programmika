@@ -1,0 +1,21 @@
+thead {
+  background-color: #2979d4;
+  width: 100%;
+}
+.ag-header-cell-text {
+  font-size: 13px !important;
+}
+.debt-grid {
+  display: grid;
+}
+@media (min-width: 890px) {
+  .debt-grid {
+    grid-template-columns: repeat(2, 270px);
+  }
+}
+
+@media (max-width: 600px) {
+  .student-row {
+    font-size: 15px;
+  }
+}
