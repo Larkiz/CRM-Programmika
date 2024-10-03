@@ -9,6 +9,8 @@
 
 Библиотеки компонентов: _Reactstrap, Ag-grid и Chart.js_
 
+Для дат и времени: _moment.js_
+
 ### Backend
 Библиотека: _Express_
 
