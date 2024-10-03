@@ -52,11 +52,13 @@
 
 ### 3. Финансы (/finance)
 Экран с доходами/прибылью, которые строятся на основе оплаченных уроков и дополнительных расходов/доходов, отображаеммых в панеле _Операции_
-![image](https://github.com/user-attachments/assets/048a5023-c245-4241-9ba6-9d0c74f0f6be)
+![image](https://github.com/user-attachments/assets/2c49568e-4b89-400c-bf73-67f5c6261d00)
+
 
 ### 4. Оплата (/debts)
 Экран с задолженностями студентов и графиками _Доход_ с уроков и _Не оплачено_ по студентам.
-![image](https://github.com/user-attachments/assets/f6498dcc-74d4-4aec-902c-bde453591536)
+![image](https://github.com/user-attachments/assets/339f2535-3443-40f0-a878-6efc2b3df18f)
+
 
 При нажатии кнопки _Посмотреть_ открывается модальное окно со всеми задолженностями студента
 ![image](https://github.com/user-attachments/assets/e5273f3c-200b-48cc-855e-931d86593ec3)
