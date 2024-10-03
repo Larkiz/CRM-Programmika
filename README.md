@@ -9,7 +9,11 @@
 
 Библиотеки компонентов: _Reactstrap, Ag-grid и Chart.js_
 
+Стили: SCSS
+
 Для дат и времени: _moment.js_
+
+Верстка: Шаблон взят с [ Creative Tim ](https://www.creative-tim.com/)
 
 ### Backend
 Библиотека: _Express_
