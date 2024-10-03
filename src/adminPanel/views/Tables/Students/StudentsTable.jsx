@@ -1,57 +1,19 @@
 import { AgGridReact } from "ag-grid-react";
 import { useFetchTable } from "./hooks/useFetchTable";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "ag-grid-enterprise";
-import {
-  Button,
-  Card,
-  CardHeader,
-  Col,
-  Container,
-  FormGroup,
-  Label,
-  Row,
-} from "reactstrap";
-import { useForm } from "react-hook-form";
-import { GroupsContext } from "adminPanel/Context/GroupsContext";
+import { Button, Card, CardHeader, Col, Row } from "reactstrap";
+
 import { toast } from "react-toastify";
-import { CoursePicker } from "adminPanel/components/CoursePicker/CoursePicker";
 
-const defaultColDef = {
-  floatingFilter: true,
-  filter: "agTextColumnFilter",
-  editable: true,
-};
+import { NewStudent } from "./NewStudent";
+import { colDef, defaultColDef } from "./tableOptions";
 
-const colDef = [
-  { field: "id", filter: true, editable: false },
-  { field: "first_name", headerName: "Имя" },
-  { field: "last_name", headerName: "Фамилия" },
-  { field: "course", filter: "agSetColumnFilter", headerName: "Курс" },
-  { field: "city", headerName: "Город" },
-  {
-    field: "birthday",
-    filter: "agDateColumnFilter",
-    cellEditor: "agDateStringCellEditor",
-    headerName: "Дата рождения",
-  },
-  { field: "phone_number", headerName: "Номер телефона" },
-  { field: "parent_phone", headerName: "Номер тел. родителей" },
-];
 export const StudentsTable = () => {
   const [tableData, addNew, deleteRow] = useFetchTable("students");
   const [editing, setEditing] = useState(false);
 
   const gridRef = useRef();
-  const { coursesNames } = useContext(GroupsContext);
-
-  const { register, watch, handleSubmit } = useForm();
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) =>
-      console.log(value, name, type)
-    );
-    return () => subscription.unsubscribe();
-  }, [watch]);
 
   function startEdit() {
     const row = gridRef.current.api.getSelectedNodes()[0];
@@ -90,6 +52,8 @@ export const StudentsTable = () => {
         <h1 className="mb-0">Студенты</h1>
       </CardHeader>
       <Button
+        type="button"
+        className="red-bg"
         style={{ backgroundColor: "#c53939", margin: 0 }}
         onClick={() => deleteRow(gridRef.current.api.getSelectedRows()[0])}
       >
@@ -97,6 +61,8 @@ export const StudentsTable = () => {
       </Button>
       {!editing ? (
         <Button
+          type="button"
+          className="green-bg"
           style={{ backgroundColor: "#439358", margin: 0 }}
           onClick={startEdit}
         >
@@ -139,93 +105,7 @@ export const StudentsTable = () => {
           suppressCellFocus
         />
       </div>
-      <Container fluid>
-        <Row>
-          <Col md={3}>
-            <FormGroup>
-              <Label for="first_name">Имя</Label>
-              <input
-                className="form-control"
-                id="first_name"
-                {...register("first_name", { required: true })}
-                placeholder="Имя"
-              />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup>
-              <Label for="last_name">Фамилия</Label>
-              <input
-                className="form-control"
-                id="last_name"
-                {...register("last_name", { required: true })}
-                placeholder="Фамилия"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={2}>
-            <FormGroup>
-              <CoursePicker
-                courses={coursesNames}
-                register={{ ...register("course", { required: true }) }}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={3}>
-            <FormGroup>
-              <Label for="phone_number">Номер телефона</Label>
-              <input
-                className="form-control"
-                id="phone_number"
-                {...register("phone_number")}
-                placeholder="Номер тел."
-              />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup>
-              <Label for="parent_phone">Тел. родитилей</Label>
-              <input
-                className="form-control"
-                id="parent_phone"
-                {...register("parent_phone")}
-                placeholder="Тел. родителей"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={3}>
-            <FormGroup>
-              <Label for="city">Город</Label>
-              <input
-                className="form-control"
-                id="city"
-                {...register("city")}
-                placeholder="Город"
-              />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup>
-              <Label for="birthday">Дата рождения</Label>
-              <input
-                className="form-control"
-                type="date"
-                id="birthday"
-                {...register("birthday")}
-                placeholder="Дата рождения"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-
-        <Button onClick={handleSubmit((data) => addNew(data))}>Добавить</Button>
-      </Container>
+      <NewStudent onSubmit={addNew} />
     </Card>
   );
 };

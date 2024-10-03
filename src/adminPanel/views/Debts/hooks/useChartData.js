@@ -1,7 +1,7 @@
 import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
 import { useEffect, useReducer, useState } from "react";
 const options = {
-  barPercentage: 0.5,
+  barPercentage: 0.4,
 
   plugins: {
     legend: {
@@ -48,14 +48,14 @@ export const useChartData = () => {
 
   useEffect(() => {
     const earningsFetch = fetch(
-      `${process.env.REACT_APP_API_HOST}/api/finance/earnings?month=${filterDate.month}&year=${filterDate.year}`,
+      `${process.env.REACT_APP_API_HOST}/api/payments/earnings?month=${filterDate.month}&year=${filterDate.year}`,
       {
         headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
       }
     ).then((res) => res.json());
 
     const debtFetch = fetch(
-      `${process.env.REACT_APP_API_HOST}/api/finance/earnings?month=${filterDate.month}&year=${filterDate.year}&payment_status=0`,
+      `${process.env.REACT_APP_API_HOST}/api/payments/earnings?month=${filterDate.month}&year=${filterDate.year}&payment_status=0`,
       {
         headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
       }

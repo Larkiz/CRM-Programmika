@@ -1,10 +1,12 @@
 import { ucFirst } from "functions/uppercaseFirst";
+import moment from "moment";
 import { useRef } from "react";
 
 export const MonthController = ({
   filterDate,
   dispatch,
   fixedBottom = false,
+  style,
 }) => {
   const fixed = fixedBottom ? "fixed-bottom-custom" : null;
   const ref = useRef(null);
@@ -13,7 +15,7 @@ export const MonthController = ({
 
   return (
     <div
-      style={{ right: posCenter + "px" }}
+      style={{ right: posCenter + "px", ...style }}
       className={"month-controller " + fixed}
       ref={ref}
     >
@@ -23,9 +25,8 @@ export const MonthController = ({
       ></button>
 
       {ucFirst(
-        new Date(filterDate.year, filterDate.month, 0).toLocaleString(
-          "default",
-          { month: "long" }
+        moment(`${filterDate.year}.${filterDate.month}`, "YYYY.MM").format(
+          "MMMM"
         )
       )}
 

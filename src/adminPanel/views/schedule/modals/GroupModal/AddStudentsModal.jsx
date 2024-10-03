@@ -7,12 +7,13 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import { ScheduleInput } from "./ScheduleInput";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
 
-const baseData = { time: null, course: null, students: [] };
+const baseData = (course = null, date = null) => {
+  return { course: course, date: date, students: [] };
+};
 
 function studentFilter(student, filterName) {
   const name = new RegExp(filterName, "i");
@@ -22,20 +23,23 @@ function studentFilter(student, filterName) {
     return true;
 }
 
-export const NewLessonModal = ({
-  handleClose,
-  show,
+export const AddStudentsModal = ({
+  toggle,
+  isOpen,
   date,
-
+  course,
   handleAdd,
 }) => {
-  const [data, setData] = useState(baseData);
+  const [data, setData] = useState(baseData(course, date));
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState({ name: "", allStudents: false });
 
   function checkboxHandle(e, student) {
     if (e.target.checked) {
-      setData({ ...data, students: [...data.students, { id: student.id }] });
+      setData({
+        ...data,
+        students: [...data.students, { ...student, payment_status: 0 }],
+      });
     } else {
       setData({
         ...data,
@@ -44,38 +48,13 @@ export const NewLessonModal = ({
     }
   }
 
-  function add() {
-    if (data.time === null || data.course === null || !data.students.length) {
-      return toast.error("Заполните все поля");
-    } else {
-      fetch(`${process.env.REACT_APP_API_HOST}/api/schedule`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ ...data, date: date }),
-      })
-        .then((res) => res.json())
-        .then((fetchData) => {
-          handleAdd({ ...data, date: date, id: fetchData.insertedId });
-          handleClose();
-          toast.success("Урок добавлен");
-        });
-    }
-  }
+  useEffect(() => {
+    setData({ ...data, course: course, date: date });
+  }, [date, course]);
 
   useEffect(() => {
-    if (data.course) {
-      let endpoint = ``;
-
-      if (filter.allStudents && data.course !== "*") {
-        endpoint += "/students";
-      } else {
-        endpoint += `/groups/${data.course}`;
-      }
-
-      fetch(`${process.env.REACT_APP_API_HOST}/api${endpoint}`, {
+    if (isOpen) {
+      fetch(`${process.env.REACT_APP_API_HOST}/api/students`, {
         method: "get",
         headers: {
           "Content-type": "application/json",
@@ -96,14 +75,13 @@ export const NewLessonModal = ({
             }
             return false;
           });
-
           setStudents(fetchData);
         });
     }
-  }, [data.course, filter.allStudents]);
+  }, [isOpen]);
 
   function clearData() {
-    setData(baseData);
+    setData({ ...data, students: [] });
     setStudents([]);
   }
 
@@ -111,23 +89,13 @@ export const NewLessonModal = ({
     <Modal
       onClosed={() => clearData()}
       size="lg"
-      isOpen={show}
-      toggle={handleClose}
+      isOpen={isOpen}
+      toggle={toggle}
       backdrop={true}
     >
-      <ModalHeader toggle={handleClose}>Добавление урока на {date}</ModalHeader>
+      <ModalHeader toggle={toggle}>Добавление студентов на {date}</ModalHeader>
       <ModalBody>
         <Container>
-          <ScheduleInput data={data} handleChange={setData} />{" "}
-          <FormElement
-            style={{ padding: 0, gap: 5 }}
-            onChange={(e) => {
-              setFilter({ ...filter, allStudents: e.target.checked });
-            }}
-            type="checkbox"
-          >
-            Включить всех студентов
-          </FormElement>
           <FormElement
             style={{ padding: 0 }}
             onChange={(e) => {
@@ -174,7 +142,7 @@ export const NewLessonModal = ({
               )}
             </Container>
           </Container>
-          <Button onClick={add}>Добавить</Button>
+          <Button onClick={() => handleAdd(data)}>Добавить</Button>
         </Container>
       </ModalBody>
     </Modal>

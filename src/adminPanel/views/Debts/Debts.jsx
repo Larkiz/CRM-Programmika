@@ -1,31 +1,31 @@
 import { useEffect, useReducer, useState } from "react";
-import { Col, Container, FormGroup, Input, Label } from "reactstrap";
+import { Button, Card, CardBody, CardHeader, Container } from "reactstrap";
 
-import { paymentReducer } from "adminPanel/reducers/finance/paymentReducer";
-import { Debt } from "./Debt";
-import { CoursePicker } from "adminPanel/components/CoursePicker/CoursePicker";
+import { FormElement } from "../../components/FormElements/FormElement";
+
+import { DebtModal } from "./DebtModal/DebtModal";
+import { debtsReducer } from "adminPanel/reducers/finance/debtsReducer";
+import { Earnings } from "./Earnings/Earnings";
+import { useChartData } from "./hooks/useChartData";
+import { MonthController } from "adminPanel/components/MonthController/MonthController";
+
 function debtFilter(i, filters) {
   const name = new RegExp(filters.name, "i");
   const fullName = i.first_name + " " + i.last_name;
 
-  if (
-    (filters.course === "*" ||
-      (filters.course !== "*" && filters.course === i.course)) &&
-    (filters.name === "" || (filters.name !== "" && name.test(fullName)))
-  )
+  if (filters.name === "" || (filters.name !== "" && name.test(fullName)))
     return true;
 }
 
 export const Debts = () => {
-  const [debts, paymentDispatch] = useReducer(paymentReducer, null);
+  const [debts, paymentDispatch] = useReducer(debtsReducer, null);
   const [filters, setFilters] = useState({
-    course: "*",
     name: "",
     groups: [],
   });
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_HOST}/api/finance/debt`, {
+    fetch(`${process.env.REACT_APP_API_HOST}/api/payments/debt`, {
       headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
     })
       .then((res) => res.json())
@@ -44,40 +44,73 @@ export const Debts = () => {
     }
   }, [debts]);
 
+  const [modal, setModal] = useState({ show: false, data: null });
+  const handleModalOpen = (data) => {
+    setModal({ show: true, data: data });
+  };
+  const handleModalClose = () => {
+    setModal({ show: false, data: null });
+  };
+  const [
+    chartEarningsData,
+    chartDebtsData,
+    options,
+    filterDate,
+    dispatchMonthFilter,
+  ] = useChartData();
   return (
     <Container fluid>
-      <Col md={3}>
-        <FormGroup>
-          <Label for="name">Имя</Label>
-          <Input
-            id="name"
-            placeholder="Имя"
-            onChange={(e) => {
-              setFilters({ ...filters, name: e.target.value });
-            }}
-            type="text"
-            className="schedule-input border"
-          />
-        </FormGroup>
-      </Col>
-      <Col md={3}>
-        <CoursePicker
-          courses={filters.groups}
-          onChange={(e) => {
-            setFilters({ ...filters, course: e.target.value });
-          }}
-        />
-      </Col>
+      <DebtModal
+        handleClose={handleModalClose}
+        show={modal.show}
+        data={modal.data}
+        paymentDispatch={paymentDispatch}
+      />
+      <Earnings
+        chartEarningsData={chartEarningsData}
+        chartDebtsData={chartDebtsData}
+        options={options}
+        filterDate={filterDate}
+        dispatchMonthFilter={dispatchMonthFilter}
+      />
+      <MonthController
+        style={{ margin: "0 auto" }}
+        filterDate={filterDate}
+        dispatch={dispatchMonthFilter}
+      />
+      <FormElement
+        md={3}
+        onChange={(e) => {
+          setFilters({ ...filters, name: e.target.value });
+        }}
+        id={"name"}
+      >
+        Имя
+      </FormElement>
 
-      {debts &&
-        debts.map((debt, key) => {
-          if (debtFilter(debt, filters)) {
-            return (
-              <Debt debt={debt} paymentDispatch={paymentDispatch} key={key} />
-            );
-          }
-          return false;
-        })}
+      <div className="debts">
+        {debts &&
+          debts.map((debt, key) => {
+            if (debtFilter(debt, filters)) {
+              return (
+                <Card key={key} className="p-3 mb-1 ">
+                  <CardHeader>
+                    {debt.first_name} {debt.last_name}
+                  </CardHeader>
+                  <CardBody>
+                    <Button
+                      color="primary"
+                      onClick={() => handleModalOpen(debt)}
+                    >
+                      Посмотреть
+                    </Button>
+                  </CardBody>
+                </Card>
+              );
+            }
+            return false;
+          })}
+      </div>
     </Container>
   );
 };

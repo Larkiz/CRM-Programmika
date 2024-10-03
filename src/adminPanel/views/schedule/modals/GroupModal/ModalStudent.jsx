@@ -1,4 +1,4 @@
-import { Button, Col, Collapse, Container, Row } from "reactstrap";
+import { Button, Collapse, Container, Row } from "reactstrap";
 
 import { useState } from "react";
 
@@ -7,8 +7,14 @@ import {
   getStatus,
 } from "../../../../components/StatusButtonsPayments/paymentControl";
 import { paymentHandle } from "functions/paymentHandle";
+import classNames from "classnames";
 
-export const ModalStudent = ({ student, paymentDispatch }) => {
+export const ModalStudent = ({
+  student,
+  paymentDispatch,
+  className,
+  disableControls = 0,
+}) => {
   const [commentCollapse, setCollapse] = useState(false);
   const [comment, setComment] = useState({ text: null });
 
@@ -31,30 +37,41 @@ export const ModalStudent = ({ student, paymentDispatch }) => {
     ).then(toggleCollapse);
   }
 
-  return (
-    <Container fluid className="mb-4">
-      <Row className="mb-2">
-        {student.first_name} {student.last_name}
-        {getStatus(student.payment_status)}
-      </Row>
+  const classes = classNames("mb-4", className);
 
-      <Row>
-        {getButtons(student.payment_status, (payment_status) =>
-          paymentHandle(
-            () =>
-              paymentDispatch({
-                type: "updateDebtInModal",
-                id: student.id,
-                payment_status,
-              }),
-            { id: student.id, payment_status }
-          )
+  return (
+    <Container fluid className={classes}>
+      <Row className="mb-2 student-modal-row">
+        <div type={"name"}>
+          {student.first_name} {student.last_name}
+        </div>
+        {getStatus(student.payment_status)}
+        {!disableControls && (
+          <Button color="primary" onClick={toggleCollapse}>
+            <i className="fa-solid fa-comment-medical"></i>
+          </Button>
         )}
       </Row>
-      {student.payment_status !== null && (
+
+      {!disableControls && (
+        <Row>
+          {getButtons(student.payment_status, (payment_status) =>
+            paymentHandle(
+              () =>
+                paymentDispatch({
+                  type: "updateDebtInModal",
+                  id: student.id,
+                  payment_status,
+                }),
+              { id: student.id, payment_status }
+            )
+          )}
+        </Row>
+      )}
+      {student.payment_status !== null && !disableControls && (
         <>
           <Row className="mt-2">
-            {commentCollapse ? (
+            {commentCollapse && (
               <>
                 <Button className="green-bg" onClick={commentInsert}>
                   Сохранить
@@ -63,10 +80,6 @@ export const ModalStudent = ({ student, paymentDispatch }) => {
                   Отменить
                 </Button>
               </>
-            ) : (
-              <Button color="primary" onClick={toggleCollapse}>
-                Добавить комментарий
-              </Button>
             )}
           </Row>
           <Row>

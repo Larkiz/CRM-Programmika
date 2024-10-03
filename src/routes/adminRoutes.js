@@ -1,11 +1,12 @@
 import { AdminIndex } from "adminPanel/views/Index/Index";
-import { Schedule } from "adminPanel/views/schedule/Schedule";
+import { Schedule } from "adminPanel/views/Schedule/Schedule";
 
-import Icons from "adminPanel/views/examples/Icons";
 import Login from "auth/Login";
 import { GroupsContextProvider } from "adminPanel/Context/GroupsContext";
 import { StudentsTable } from "adminPanel/views/Tables/Students/StudentsTable";
 import { Debts } from "adminPanel/views/Debts/Debts";
+import { Finance } from "adminPanel/views/Finance/Finance";
+import Icons from "adminPanel/views/examples/Icons";
 
 const adminRoutes = [
   {
@@ -43,11 +44,22 @@ const adminRoutes = [
   },
   {
     path: "/debts",
-    name: "Задолженности",
+    name: "Оплата",
     icon: "ni ni-credit-card icon-blue",
     component: (
       <GroupsContextProvider>
         <Debts />
+      </GroupsContextProvider>
+    ),
+    layout: "/admin",
+  },
+  {
+    path: "/finance",
+    name: "Финансы",
+    icon: "fa-solid fa-coins icon-blue",
+    component: (
+      <GroupsContextProvider>
+        <Finance />
       </GroupsContextProvider>
     ),
     layout: "/admin",

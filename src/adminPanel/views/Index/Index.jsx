@@ -1,37 +1,26 @@
 import { Container } from "reactstrap";
 import { Chart, registerables } from "chart.js";
-import { useChartData } from "./hooks/useChartData";
 
 import { MonthController } from "adminPanel/components/MonthController/MonthController";
 import { StudentStats } from "./StudentsStats/StudentStats";
-import { getMonthYear } from "./Earnings/functions/dateFunctions";
-import { Earnings } from "./Earnings/Earnings";
+
 import { ucFirst } from "functions/uppercaseFirst";
+import { useMonthControl } from "adminPanel/components/MonthController/useMonthControl";
+import { getMonthYear } from "./functions/dateFunctions";
 
 Chart.register(...registerables);
 
 export const AdminIndex = () => {
-  const [
-    chartEarningsData,
-    chartDebtsData,
-    options,
-    filterDate,
-    dispatchMonthFilter,
-  ] = useChartData();
-
+  const [filterDate, dispatchMonthFilter] = useMonthControl();
   return (
     <Container style={{ marginBottom: "90px" }} className="mt-5" fluid>
-      <h1>{ucFirst(getMonthYear(filterDate.month, filterDate.year))}</h1>
-      <Earnings
-        chartEarningsData={chartEarningsData}
-        chartDebtsData={chartDebtsData}
-        options={options}
-        filterDate={filterDate}
-        dispatchMonthFilter={dispatchMonthFilter}
-      />
+      <h1 className="mb-5">
+        {ucFirst(getMonthYear(filterDate.month, filterDate.year))}
+      </h1>
+
       <StudentStats filterDate={filterDate} />
       <MonthController
-        fixedBottom
+        style={{ margin: "0 auto" }}
         filterDate={filterDate}
         dispatch={dispatchMonthFilter}
       />

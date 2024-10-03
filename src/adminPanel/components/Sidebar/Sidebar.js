@@ -13,6 +13,7 @@ import {
   NavLink,
   Nav,
   Button,
+  Container,
 } from "reactstrap";
 
 import { exitAccount } from "functions/exitAccount";
@@ -32,7 +33,7 @@ const Sidebar = (props) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
-          <NavItem key={key}>
+          <NavItem style={{ marginLeft: 5 }} key={key}>
             <NavLink
               to={prop.layout + prop.path}
               tag={NavLinkRRD}
@@ -63,7 +64,7 @@ const Sidebar = (props) => {
   let navigate = useNavigate();
   return (
     <Navbar
-      className="navbar-vertical fixed-left navbar-light bg-white border-right"
+      className="navbar-vertical fixed-left navbar-light bg-white border-right navbar-bg-programmika"
       expand="md"
       id="sidenav-main"
     >

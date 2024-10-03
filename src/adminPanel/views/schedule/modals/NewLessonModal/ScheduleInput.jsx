@@ -1,4 +1,4 @@
-import { CoursePicker } from "adminPanel/components/CoursePicker/CoursePicker";
+import { CoursePicker } from "adminPanel/components/FormElements/CoursePicker";
 import { GroupsContext } from "adminPanel/Context/GroupsContext";
 import { useContext } from "react";
 import { Col, Input, Label, Row } from "reactstrap";
@@ -8,7 +8,7 @@ export const ScheduleInput = ({ handleChange, data }) => {
 
   return (
     <Row>
-      <Col md={5}>
+      <Col>
         <CoursePicker
           courses={coursesNames}
           onChange={(e) => {
@@ -17,7 +17,7 @@ export const ScheduleInput = ({ handleChange, data }) => {
           className="schedule-input border"
         />
       </Col>
-      <Col md={5}>
+      <Col>
         <Label for="course">Время</Label>
         <Input
           id="course"

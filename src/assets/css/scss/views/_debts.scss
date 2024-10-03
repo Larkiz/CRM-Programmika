@@ -1,0 +1,15 @@
+.debts {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  .card {
+    border: none;
+  }
+}
+.debt-grid {
+  display: grid;
+}
+@media (min-width: 890px) {
+  .debt-grid {
+    grid-template-columns: repeat(2, 235px);
+  }
+}

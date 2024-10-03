@@ -9,8 +9,19 @@
 @import "./inputs/input";
 
 @import "./modals/newLesson";
+@import "./modals/lesson";
 @import "./authorization/auth";
 @import "./table";
+@import "./views/debts";
 
 // user
 @import "./userProfile/index";
+
+.center-text {
+  text-align: center;
+  color: #4f4f4f;
+  height: 300px;
+  display: grid;
+
+  place-items: center;
+}

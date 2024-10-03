@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Col, FormGroup, Label, Table } from "reactstrap";
+import { Col, Container, FormGroup, Label, Row, Table } from "reactstrap";
 import { TablePagination } from "./TablePagination/TablePagination";
-import { CoursePicker } from "adminPanel/components/CoursePicker/CoursePicker";
 import { GroupsContext } from "adminPanel/Context/GroupsContext";
+import { CoursePicker } from "adminPanel/components/FormElements/CoursePicker";
 
 export const StudentStats = ({ filterDate }) => {
   const [tableData, setTableData] = useState([]);
@@ -56,29 +56,29 @@ export const StudentStats = ({ filterDate }) => {
 
   return (
     <>
-      <h2 className="mt-4 mb-3">Статистика студентов</h2>
-      <Col md={4}>
-        <FormGroup>
-          <Label for="course">Имя</Label>
-          <input
-            className="form-control"
-            onChange={(e) => setFilter({ ...filter, name: e.target.value })}
-            type="text"
-            placeholder="Имя"
-          />
-
+      {/* <h2 className="mt-4 mb-3">Статистика студентов</h2> */}
+      <Container>
+        <Row style={{ gap: 20 }}>
+          <div>
+            <Label for="course">Имя</Label>
+            <input
+              className="form-control"
+              onChange={(e) => setFilter({ ...filter, name: e.target.value })}
+              type="text"
+              placeholder="Имя"
+            />
+          </div>
           <CoursePicker
             courses={coursesNames}
             onChange={(e) => {
               setFilter({ ...filter, course: e.target.value });
             }}
           />
-        </FormGroup>
-      </Col>
-
+        </Row>
+      </Container>
       <Table className="shadow mb-4" responsive hover>
-        <thead style={{ backgroundColor: "rgb(58 130 214)", width: 100 + "%" }}>
-          <tr style={{ fontSize: 18, color: "#fff", fontWeight: 700 }}>
+        <thead>
+          <tr>
             <th>id</th>
             <th>Имя</th>
             <th>Фамилия</th>

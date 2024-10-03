@@ -20,7 +20,7 @@ export const CoursePicker = ({ courses, onChange, register, className }) => {
         {courses && (
           <>
             <option value={"*"} key={-1}>
-              Все
+              Не выбрано
             </option>
             {courses.map((group, key) => {
               return (

@@ -1,0 +1,16 @@
+.student-modal-row {
+  gap: 5px;
+  align-items: center;
+  button {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+}
+@media (max-width: 420px) {
+  .student-modal-row {
+    font-size: 14px;
+  }
+  .payment-btn {
+    font-size: 13px;
+  }
+}

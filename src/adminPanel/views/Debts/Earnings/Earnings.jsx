@@ -3,16 +3,16 @@ import { Bar } from "react-chartjs-2";
 
 export const Earnings = ({ chartEarningsData, chartDebtsData, options }) => {
   return (
-    <Row>
-      <Col className="mt-4 mb-3">
-        <h2>Выручка </h2>
+    <Row className="justify-content-around ">
+      <Col style={{ maxWidth: 650 }} className="mt-4 mb-3">
+        <h2>Доход </h2>
 
         {chartEarningsData && (
           <Bar data={chartEarningsData} options={options} />
         )}
       </Col>
 
-      <Col className="mt-4 mb-3">
+      <Col style={{ maxWidth: 650 }} className="mt-4 mb-3">
         <h2>Не оплачено</h2>
 
         {chartDebtsData && <Bar data={chartDebtsData} options={options} />}

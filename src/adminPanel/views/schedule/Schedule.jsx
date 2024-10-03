@@ -88,10 +88,7 @@ export const Schedule = () => {
                 ref={currentDate === scheduleItem.date ? currentDateRef : null}
               >
                 <tr>
-                  <th
-                    colSpan={4}
-                    style={{ fontSize: 18, color: "#fff", fontWeight: 700 }}
-                  >
+                  <th colSpan={4} style={{ fontSize: 18 }}>
                     {getMonth(scheduleItem.date)}
                   </th>
                 </tr>

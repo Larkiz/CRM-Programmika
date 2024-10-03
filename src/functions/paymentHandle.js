@@ -1,5 +1,5 @@
 export function paymentHandle(dispatch, { id, payment_status }) {
-  let url = `${process.env.REACT_APP_API_HOST}/api/finance/payment_history`;
+  let url = `${process.env.REACT_APP_API_HOST}/api/payments/payment_history`;
   let method = "put";
 
   fetch(url, {

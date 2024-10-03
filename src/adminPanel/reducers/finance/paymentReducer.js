@@ -1,5 +1,5 @@
 export const paymentReducer = (state, action) => {
-  const { type, id, payment_status } = action;
+  const { type, id, payment_status, students } = action;
   switch (type) {
     case "set":
       return action.data;
@@ -22,7 +22,12 @@ export const paymentReducer = (state, action) => {
         });
         return item;
       });
-
+    case "deleteDebt":
+      return state.filter((i) => i.id !== id);
+    case "addDebts":
+      return [...state, ...students];
+    case "clear":
+      return [];
     default:
       return state;
   }

@@ -20,9 +20,12 @@ import "ag-grid-community/styles/ag-theme-material.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./assets/css/index.css";
-import "./assets/css/scss/custom.scss";
 
 import "react-toastify/dist/ReactToastify.css";
+
+import "moment/locale/ru";
+import "./assets/css/scss/custom.scss";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
