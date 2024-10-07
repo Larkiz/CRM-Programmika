@@ -39,11 +39,8 @@ const Login = () => {
             sessionStorage.setItem("token", resJson.token);
             sessionStorage.setItem("role", resJson.role);
           }
-          if (resJson.role === "admin") {
-            return navigate("/admin/index");
-          } else {
-            return navigate("/user/index");
-          }
+
+          return navigate("/index");
         } else {
           toast.error(resJson.message);
         }

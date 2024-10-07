@@ -13,6 +13,7 @@ import { paymentReducer } from "adminPanel/reducers/finance/paymentReducer";
 import { ModalStudent } from "./ModalStudent";
 import { toast } from "react-toastify";
 import { AddStudentsModal } from "./AddStudentsModal";
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 
 export const GroupModal = ({ handleClose, show, course, date }) => {
   const [students, paymentDispatch] = useReducer(paymentReducer, null);
@@ -20,14 +21,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
 
   useEffect(() => {
     if (show) {
-      fetch(
-        `${process.env.REACT_APP_API_HOST}/api/payments/debt/${course}?date=${date}`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        }
-      )
+      authFetch(`/payments/debt/${course}?date=${date}`)
         .then((res) => res.json())
         .then((data) => paymentDispatch({ type: "set", data }));
     }
@@ -36,15 +30,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
 
   function deleteStudent(id) {
     if (window.confirm("Удалить?")) {
-      fetch(
-        `${process.env.REACT_APP_API_HOST}/api/schedule/deleteStudent/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-          method: "DELETE",
-        }
-      )
+      authFetch(`/schedule/deleteStudent/${id}`, { method: "delete" })
         .then((res) => res.json())
         .then(() => {
           paymentDispatch({ type: "deleteDebt", id: id });
@@ -67,12 +53,8 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
     if (!data.students.length) {
       toast.error("Студенты не выбраны!");
     } else {
-      fetch(`${process.env.REACT_APP_API_HOST}/api/schedule/insertStudents`, {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-        method: "POST",
+      authFetch("/schedule/insertStudents", {
+        method: "post",
         body: JSON.stringify(data),
       })
         .then((res) => res.json())
@@ -103,7 +85,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
         <ModalHeader toggle={handleClose}>
           {course}
           <Container>
-            <Row>
+            <Row className="gap-5">
               {!deletePending ? (
                 <>
                   <Button

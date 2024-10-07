@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import { NewStudent } from "./NewStudent";
 import { colDef, defaultColDef } from "./tableOptions";
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 
 export const StudentsTable = () => {
   const [tableData, addNew, deleteRow] = useFetchTable("students");
@@ -28,12 +29,8 @@ export const StudentsTable = () => {
   }
 
   function update(data) {
-    fetch(`${process.env.REACT_APP_API_HOST}/api/students/${data.id}`, {
+    authFetch(`/students/${data.id}`, {
       method: "put",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
       body: JSON.stringify(data),
     }).then(() => toast.success("Успешно обновлено"));
   }

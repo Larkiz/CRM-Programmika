@@ -8,6 +8,7 @@ import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReduc
 import { numberIsNegative } from "functions/numberIsNegatibe";
 import { OperationCell } from "./OperationCell";
 import { toast } from "react-toastify";
+import { authFetch } from "../Index/functions/authFetch";
 
 export const Finance = () => {
   const { register, handleSubmit } = useForm();
@@ -21,14 +22,7 @@ export const Finance = () => {
   const [selectedId, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_API_HOST}/api/finance?month=${filterDate.month}&year=${filterDate.year}`,
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      }
-    )
+    authFetch(`/finance?month=${filterDate.month}&year=${filterDate.year}`)
       .then((res) => res.json())
       .then((data) => setFinances(data));
 
@@ -41,12 +35,7 @@ export const Finance = () => {
         (item) => item.id === selectedId
       )[0].amount;
 
-      fetch(`${process.env.REACT_APP_API_HOST}/api/finance/${selectedId}`, {
-        method: "delete",
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      }).then(() => {
+      authFetch(`/finance/${selectedId}`, { method: "delete" }).then(() => {
         setFinances({
           earnings: finances.earnings - value,
           income: numberIsNegative(value)
@@ -62,12 +51,8 @@ export const Finance = () => {
   }
 
   function operationPost(newOperation) {
-    fetch(`${process.env.REACT_APP_API_HOST}/api/finance`, {
+    authFetch("/finance", {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
       body: JSON.stringify(newOperation),
     })
       .then((res) => res.json())

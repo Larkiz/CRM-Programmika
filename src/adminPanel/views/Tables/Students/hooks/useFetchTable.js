@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 import { useEffect, useState } from "react";
 
 export const useFetchTable = (tableName) => {
   const [tableData, setTableData] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_HOST}/api/${tableName}`, {
-      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-    })
+    authFetch(`/${tableName}`)
       .then((res) => res.json())
       .then((resJson) => {
         if (resJson.message) throw resJson.message;
@@ -17,12 +16,9 @@ export const useFetchTable = (tableName) => {
   }, []);
 
   function addNew(data) {
-    fetch(`${process.env.REACT_APP_API_HOST}/api/${tableName}`, {
+    authFetch(`/${tableName}`, {
       method: "post",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
+
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
@@ -33,12 +29,8 @@ export const useFetchTable = (tableName) => {
 
   function deleteRow(data) {
     if (window.confirm("Вы уверены что хотите удалить запись?")) {
-      fetch(`${process.env.REACT_APP_API_HOST}/api/${tableName}/${data.id}`, {
+      authFetch(`/${tableName}/${data.id}`, {
         method: "delete",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
       })
         .then((res) => res.json())
         .then((resJson) => {

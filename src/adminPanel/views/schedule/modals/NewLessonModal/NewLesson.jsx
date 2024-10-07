@@ -11,6 +11,7 @@ import { ScheduleInput } from "./ScheduleInput";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 
 const baseData = { time: null, course: null, students: [] };
 
@@ -48,12 +49,8 @@ export const NewLessonModal = ({
     if (data.time === null || data.course === null || !data.students.length) {
       return toast.error("Заполните все поля");
     } else {
-      fetch(`${process.env.REACT_APP_API_HOST}/api/schedule`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
+      authFetch(`/schedule`, {
+        method: "post",
         body: JSON.stringify({ ...data, date: date }),
       })
         .then((res) => res.json())
@@ -75,13 +72,7 @@ export const NewLessonModal = ({
         endpoint += `/groups/${data.course}`;
       }
 
-      fetch(`${process.env.REACT_APP_API_HOST}/api${endpoint}`, {
-        method: "get",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      })
+      authFetch(`${endpoint}`)
         .then((res) => res.json())
         .then((fetchData) => {
           fetchData = fetchData.filter((student, index) => {

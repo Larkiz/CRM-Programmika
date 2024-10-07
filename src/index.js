@@ -2,11 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import AdminLayout from "./layouts/Admin.js";
-import AuthLayout from "./layouts/Auth.js";
-
 import { CheckAuth } from "Middlewares/checkAuth";
-import UserLayout from "layouts/User";
 
 import { ToastContainer } from "react-toastify";
 
@@ -26,30 +22,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "moment/locale/ru";
 import "./assets/css/scss/custom.scss";
 
+import { AuthLayout } from "layouts/Auth";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <>
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/admin/*"
-          element={
-            <CheckAuth>
-              <AdminLayout />
-            </CheckAuth>
-          }
-        />
         <Route path="/auth/*" element={<AuthLayout />} />
-        <Route path="/" element={<CheckAuth />} />
-        <Route
-          path="/user/*"
-          element={
-            <CheckAuth>
-              <UserLayout />
-            </CheckAuth>
-          }
-        />
+        <Route path="/*" element={<CheckAuth />} />
       </Routes>
     </BrowserRouter>
     <ToastContainer

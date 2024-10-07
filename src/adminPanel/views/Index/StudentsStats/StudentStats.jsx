@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { Col, Container, FormGroup, Label, Row, Table } from "reactstrap";
+import { Container, Label, Row, Table } from "reactstrap";
 import { TablePagination } from "./TablePagination/TablePagination";
 import { GroupsContext } from "adminPanel/Context/GroupsContext";
 import { CoursePicker } from "adminPanel/components/FormElements/CoursePicker";
+import { authFetch } from "../functions/authFetch";
 
 export const StudentStats = ({ filterDate }) => {
   const [tableData, setTableData] = useState([]);
@@ -12,21 +13,19 @@ export const StudentStats = ({ filterDate }) => {
   const { coursesNames } = useContext(GroupsContext);
 
   useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_API_HOST}/api/students/stats?month=${filterDate.month}&year=${filterDate.year}`,
-      {
-        method: "get",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      }
+    authFetch(
+      `/students/stats?month=${filterDate.month}&year=${filterDate.year}`
     )
       .then((res) => res.json())
       .then((resJson) => {
         setTableData(resJson);
+        setFilter({ ...filter, page: 1 });
       });
   }, [filterDate]);
+
+  useEffect(() => {
+    setFilter({ ...filter, page: 1 });
+  }, [filter.course]);
 
   function debtFilter(i) {
     const name = new RegExp(filter.name, "i");
@@ -57,8 +56,8 @@ export const StudentStats = ({ filterDate }) => {
   return (
     <>
       {/* <h2 className="mt-4 mb-3">Статистика студентов</h2> */}
-      <Container>
-        <Row style={{ gap: 20 }}>
+      <Container fluid>
+        <Row style={{ gap: 20, margin: 0 }}>
           <div>
             <Label for="course">Имя</Label>
             <input
@@ -75,64 +74,65 @@ export const StudentStats = ({ filterDate }) => {
             }}
           />
         </Row>
-      </Container>
-      <Table className="shadow mb-4" responsive hover>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Курс</th>
-            <th>Посещено</th>
-            <th>Оплачено</th>
-            <th>Не оплачено</th>
-            <th>Пропущено</th>
-          </tr>
-        </thead>
-        <tbody style={{ height: "225px" }}>
-          {tableData.length ? (
-            filterData()
-              .slice(start, end)
-              .map((item) => {
-                return (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.first_name}</td>
-                    <td>{item.last_name}</td>
-                    <td>{item.course}</td>
-                    <td>{item.visited}</td>
-                    <td>{item.paid_total}</td>
-                    <td>{item.not_paid}</td>
-                    <td>{item.omissions}</td>
-                  </tr>
-                );
-              })
-          ) : (
+
+        <Table className="shadow mb-4" responsive hover>
+          <thead>
             <tr>
-              <td style={{ fontSize: 16 }}>Нет данных</td>
+              <th>id</th>
+              <th>Имя</th>
+              <th>Фамилия</th>
+              <th>Курс</th>
+              <th>Посещено</th>
+              <th>Оплачено</th>
+              <th>Не оплачено</th>
+              <th>Пропущено</th>
             </tr>
-          )}
-        </tbody>
-      </Table>
-      <TablePagination
-        page={filter.page}
-        start={start + 1}
-        end={end}
-        length={length}
-        perPage={5}
-        prevPage={() =>
-          setFilter({
-            ...filter,
-            page: filter.page - 1,
-          })
-        }
-        nextPage={() =>
-          setFilter({
-            ...filter,
-            page: filter.page + 1,
-          })
-        }
-      />
+          </thead>
+          <tbody style={{ height: "225px" }}>
+            {tableData.length ? (
+              filterData()
+                .slice(start, end)
+                .map((item) => {
+                  return (
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>{item.first_name}</td>
+                      <td>{item.last_name}</td>
+                      <td>{item.course}</td>
+                      <td>{item.visited}</td>
+                      <td>{item.paid_total}</td>
+                      <td>{item.not_paid}</td>
+                      <td>{item.omissions}</td>
+                    </tr>
+                  );
+                })
+            ) : (
+              <tr>
+                <td style={{ fontSize: 16 }}>Нет данных</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+        <TablePagination
+          page={filter.page}
+          start={start + 1}
+          end={end}
+          length={length}
+          perPage={5}
+          prevPage={() =>
+            setFilter({
+              ...filter,
+              page: filter.page - 1,
+            })
+          }
+          nextPage={() =>
+            setFilter({
+              ...filter,
+              page: filter.page + 1,
+            })
+          }
+        />
+      </Container>
     </>
   );
 };

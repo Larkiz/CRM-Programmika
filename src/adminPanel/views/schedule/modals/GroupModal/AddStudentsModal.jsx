@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 
 const baseData = (course = null, date = null) => {
   return { course: course, date: date, students: [] };
@@ -54,13 +55,7 @@ export const AddStudentsModal = ({
 
   useEffect(() => {
     if (isOpen) {
-      fetch(`${process.env.REACT_APP_API_HOST}/api/students`, {
-        method: "get",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      })
+      authFetch("/students")
         .then((res) => res.json())
         .then((fetchData) => {
           fetchData = fetchData.filter((student, index) => {

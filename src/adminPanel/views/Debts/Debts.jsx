@@ -8,6 +8,7 @@ import { debtsReducer } from "adminPanel/reducers/finance/debtsReducer";
 import { Earnings } from "./Earnings/Earnings";
 import { useChartData } from "./hooks/useChartData";
 import { MonthController } from "adminPanel/components/MonthController/MonthController";
+import { authFetch } from "../Index/functions/authFetch";
 
 function debtFilter(i, filters) {
   const name = new RegExp(filters.name, "i");
@@ -25,9 +26,7 @@ export const Debts = () => {
   });
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_HOST}/api/payments/debt`, {
-      headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-    })
+    authFetch("/payments/debt")
       .then((res) => res.json())
       .then((data) => {
         paymentDispatch({ type: "set", data: data });

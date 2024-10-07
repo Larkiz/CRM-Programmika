@@ -1,3 +1,5 @@
+import { AdminLayout } from "layouts/Admin";
+import { UserLayout } from "layouts/User";
 import { Navigate } from "react-router-dom";
 
 export const CheckAuth = ({ children }) => {
@@ -12,19 +14,15 @@ export const CheckAuth = ({ children }) => {
   token = sessionStorage.getItem("token");
   role = sessionStorage.getItem("role");
 
-  const layout = window.location.pathname.split("/")[1];
-
-  if (layout === "admin" && role === "user") {
-    return <Navigate to={`/user/index`} />;
-  }
-  if (layout === "user" && role === "admin") {
-    return <Navigate to={"/admin/index"} />;
-  }
   if (token === null || role === null) {
     return <Navigate to={`/auth`} />;
   }
-  if (!children) {
-    return <Navigate to={`/user/index`} />;
+  if (role === "admin") {
+    return <AdminLayout />;
   }
+  if (role === "user") {
+    return <UserLayout />;
+  }
+
   return children;
 };

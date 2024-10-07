@@ -6,6 +6,7 @@ export const UserIndex = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_HOST_COMMON}/api/account`, {
       headers: {
+        "Content-type": "application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     })

@@ -1,18 +1,13 @@
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+
 export function paymentHandle(dispatch, { id, payment_status }) {
-  let url = `${process.env.REACT_APP_API_HOST}/api/payments/payment_history`;
+  let path = `/payments/payment_history`;
   let method = "put";
 
-  fetch(url, {
+  authFetch(path, {
     method: method,
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-    },
-    body: JSON.stringify({
-      id,
 
-      payment_status,
-    }),
+    body: JSON.stringify({ id, payment_status }),
   }).then(() => {
     dispatch();
   });

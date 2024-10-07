@@ -1,4 +1,5 @@
 import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 import { useEffect, useReducer, useState } from "react";
 const options = {
   barPercentage: 0.4,
@@ -47,18 +48,12 @@ export const useChartData = () => {
   });
 
   useEffect(() => {
-    const earningsFetch = fetch(
-      `${process.env.REACT_APP_API_HOST}/api/payments/earnings?month=${filterDate.month}&year=${filterDate.year}`,
-      {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-      }
+    const earningsFetch = authFetch(
+      `/payments/earnings?month=${filterDate.month}&year=${filterDate.year}`
     ).then((res) => res.json());
 
-    const debtFetch = fetch(
-      `${process.env.REACT_APP_API_HOST}/api/payments/earnings?month=${filterDate.month}&year=${filterDate.year}&payment_status=0`,
-      {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-      }
+    const debtFetch = authFetch(
+      `/payments/earnings?month=${filterDate.month}&year=${filterDate.year}&payment_status=0`
     ).then((res) => res.json());
 
     Promise.all([earningsFetch, debtFetch]).then(([earnings, debts]) => {

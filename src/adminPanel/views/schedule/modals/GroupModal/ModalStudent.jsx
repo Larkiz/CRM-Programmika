@@ -8,6 +8,7 @@ import {
 } from "../../../../components/StatusButtonsPayments/paymentControl";
 import { paymentHandle } from "functions/paymentHandle";
 import classNames from "classnames";
+import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 
 export const ModalStudent = ({
   student,
@@ -24,17 +25,10 @@ export const ModalStudent = ({
   };
 
   function commentInsert() {
-    fetch(
-      `${process.env.REACT_APP_API_HOST}/api/schedule/comment/${student.id}`,
-      {
-        method: "post",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(comment),
-      }
-    ).then(toggleCollapse);
+    authFetch(`/schedule/comment/${student.id}`, {
+      method: "post",
+      body: JSON.stringify(comment),
+    }).then(toggleCollapse);
   }
 
   const classes = classNames("mb-4", className);
@@ -46,7 +40,7 @@ export const ModalStudent = ({
           {student.first_name} {student.last_name}
         </div>
         {getStatus(student.payment_status)}
-        {!disableControls && (
+        {!disableControls && student.payment_status !== -1 && (
           <Button color="primary" onClick={toggleCollapse}>
             <i className="fa-solid fa-comment-medical"></i>
           </Button>
@@ -54,7 +48,7 @@ export const ModalStudent = ({
       </Row>
 
       {!disableControls && (
-        <Row>
+        <Row className="gap-5">
           {getButtons(student.payment_status, (payment_status) =>
             paymentHandle(
               () =>

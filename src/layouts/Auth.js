@@ -6,7 +6,7 @@ import { Container, Row } from "reactstrap";
 import logo from "assets/img/brand/logo.png";
 import authRoutes from "routes/authRoutes";
 
-const Auth = () => {
+export const AuthLayout = () => {
   const mainContent = React.useRef(null);
 
   React.useEffect(() => {
@@ -53,5 +53,3 @@ const Auth = () => {
     </>
   );
 };
-
-export default Auth;

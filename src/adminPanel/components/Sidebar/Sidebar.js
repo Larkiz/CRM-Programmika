@@ -13,7 +13,6 @@ import {
   NavLink,
   Nav,
   Button,
-  Container,
 } from "reactstrap";
 
 import { exitAccount } from "functions/exitAccount";
@@ -34,11 +33,7 @@ const Sidebar = (props) => {
       if (prop.layout === "/admin") {
         return (
           <NavItem style={{ marginLeft: 5 }} key={key}>
-            <NavLink
-              to={prop.layout + prop.path}
-              tag={NavLinkRRD}
-              onClick={closeCollapse}
-            >
+            <NavLink to={prop.path} tag={NavLinkRRD} onClick={closeCollapse}>
               <i className={prop.icon} />
               {prop.name}
             </NavLink>

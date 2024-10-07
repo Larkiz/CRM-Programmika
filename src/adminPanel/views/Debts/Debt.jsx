@@ -20,7 +20,7 @@ export const Debt = ({ debt, paymentDispatch }) => {
         {getStatus(debt.payment_status)}
       </Row>
 
-      <Row style={nullMargin}>
+      <Row className="gap-5" style={nullMargin}>
         {getButtons(debt.payment_status, (payment_status) =>
           paymentHandle(
             () =>

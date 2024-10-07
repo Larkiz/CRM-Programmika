@@ -5,7 +5,7 @@ import userRoutes from "routes/userRoutes";
 
 import Sidebar from "userPanel/components/Sidebar/Sidebar";
 
-const UserLayout = (props) => {
+export const UserLayout = (props) => {
   const mainContent = useRef(null);
   const location = useLocation();
 
@@ -32,7 +32,7 @@ const UserLayout = (props) => {
         {...props}
         routes={userRoutes}
         logo={{
-          innerLink: "/user/index",
+          innerLink: "/index",
           imgSrc: require("../assets/img/brand/logo.png"),
           imgAlt: "...",
         }}
@@ -40,11 +40,9 @@ const UserLayout = (props) => {
       <div className="main-content" ref={mainContent}>
         <Routes>
           {getRoutes(userRoutes)}
-          <Route path="*" element={<Navigate to="/user/index" replace />} />
+          <Route path="*" element={<Navigate to="/index" replace />} />
         </Routes>
       </div>
     </>
   );
 };
-
-export default UserLayout;

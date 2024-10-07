@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import adminRoutes from "routes/adminRoutes";
 
-const Admin = (props) => {
+export const AdminLayout = (props) => {
   const mainContent = useRef(null);
   const location = useLocation();
 
@@ -43,7 +43,7 @@ const Admin = (props) => {
         {...props}
         routes={adminRoutes}
         logo={{
-          innerLink: "/admin/index",
+          innerLink: "/index",
           imgSrc: require("../assets/img/brand/logo.png"),
           imgAlt: "...",
         }}
@@ -51,11 +51,9 @@ const Admin = (props) => {
       <div className="main-content" ref={mainContent}>
         <Routes>
           {getRoutes(adminRoutes)}
-          <Route path="*" element={<Navigate to="/admin/index" replace />} />
+          <Route path="*" element={<Navigate to="/index" replace />} />
         </Routes>
       </div>
     </>
   );
 };
-
-export default Admin;
