@@ -12,7 +12,7 @@
 }
 
 .red-bg {
-  background-color: #e43c3c;
+  background-color: #e43c3c !important;
   border: none;
 
   &[type="button"] {
@@ -48,12 +48,13 @@
     rgba(255, 255, 255, 1) 87%,
     rgba(18, 24, 131, 1) 87%,
     rgba(18, 24, 131, 1) 100%
-  );
+  ) !important;
+  height: 100%;
 }
 
 @media (max-width: 767px) {
   .navbar-bg-programmika {
-    background: none;
+    background: none !important;
     overflow-x: none;
   }
 }
