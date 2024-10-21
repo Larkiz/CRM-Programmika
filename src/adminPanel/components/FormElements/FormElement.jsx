@@ -1,51 +1,58 @@
+import { Checkbox, FormControl, FormControlLabel, styled } from "@mui/material";
 import React from "react";
-import { Col, FormGroup, Label } from "reactstrap";
+
+const LabelText = styled(({ children, required = false }) => {
+  return (
+    <p>
+      {children}
+      {required ? " *" : ""}
+    </p>
+  );
+})`
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+
+  &.invalid {
+    color: red;
+  }
+`;
 
 export const FormElement = ({
-  md,
   onChange,
   register,
-  id,
+
   children,
   type = "text",
   value,
   label = true,
-  style,
+  required,
+  sx,
+  inputStyle,
 }) => {
   if (type === "checkbox") {
     return (
-      <Col style={{ ...style }} md={md}>
-        <FormGroup inline>
-          <Label style={{ cursor: "pointer" }}>
-            <input
-              value={value}
-              onChange={onChange ? onChange : null}
-              {...register}
-              style={{ fontSize: "30px", marginRight: 10 }}
-              type="checkbox"
-            />
-            {children}
-          </Label>
-        </FormGroup>
-      </Col>
+      <FormControlLabel
+        label={children}
+        control={
+          <Checkbox checked={value} onChange={onChange ? onChange : null} />
+        }
+      />
     );
   }
 
   return (
-    <Col style={{ ...style }} md={md}>
-      <FormGroup>
-        {label && <Label for={id}>{children}</Label>}
-
-        <input
-          type={type}
-          className="form-control"
-          id={id}
-          value={value}
-          onChange={onChange ? onChange : null}
-          {...register}
-          placeholder={children}
-        />
-      </FormGroup>
-    </Col>
+    <FormControl sx={{ ...sx }}>
+      {label && <LabelText required={required}>{children}</LabelText>}
+      <input
+        type={type}
+        className="form-control"
+        value={value}
+        style={{ ...inputStyle }}
+        onChange={onChange ? onChange : null}
+        {...register}
+        placeholder={children}
+      />
+    </FormControl>
   );
 };

@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import { Sidebar } from "commonComponents/Sidebar/Sidebar";
 
-import { Sidebar } from "adminPanel/components/Sidebar/Sidebar";
 import { useEffect, useRef } from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import adminRoutes from "routes/adminRoutes";
@@ -33,19 +33,17 @@ export const AdminLayout = (props) => {
         <Sidebar routes={adminRoutes} />
       </Box>
 
-      <Box
+      <Container
+        style={{ marginBottom: "90px", overflowX: "hidden" }}
+        maxWidth="sx"
+        className="mt-5"
         ref={mainContent}
-        sx={{
-          flexGrow: 1,
-
-          width: { sm: `calc(100% - ${216}px)` },
-        }}
       >
         <Routes>
           {getRoutes(adminRoutes)}
           <Route path="*" element={<Navigate to="/index" replace />} />
         </Routes>
-      </Box>
+      </Container>
     </Box>
   );
 };

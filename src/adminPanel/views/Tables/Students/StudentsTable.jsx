@@ -2,13 +2,13 @@ import { AgGridReact } from "ag-grid-react";
 import { useFetchTable } from "./hooks/useFetchTable";
 import { useRef, useState } from "react";
 import "ag-grid-enterprise";
-import { Button, Card, CardHeader, Col, Row } from "reactstrap";
 
 import { toast } from "react-toastify";
 
 import { NewStudent } from "./NewStudent";
 import { colDef, defaultColDef } from "./tableOptions";
 import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { Button, Container, Stack, Typography } from "@mui/material";
 
 export const StudentsTable = () => {
   const [tableData, addNew, deleteRow] = useFetchTable("students");
@@ -44,40 +44,44 @@ export const StudentsTable = () => {
   }
 
   return (
-    <Card>
-      <CardHeader className="border-0">
-        <h1 className="mb-0">Студенты</h1>
-      </CardHeader>
-      <Button
-        type="button"
-        className="red-bg"
-        style={{ backgroundColor: "#c53939", margin: 0 }}
-        onClick={() => deleteRow(gridRef.current.api.getSelectedRows()[0])}
-      >
-        Удалить
-      </Button>
-      {!editing ? (
-        <Button
-          type="button"
-          className="green-bg"
-          style={{ backgroundColor: "#439358", margin: 0 }}
-          onClick={startEdit}
-        >
-          Изменить
-        </Button>
-      ) : (
-        <Row>
-          <Col>
+    <Container maxWidth="sx">
+      <Typography className="mb-4" variant="h4">
+        Студенты
+      </Typography>
+
+      <Stack gap={2} direction={"row"}>
+        {!editing ? (
+          <>
+            <Button variant="contained" onClick={startEdit}>
+              Изменить
+            </Button>
             <Button
-              style={{ backgroundColor: "#439358" }}
+              type="button"
+              color="error"
+              variant="contained"
+              style={{ margin: 0 }}
+              onClick={() =>
+                deleteRow(gridRef.current.api.getSelectedRows()[0])
+              }
+            >
+              Удалить
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              color="success"
+              variant="contained"
               onClick={() => stopEdit("save")}
             >
               Сохранить
             </Button>
-            <Button onClick={stopEdit}>Отменить</Button>
-          </Col>
-        </Row>
-      )}
+            <Button variant="contained" onClick={stopEdit}>
+              Отменить
+            </Button>
+          </>
+        )}
+      </Stack>
 
       <div className="ag-theme-material" style={{ height: 500 }}>
         <AgGridReact
@@ -103,6 +107,6 @@ export const StudentsTable = () => {
         />
       </div>
       <NewStudent onSubmit={addNew} />
-    </Card>
+    </Container>
   );
 };

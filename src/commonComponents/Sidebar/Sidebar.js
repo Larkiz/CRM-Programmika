@@ -12,9 +12,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 
-import { HideOnScroll } from "../HideOnScroll/HideOnScroll";
 import { exitAccount } from "functions/exitAccount";
-import { LogoBrand } from "../LogoBrand/LogoBrand";
+
+import { HideOnScroll } from "commonComponents/HideOnScroll/HideOnScroll";
+import { LogoBrand } from "commonComponents/LogoBrand/LogoBrand";
 
 export const Sidebar = ({ routes }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -36,22 +37,20 @@ export const Sidebar = ({ routes }) => {
   };
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <ListItem className="nav-link" key={key} disablePadding>
-            <ListItemButton
-              component={NavLink}
-              className="sidebar-link"
-              to={prop.path}
-              onClick={handleDrawerClose}
-              style={{ color: "#00000080", fontSize: 15 }}
-            >
-              <i className={prop.icon} />
-              {prop.name}
-            </ListItemButton>
-          </ListItem>
-        );
-      }
+      return (
+        <ListItem className="nav-link" key={key} disablePadding>
+          <ListItemButton
+            component={NavLink}
+            className="sidebar-link"
+            to={prop.path}
+            onClick={handleDrawerClose}
+            style={{ color: "#00000080", fontSize: 15 }}
+          >
+            <i className={prop.icon} />
+            {prop.name}
+          </ListItemButton>
+        </ListItem>
+      );
     });
   };
   const navigate = useNavigate();

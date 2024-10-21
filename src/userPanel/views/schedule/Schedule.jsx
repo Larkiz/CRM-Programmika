@@ -8,7 +8,7 @@ import { useScheduleFetch } from "./hooks/useScheduleFetch";
 import { compare, getMonth } from "./functions/dateFunctions";
 import { GroupsContext } from "adminPanel/Context/GroupsContext";
 import { GroupModal } from "./GroupModal";
-import { MonthController } from "adminPanel/components/MonthController/MonthController";
+import { MonthController } from "commonComponents/MonthController/MonthController";
 
 export const Schedule = () => {
   const currentDateRef = useRef(null);

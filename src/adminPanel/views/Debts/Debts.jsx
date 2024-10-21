@@ -1,14 +1,17 @@
 import { useEffect, useReducer, useState } from "react";
-import { Button, Card, CardBody, CardHeader, Container } from "reactstrap";
+import { Card, CardBody, CardHeader, Container } from "reactstrap";
 
 import { FormElement } from "../../components/FormElements/FormElement";
 
-import { DebtModal } from "./DebtModal/DebtModal";
 import { debtsReducer } from "adminPanel/reducers/finance/debtsReducer";
 import { Earnings } from "./Earnings/Earnings";
 import { useChartData } from "./hooks/useChartData";
-import { MonthController } from "adminPanel/components/MonthController/MonthController";
 import { authFetch } from "../Index/functions/authFetch";
+import { MonthController } from "commonComponents/MonthController/MonthController";
+import { DebtModal } from "./DebtModal/DebtModal";
+import { Button } from "@mui/material";
+import { useModalControl } from "commonComponents/Modal/useModal";
+import { ModalTemplate } from "commonComponents/Modal/ModalTemplate";
 
 function debtFilter(i, filters) {
   const name = new RegExp(filters.name, "i");
@@ -43,13 +46,8 @@ export const Debts = () => {
     }
   }, [debts]);
 
-  const [modal, setModal] = useState({ show: false, data: null });
-  const handleModalOpen = (data) => {
-    setModal({ show: true, data: data });
-  };
-  const handleModalClose = () => {
-    setModal({ show: false, data: null });
-  };
+  const { modalData, modalClose, modalOpen } = useModalControl();
+
   const [
     chartEarningsData,
     chartDebtsData,
@@ -60,11 +58,12 @@ export const Debts = () => {
   return (
     <Container fluid>
       <DebtModal
-        handleClose={handleModalClose}
-        show={modal.show}
-        data={modal.data}
+        open={modalData.show}
+        data={modalData.data}
         paymentDispatch={paymentDispatch}
+        handleClose={modalClose}
       />
+
       <Earnings
         chartEarningsData={chartEarningsData}
         chartDebtsData={chartDebtsData}
@@ -97,10 +96,7 @@ export const Debts = () => {
                     {debt.first_name} {debt.last_name}
                   </CardHeader>
                   <CardBody>
-                    <Button
-                      color="primary"
-                      onClick={() => handleModalOpen(debt)}
-                    >
+                    <Button variant="contained" onClick={() => modalOpen(debt)}>
                       Посмотреть
                     </Button>
                   </CardBody>

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import logo from "../../../assets/img/brand/logo.png";
+import logo from "../../assets/img/brand/logo.png";
 export const LogoBrand = ({ sx }) =>
   logo ? (
     <Typography

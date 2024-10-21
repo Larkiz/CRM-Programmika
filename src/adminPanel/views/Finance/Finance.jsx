@@ -3,12 +3,12 @@ import { FinanceCard } from "./FInanceCard";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
 import { useForm } from "react-hook-form";
 import { useEffect, useReducer, useState } from "react";
-import { MonthController } from "adminPanel/components/MonthController/MonthController";
 import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
 import { numberIsNegative } from "functions/numberIsNegatibe";
 import { OperationCell } from "./OperationCell";
 import { toast } from "react-toastify";
 import { authFetch } from "../Index/functions/authFetch";
+import { MonthController } from "commonComponents/MonthController/MonthController";
 
 export const Finance = () => {
   const { register, handleSubmit } = useForm();

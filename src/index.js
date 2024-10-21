@@ -22,12 +22,30 @@ import "react-toastify/dist/ReactToastify.css";
 import "moment/locale/ru";
 import "./assets/css/scss/custom.scss";
 
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
 import { AuthLayout } from "layouts/Auth";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 768,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
 root.render(
-  <>
+  <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Routes>
         <Route path="/auth/*" element={<AuthLayout />} />
@@ -46,5 +64,5 @@ root.render(
       draggable
       theme={"colored"}
     />
-  </>
+  </ThemeProvider>
 );

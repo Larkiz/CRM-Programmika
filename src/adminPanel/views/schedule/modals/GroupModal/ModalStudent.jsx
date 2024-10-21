@@ -1,4 +1,4 @@
-import { Button, Collapse, Container, Row } from "reactstrap";
+import { Collapse, Row } from "reactstrap";
 
 import { useState } from "react";
 
@@ -9,11 +9,12 @@ import {
 import { paymentHandle } from "functions/paymentHandle";
 import classNames from "classnames";
 import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { Button, Stack } from "@mui/material";
 
 export const ModalStudent = ({
   student,
   paymentDispatch,
-  className,
+
   disableControls = 0,
 }) => {
   const [commentCollapse, setCollapse] = useState(false);
@@ -31,24 +32,27 @@ export const ModalStudent = ({
     }).then(toggleCollapse);
   }
 
-  const classes = classNames("mb-4", className);
-
   return (
-    <Container fluid className={classes}>
-      <Row className="mb-2 student-modal-row">
+    <Stack gap={1}>
+      <Stack sx={{ "*": { fontSize: 14 } }} direction={"row"} gap={1}>
         <div type={"name"}>
           {student.first_name} {student.last_name}
         </div>
         {getStatus(student.payment_status)}
-        {!disableControls && student.payment_status !== -1 && (
-          <Button color="primary" onClick={toggleCollapse}>
+        {/* {!disableControls && student.payment_status !== -1 && (
+          <Button
+            style={{ width: 20 }}
+            color="primary"
+            variant="contained"
+            onClick={toggleCollapse}
+          >
             <i className="fa-solid fa-comment-medical"></i>
           </Button>
-        )}
-      </Row>
+        )} */}
+      </Stack>
 
       {!disableControls && (
-        <Row className="gap-5">
+        <Stack direction={"row"} gap={1} className="gap-5">
           {getButtons(student.payment_status, (payment_status) =>
             paymentHandle(
               () =>
@@ -60,7 +64,7 @@ export const ModalStudent = ({
               { id: student.id, payment_status }
             )
           )}
-        </Row>
+        </Stack>
       )}
       {student.payment_status !== null && !disableControls && (
         <>
@@ -93,6 +97,6 @@ export const ModalStudent = ({
           </Row>
         </>
       )}
-    </Container>
+    </Stack>
   );
 };

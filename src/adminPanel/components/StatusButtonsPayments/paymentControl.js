@@ -1,14 +1,27 @@
-import { Button } from "reactstrap";
+import { Button } from "@mui/material";
 
 export function getButtons(payment_status, onClick) {
   if (payment_status === 0) {
     return (
       <>
-        <Button className="payment-btn green-bg" onClick={() => onClick(1)}>
+        <Button
+          variant="contained"
+          color="success"
+          size="small"
+          sx={{ textTransform: "none" }}
+          className="payment-btn green-bg"
+          onClick={() => onClick(1)}
+        >
           Оплатил
         </Button>
 
-        <Button className="payment-btn" onClick={() => onClick(-1)}>
+        <Button
+          variant="contained"
+          size="small"
+          sx={{ textTransform: "none" }}
+          className="payment-btn"
+          onClick={() => onClick(-1)}
+        >
           Не пришел
         </Button>
       </>

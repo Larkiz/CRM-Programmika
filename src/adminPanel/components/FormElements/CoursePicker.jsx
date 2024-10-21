@@ -1,37 +1,49 @@
-import { FormGroup, Label } from "reactstrap";
-
-export const CoursePicker = ({ courses, onChange, register, className }) => {
-  let classNames = "form-control ";
-  if (className) {
-    classNames += className;
-  }
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+export const CoursePicker = ({
+  courses,
+  onChange,
+  asFilter = false,
+  value,
+  multiple = false,
+  sx,
+}) => {
   return (
-    <FormGroup>
-      <Label for="course">Направление</Label>
-      <select
+    <FormControl sx={{ ...sx, maxWidth: "100%" }}>
+      <InputLabel id="age">Курс</InputLabel>
+      <Select
+        label="Курс"
+        multiple={multiple}
         id="course"
-        className={classNames}
-        name="select"
-        {...(register ? { ...register } : null)}
-        onClick={(e) => e.stopPropagation()}
-        onChange={onChange}
-        type="select"
+        defaultValue={[]}
+        sx={{ minWidth: 147, maxWidth: "100%" }}
+        onChange={onChange ? onChange : null}
+        renderValue={(value) => {
+          if (value) {
+            return (
+              <Box sx={{ display: "flex", gap: 1 }}>
+                {multiple ? value.join(", ") : value}
+              </Box>
+            );
+          }
+        }}
       >
-        {courses && (
-          <>
-            <option value={"*"} key={-1}>
-              Не выбрано
-            </option>
-            {courses.map((group, key) => {
-              return (
-                <option value={group} key={key}>
-                  {group}
-                </option>
-              );
-            })}
-          </>
+        {asFilter && (
+          <MenuItem value={""} key={"*"}>
+            Без фильтра
+          </MenuItem>
         )}
-      </select>
-    </FormGroup>
+        {courses
+          ? courses.map((group, key) => {
+              return (
+                <MenuItem value={group} key={key}>
+                  {multiple && value.includes(group) && <DoneIcon />}
+                  {group}
+                </MenuItem>
+              );
+            })
+          : null}
+      </Select>
+    </FormControl>
   );
 };

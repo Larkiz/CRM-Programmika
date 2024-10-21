@@ -1,24 +1,24 @@
-import { Container } from "reactstrap";
 import { Chart, registerables } from "chart.js";
 
-import { MonthController } from "adminPanel/components/MonthController/MonthController";
 import { StudentStats } from "./StudentsStats/StudentStats";
 
 import { ucFirst } from "functions/uppercaseFirst";
-import { useMonthControl } from "adminPanel/components/MonthController/useMonthControl";
+
 import { getMonthYear } from "./functions/dateFunctions";
+import { Container, Typography } from "@mui/material";
+import { MonthController } from "commonComponents/MonthController/MonthController";
+import { useMonthControl } from "commonComponents/MonthController/useMonthControl";
 
 Chart.register(...registerables);
 
 export const AdminIndex = () => {
   const [filterDate, dispatchMonthFilter] = useMonthControl();
   return (
-    <Container style={{ marginBottom: "90px" }} className="mt-5" fluid>
-      <h1 className="mb-5">
+    <Container maxWidth="sx">
+      <Typography className="mb-5" variant="h4">
         {ucFirst(getMonthYear(filterDate.month, filterDate.year))}
-      </h1>
-
-      <StudentStats filterDate={filterDate} />
+      </Typography>
+      <StudentStats filterDate={filterDate} />{" "}
       <MonthController
         style={{ margin: "0 auto" }}
         filterDate={filterDate}

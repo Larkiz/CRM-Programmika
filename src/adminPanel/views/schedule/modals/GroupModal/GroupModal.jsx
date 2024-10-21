@@ -1,12 +1,4 @@
 import { useEffect, useReducer, useState } from "react";
-import {
-  Button,
-  Container,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Row,
-} from "reactstrap";
 
 import { paymentReducer } from "adminPanel/reducers/finance/paymentReducer";
 
@@ -14,6 +6,10 @@ import { ModalStudent } from "./ModalStudent";
 import { toast } from "react-toastify";
 import { AddStudentsModal } from "./AddStudentsModal";
 import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { Button, Dialog, Stack } from "@mui/material";
+import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
+import { ModalBody } from "commonComponents/Modal/ModalTemplate";
+import { useModalControl } from "commonComponents/Modal/useModal";
 
 export const GroupModal = ({ handleClose, show, course, date }) => {
   const [students, paymentDispatch] = useReducer(paymentReducer, null);
@@ -40,26 +36,29 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
     }
   }
 
-  function onClosed() {
+  function handleCloseLesson() {
+    handleClose();
     setDeletePending(false);
     paymentDispatch({ type: "clear" });
   }
 
-  const [addStudentOpen, setAddStudentOpen] = useState(false);
-
-  const handleStudentModalToggle = () => setAddStudentOpen(!addStudentOpen);
+  const {
+    modalData: addStudentsModalData,
+    modalClose: addStudentsModalClose,
+    modalOpen: addStudentsModalOpen,
+  } = useModalControl();
 
   function handleAdd(data) {
-    if (!data.students.length) {
+    if (!data.length) {
       toast.error("Студенты не выбраны!");
     } else {
       authFetch("/schedule/insertStudents", {
         method: "post",
-        body: JSON.stringify(data),
+        body: JSON.stringify({ course: course, date: date, students: data }),
       })
         .then((res) => res.json())
         .then((resData) => {
-          handleStudentModalToggle();
+          addStudentsModalClose();
           toast.success("Студенты добавлены");
           paymentDispatch({ type: "addDebts", students: resData });
         });
@@ -68,31 +67,28 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
   return (
     <>
       <AddStudentsModal
-        isOpen={addStudentOpen}
-        toggle={handleStudentModalToggle}
+        show={addStudentsModalData.show}
+        handleClose={addStudentsModalClose}
         date={date}
         course={course}
         backdrop={true}
         handleAdd={handleAdd}
       />
 
-      <Modal
-        onClosed={onClosed}
-        isOpen={show}
-        toggle={handleClose}
-        backdrop={true}
-      >
-        <ModalHeader toggle={handleClose}>
-          {course}
-          <Container>
-            <Row className="gap-5">
+      <Dialog fullWidth open={show} onClose={handleCloseLesson}>
+        <ModalTitle toggle={handleCloseLesson}>
+          <Stack>
+            {course}
+            <Stack gap={1} direction={"row"}>
               {!deletePending ? (
                 <>
                   <Button
                     style={{ fontSize: 14 }}
                     type="button"
+                    variant="contained"
                     className="green-bg"
-                    onClick={handleStudentModalToggle}
+                    color="success"
+                    onClick={addStudentsModalOpen}
                   >
                     Добавить
                   </Button>
@@ -103,6 +99,8 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                     style={{ fontSize: 14 }}
                     type="button"
                     className="red-bg"
+                    color="error"
+                    variant="contained"
                   >
                     Удалить
                   </Button>
@@ -111,35 +109,34 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                 <Button
                   onClick={() => setDeletePending(false)}
                   style={{ fontSize: 14 }}
+                  variant="contained"
                 >
                   Отменить
                 </Button>
               )}
-            </Row>
-          </Container>
-        </ModalHeader>
+            </Stack>
+          </Stack>
+        </ModalTitle>
 
-        <ModalBody>
-          <Container>
-            {students &&
-              students.map((i, key) => {
-                return (
-                  <div
-                    key={key}
-                    onClick={() => deletePending && deleteStudent(i.id)}
-                    className={deletePending === true ? "grey-bg" : null}
-                  >
-                    <ModalStudent
-                      disableControls={deletePending}
-                      student={i}
-                      paymentDispatch={paymentDispatch}
-                    />
-                  </div>
-                );
-              })}
-          </Container>
+        <ModalBody sx={{ marginTop: 2 }}>
+          {students &&
+            students.map((i, key) => {
+              return (
+                <div
+                  key={key}
+                  onClick={() => deletePending && deleteStudent(i.id)}
+                  className={deletePending === true ? "grey-bg" : null}
+                >
+                  <ModalStudent
+                    disableControls={deletePending}
+                    student={i}
+                    paymentDispatch={paymentDispatch}
+                  />
+                </div>
+              );
+            })}
         </ModalBody>
-      </Modal>
+      </Dialog>
     </>
   );
 };

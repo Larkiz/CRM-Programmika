@@ -1,20 +1,10 @@
-import {
-  Button,
-  Col,
-  Container,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Row,
-} from "reactstrap";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
 import { authFetch } from "adminPanel/views/Index/functions/authFetch";
-
-const baseData = (course = null, date = null) => {
-  return { course: course, date: date, students: [] };
-};
+import { Box, Button, Container, Dialog, Stack } from "@mui/material";
+import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
+import { ModalBody } from "commonComponents/Modal/ModalTemplate";
 
 function studentFilter(student, filterName) {
   const name = new RegExp(filterName, "i");
@@ -25,36 +15,26 @@ function studentFilter(student, filterName) {
 }
 
 export const AddStudentsModal = ({
-  toggle,
-  isOpen,
+  handleClose,
+  show,
   date,
   course,
   handleAdd,
 }) => {
-  const [data, setData] = useState(baseData(course, date));
+  const [data, setData] = useState([]);
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState({ name: "", allStudents: false });
 
   function checkboxHandle(e, student) {
     if (e.target.checked) {
-      setData({
-        ...data,
-        students: [...data.students, { ...student, payment_status: 0 }],
-      });
+      setData([...data, { ...student, payment_status: 0 }]);
     } else {
-      setData({
-        ...data,
-        students: data.students.filter((item) => item.id !== student.id),
-      });
+      setData(data.filter((item) => item.id !== student.id));
     }
   }
 
   useEffect(() => {
-    setData({ ...data, course: course, date: date });
-  }, [date, course]);
-
-  useEffect(() => {
-    if (isOpen) {
+    if (show) {
       authFetch("/students")
         .then((res) => res.json())
         .then((fetchData) => {
@@ -73,24 +53,20 @@ export const AddStudentsModal = ({
           setStudents(fetchData);
         });
     }
-  }, [isOpen]);
+  }, [show]);
 
   function clearData() {
-    setData({ ...data, students: [] });
+    handleClose();
+    setData([]);
     setStudents([]);
   }
 
   return (
-    <Modal
-      onClosed={() => clearData()}
-      size="lg"
-      isOpen={isOpen}
-      toggle={toggle}
-      backdrop={true}
-    >
-      <ModalHeader toggle={toggle}>Добавление студентов на {date}</ModalHeader>
+    <Dialog fullWidth open={show} onClose={clearData}>
+      <ModalTitle toggle={clearData}>Добавление студентов на {date}</ModalTitle>
+
       <ModalBody>
-        <Container>
+        <Box>
           <FormElement
             style={{ padding: 0 }}
             onChange={(e) => {
@@ -100,32 +76,40 @@ export const AddStudentsModal = ({
           >
             Поиск студентов
           </FormElement>
-          <Container className="mt-3 mb-3 border border-secondary rounded">
-            <Row style={{ fontSize: "20px" }}>
-              <Col xs={2}></Col>
-              <Col style={{ paddingLeft: 0 }}>Имя</Col>
-              <Col style={{ paddingLeft: 0 }}>Фамилия</Col>
-            </Row>
-            <Container style={{ height: "300px", overflowY: "scroll" }}>
+          <Container
+            className="mt-3 mb-3 border border-secondary rounded"
+            maxWidth="sm"
+          >
+            <Stack direction={"row"}>
+              <Box flexGrow={1}></Box>
+              <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                Имя
+              </Box>
+              <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                Фамилия
+              </Box>
+            </Stack>
+            <Stack style={{ height: "300px", overflowY: "scroll" }}>
               {students.length ? (
                 students.map((student) => {
                   if (studentFilter(student, filter.name)) {
                     return (
-                      <label
-                        className="row student-row-modal"
-                        style={{ cursor: "pointer" }}
-                        key={student.id}
-                      >
-                        <Col xs={1}>
-                          <input
-                            onChange={(e) => checkboxHandle(e, student)}
-                            style={{ fontSize: "30px" }}
-                            type="checkbox"
-                          />
-                        </Col>
-
-                        <Col>{student.first_name}</Col>
-                        <Col>{student.last_name}</Col>
+                      <label style={{ cursor: "pointer" }} key={student.id}>
+                        <Stack direction={"row"}>
+                          <Box flexGrow={1}>
+                            <input
+                              onChange={(e) => checkboxHandle(e, student)}
+                              style={{ fontSize: "30px" }}
+                              type="checkbox"
+                            />
+                          </Box>
+                          <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                            {student.first_name}
+                          </Box>
+                          <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                            {student.last_name}
+                          </Box>
+                        </Stack>
                       </label>
                     );
                   } else {
@@ -133,13 +117,16 @@ export const AddStudentsModal = ({
                   }
                 })
               ) : (
-                <Row>Список студентов пуст</Row>
+                <Box>Список студентов пуст</Box>
               )}
-            </Container>
+            </Stack>
           </Container>
-          <Button onClick={() => handleAdd(data)}>Добавить</Button>
-        </Container>
+        </Box>
+
+        <Button variant="contained" onClick={() => handleAdd(data)}>
+          Добавить
+        </Button>
       </ModalBody>
-    </Modal>
+    </Dialog>
   );
 };

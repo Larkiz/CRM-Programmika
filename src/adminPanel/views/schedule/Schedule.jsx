@@ -8,8 +8,9 @@ import { useScheduleFetch } from "./hooks/useScheduleFetch";
 import { compare, getMonth } from "./functions/dateFunctions";
 
 import { GroupModal } from "./modals/GroupModal/GroupModal";
-import { MonthController } from "adminPanel/components/MonthController/MonthController";
 import { NewLessonModal } from "./modals/NewLessonModal/NewLesson";
+import { MonthController } from "commonComponents/MonthController/MonthController";
+import { useModalControl } from "commonComponents/Modal/useModal";
 
 export const Schedule = () => {
   const currentDateRef = useRef(null);
@@ -29,18 +30,9 @@ export const Schedule = () => {
   const handleLessonModalClose = () => {
     setLessonModal({ status: false, date: null });
   };
-  const handleLessonModalShow = (date) => {
-    setLessonModal({ status: true, date: date });
-  };
-
-  const handleGroupModalClose = () =>
-    setGroupModal({ status: false, course: null, date: null });
-  const handleGroupModalShow = (course, date) =>
-    setGroupModal({
-      status: true,
-      course: course,
-      date: date,
-    });
+  // const handleLessonModalShow = (date) => {
+  //   setLessonModal({ status: true, date: date });
+  // };
 
   const currentDate = `${new Date().getFullYear()}.${(
     "0" +
@@ -60,18 +52,37 @@ export const Schedule = () => {
     );
   }, []);
 
+  const {
+    modalData: lessonModalData,
+    modalClose: lessonModalClose,
+    modalOpen: lessonModalOpen,
+  } = useModalControl();
+
+  const handleLessonModalShow = (course, date) =>
+    lessonModalOpen({
+      show: true,
+      course: course,
+      date: date,
+    });
+
+  const {
+    modalData: newLessonModalData,
+    modalClose: newLessonModalClose,
+    modalOpen: newLessonModalOpen,
+  } = useModalControl();
+
   return (
     <Container style={{ marginBottom: "70px" }} fluid>
       <GroupModal
-        handleClose={handleGroupModalClose}
-        show={groupModal.status}
-        course={groupModal.course}
-        date={groupModal.date}
+        handleClose={lessonModalClose}
+        show={lessonModalData.show}
+        course={lessonModalData.data?.course}
+        date={lessonModalData.data?.date}
       />
       <NewLessonModal
-        handleClose={handleLessonModalClose}
-        show={lessonModal.status}
-        date={lessonModal.date}
+        handleClose={newLessonModalClose}
+        show={newLessonModalData.show}
+        date={newLessonModalData.data?.date}
         handleAdd={handleAdd}
       />
 
@@ -99,7 +110,7 @@ export const Schedule = () => {
                     return (
                       <Lesson
                         onClick={(course) =>
-                          handleGroupModalShow(
+                          handleLessonModalShow(
                             course,
                             scheduleItem.date + " " + item.time
                           )
@@ -124,7 +135,9 @@ export const Schedule = () => {
                   <td colSpan={3}>
                     <Button
                       color="primary"
-                      onClick={() => handleLessonModalShow(scheduleItem.date)}
+                      onClick={() =>
+                        newLessonModalOpen({ date: scheduleItem.date })
+                      }
                     >
                       Добавить
                     </Button>

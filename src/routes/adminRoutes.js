@@ -6,7 +6,6 @@ import { GroupsContextProvider } from "adminPanel/Context/GroupsContext";
 import { StudentsTable } from "adminPanel/views/Tables/Students/StudentsTable";
 import { Debts } from "adminPanel/views/Debts/Debts";
 import { Finance } from "adminPanel/views/Finance/Finance";
-import Icons from "adminPanel/views/examples/Icons";
 
 const adminRoutes = [
   {
@@ -63,21 +62,6 @@ const adminRoutes = [
       </GroupsContextProvider>
     ),
     layout: "/admin",
-  },
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "ni ni-planet text-blue",
-  //   component: <Icons />,
-  //   layout: "/admin",
-  // },
-
-  {
-    path: "/",
-    name: "Авторизация",
-    icon: "ni ni-key-25 text-info",
-    component: <Login />,
-    layout: "/auth",
   },
 ];
 export default adminRoutes;

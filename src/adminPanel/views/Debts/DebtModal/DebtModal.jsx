@@ -1,23 +1,28 @@
-import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Dialog, ListSubheader } from "@mui/material";
 
-import { Debt } from "../Debt";
+import { Debt } from "./Debt";
+import { ModalBody } from "commonComponents/Modal/ModalTemplate";
+import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
 
-export const DebtModal = ({ handleClose, show, data, paymentDispatch }) => {
+export const DebtModal = ({ handleClose, open, data, paymentDispatch }) => {
   return (
-    <Modal size="xl" isOpen={show} toggle={handleClose} backdrop={true}>
-      <ModalHeader toggle={handleClose}>
+    <Dialog fullWidth open={open} onClose={handleClose}>
+      <ModalTitle toggle={handleClose}>
         {data !== null && (
           <>
             {data.first_name} {data.last_name}
           </>
         )}
-      </ModalHeader>
-      <ModalBody>
+      </ModalTitle>
+      <ModalBody sx={{ width: "100%" }}>
         {data !== null &&
           data.debts.map((debt, key) => {
             return (
-              <div key={key}>
-                <p style={{ fontSize: 18, fontWeight: 500 }}>{debt.course}</p>
+              <div style={{ width: "100%" }} key={key}>
+                <ListSubheader style={{ fontSize: 18, fontWeight: 500 }}>
+                  {debt.course}
+                </ListSubheader>
+
                 <div className="debts">
                   {debt.debts.map((debt, key) => {
                     return (
@@ -33,6 +38,6 @@ export const DebtModal = ({ handleClose, show, data, paymentDispatch }) => {
             );
           })}
       </ModalBody>
-    </Modal>
+    </Dialog>
   );
 };

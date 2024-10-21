@@ -1,19 +1,11 @@
-import {
-  Button,
-  Col,
-  Container,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Row,
-} from "reactstrap";
 import { ScheduleInput } from "./ScheduleInput";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
 import { authFetch } from "adminPanel/views/Index/functions/authFetch";
-
-const baseData = { time: null, course: null, students: [] };
+import { Box, Button, Chip, Container, Dialog, Stack } from "@mui/material";
+import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
+import { ModalBody } from "commonComponents/Modal/ModalTemplate";
 
 function studentFilter(student, filterName) {
   const name = new RegExp(filterName, "i");
@@ -23,26 +15,34 @@ function studentFilter(student, filterName) {
     return true;
 }
 
-export const NewLessonModal = ({
-  handleClose,
-  show,
-  date,
-
-  handleAdd,
-}) => {
-  const [data, setData] = useState(baseData);
+export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
+  const [data, setData] = useState({ time: null, course: null, students: [] });
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState({ name: "", allStudents: false });
 
   function checkboxHandle(e, student) {
     if (e.target.checked) {
-      setData({ ...data, students: [...data.students, { id: student.id }] });
+      setData({ ...data, students: [...data.students, student] });
     } else {
       setData({
         ...data,
         students: data.students.filter((item) => item.id !== student.id),
       });
     }
+  }
+
+  function onDeleteChip(student) {
+    setData({
+      ...data,
+      students: data.students.filter((item) => item.id !== student.id),
+    });
+  }
+
+  function close() {
+    handleClose();
+    setFilter({ name: "", allStudents: false });
+    setData({ time: null, course: null, students: [] });
+    setStudents([]);
   }
 
   function add() {
@@ -55,8 +55,16 @@ export const NewLessonModal = ({
       })
         .then((res) => res.json())
         .then((fetchData) => {
-          handleAdd({ ...data, date: date, id: fetchData.insertedId });
-          handleClose();
+          handleAdd({
+            ...data,
+            students: data.students.reduce(
+              (acc, i) => [...acc, { id: i.id }],
+              []
+            ),
+            date: date,
+            id: fetchData.insertedId,
+          });
+          close();
           toast.success("Урок добавлен");
         });
     }
@@ -75,85 +83,92 @@ export const NewLessonModal = ({
       authFetch(`${endpoint}`)
         .then((res) => res.json())
         .then((fetchData) => {
-          fetchData = fetchData.filter((student, index) => {
-            if (
-              fetchData.findIndex(
-                (el) =>
-                  el.first_name === student.first_name &&
-                  el.last_name === student.last_name
-              ) === index
-            ) {
-              return true;
-            }
-            return false;
-          });
-
           setStudents(fetchData);
         });
     }
   }, [data.course, filter.allStudents]);
 
-  function clearData() {
-    setData(baseData);
-    setStudents([]);
+  function checkStudentOnAdd(student) {
+    return data.students.findIndex((i) => i.id === student.id) >= 0
+      ? true
+      : false;
   }
 
   return (
-    <Modal
-      onClosed={() => clearData()}
-      size="lg"
-      isOpen={show}
-      toggle={handleClose}
-      backdrop={true}
-    >
-      <ModalHeader toggle={handleClose}>Добавление урока на {date}</ModalHeader>
+    <Dialog fullWidth open={show} onClose={close}>
+      <ModalTitle toggle={close}>Добавление урока на {date}</ModalTitle>
+
       <ModalBody>
-        <Container>
-          <ScheduleInput data={data} handleChange={setData} />{" "}
-          <FormElement
-            style={{ padding: 0, gap: 5 }}
-            onChange={(e) => {
-              setFilter({ ...filter, allStudents: e.target.checked });
-            }}
-            type="checkbox"
+        <Box>
+          <Stack gap={1}>
+            <ScheduleInput data={data} handleChange={setData} />
+            <FormElement
+              style={{ padding: 0, gap: 5 }}
+              onChange={(e) => {
+                setFilter({ ...filter, allStudents: e.target.checked });
+              }}
+              type="checkbox"
+            >
+              Включить всех студентов
+            </FormElement>
+            <FormElement
+              style={{ padding: 0 }}
+              onChange={(e) => {
+                setFilter({ ...filter, name: e.target.value });
+              }}
+              label={false}
+            >
+              Поиск студентов
+            </FormElement>
+            <Stack flexWrap={"wrap"} direction={"row"}>
+              {data.students &&
+                data.students.map((student) => {
+                  return (
+                    <Chip
+                      key={student.id}
+                      label={student.first_name + " " + student.last_name}
+                      onClick={() => onDeleteChip(student)}
+                      onDelete={() => onDeleteChip(student)}
+                    />
+                  );
+                })}
+            </Stack>
+          </Stack>
+          <Container
+            className="mt-3 mb-3 border border-secondary rounded"
+            maxWidth="sm"
           >
-            Включить всех студентов
-          </FormElement>
-          <FormElement
-            style={{ padding: 0 }}
-            onChange={(e) => {
-              setFilter({ ...filter, name: e.target.value });
-            }}
-            label={false}
-          >
-            Поиск студентов
-          </FormElement>
-          <Container className="mt-3 mb-3 border border-secondary rounded">
-            <Row style={{ fontSize: "20px" }}>
-              <Col xs={2}></Col>
-              <Col style={{ paddingLeft: 0 }}>Имя</Col>
-              <Col style={{ paddingLeft: 0 }}>Фамилия</Col>
-            </Row>
-            <Container style={{ height: "300px", overflowY: "scroll" }}>
+            <Stack direction={"row"}>
+              <Box flexGrow={1}></Box>
+              <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                Имя
+              </Box>
+              <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                Фамилия
+              </Box>
+            </Stack>
+            <Stack style={{ height: "300px", overflowY: "scroll" }}>
               {students.length ? (
                 students.map((student) => {
                   if (studentFilter(student, filter.name)) {
                     return (
-                      <label
-                        className="row student-row-modal"
-                        style={{ cursor: "pointer" }}
-                        key={student.id}
-                      >
-                        <Col xs={1}>
-                          <input
-                            onChange={(e) => checkboxHandle(e, student)}
-                            style={{ fontSize: "30px" }}
-                            type="checkbox"
-                          />
-                        </Col>
-
-                        <Col>{student.first_name}</Col>
-                        <Col>{student.last_name}</Col>
+                      <label style={{ cursor: "pointer" }} key={student.id}>
+                        <Stack direction={"row"}>
+                          <Box flexGrow={1}>
+                            <input
+                              onChange={(e) => checkboxHandle(e, student)}
+                              style={{ fontSize: "30px" }}
+                              type="checkbox"
+                              checked={checkStudentOnAdd(student)}
+                            />
+                          </Box>
+                          <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                            {student.first_name}
+                          </Box>
+                          <Box sx={{ flexBasis: 0 }} flexGrow={2}>
+                            {student.last_name}
+                          </Box>
+                        </Stack>
                       </label>
                     );
                   } else {
@@ -161,13 +176,15 @@ export const NewLessonModal = ({
                   }
                 })
               ) : (
-                <Row>Список студентов пуст</Row>
+                <Box>Список студентов пуст</Box>
               )}
-            </Container>
+            </Stack>
           </Container>
-          <Button onClick={add}>Добавить</Button>
-        </Container>
+        </Box>
+        <Button variant="contained" onClick={add}>
+          Добавить
+        </Button>
       </ModalBody>
-    </Modal>
+    </Dialog>
   );
 };
