@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 
 import "./assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./assets/scss/argon-dashboard-react.scss";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";

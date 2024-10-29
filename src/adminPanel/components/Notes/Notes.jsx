@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardActions,
-  CardContent,
   Chip,
   Collapse,
   IconButton,
