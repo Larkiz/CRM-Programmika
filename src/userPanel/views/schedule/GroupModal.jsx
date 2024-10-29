@@ -41,7 +41,7 @@ export const GroupModal = ({ handleClose, id, show }) => {
               status={data?.payment_status}
             />
           </Stack>
-          <Paper sx={{ maxWidth: 400, p: 2 }} elevation={5}>
+          <Paper sx={{ maxWidth: 400, p: 2 }} elevation={2}>
             <CardTitle sx={{ m: 0 }} variant="h6">
               Комментарий
             </CardTitle>

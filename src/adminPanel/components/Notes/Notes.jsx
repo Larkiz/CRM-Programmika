@@ -94,29 +94,40 @@ export const Notes = ({ sitePath }) => {
                   return (
                     <Card
                       sx={{
-                        width: { xs: 155, sm: 200 },
-                        height: 200,
+                        width: { xsm: 170, xs: 155, sm: 200 },
+                        height: 220,
                         paddingBottom: 0,
                       }}
                       key={note.id}
                     >
                       <Stack sx={{ height: "100%" }}>
                         {note.title && (
-                          <CardTitle component="pre">{note.title}</CardTitle>
+                          <CardTitle sx={{ marginTop: "8px" }} component="pre">
+                            {note.title}
+                          </CardTitle>
                         )}
                         <CardBody
                           sx={{
-                            whiteSpace: "pre-wrap",
-                            wordWrap: " break-word",
                             flexGrow: 1,
                             paddingBottom: "0!important",
                           }}
-                          component={"pre"}
                         >
-                          <Typography>{note.text}</Typography>
+                          <Typography
+                            sx={{
+                              whiteSpace: "pre-wrap",
+                              wordWrap: "break-word",
+                            }}
+                            component={"pre"}
+                          >
+                            {note.text}
+                          </Typography>
                         </CardBody>
                         <CardActions
-                          sx={{ justifyContent: "end", alignItems: "flex-end" }}
+                          sx={{
+                            justifyContent: "end",
+                            alignItems: "flex-end",
+                            height: 35,
+                          }}
                         >
                           <IconButton
                             sx={{
