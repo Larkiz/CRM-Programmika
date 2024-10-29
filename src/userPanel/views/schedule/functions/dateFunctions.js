@@ -1,8 +1,7 @@
-export function getMonth(date) {
-  date = new Date(date);
+import moment from "moment";
 
-  const monthName = date.toLocaleString("default", { month: "long" });
-  return `${getDay(date)}, ${date.getDate()} ${monthName}`;
+export function getMonth(date) {
+  return moment(date, "YYYY.MM.DD").format("dddd, Do MMMM").toUpperCase();
 }
 
 export function getDay(date) {

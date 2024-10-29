@@ -1,3 +1,4 @@
+import { TableCell, TableRow } from "@mui/material";
 import { useState } from "react";
 
 function addTime(inputTime) {
@@ -23,17 +24,13 @@ export const Lesson = ({ data, onClick }) => {
   });
 
   return (
-    <>
-      <tr onClick={onClick} key={data.id}>
-        {
-          <>
-            <td style={{ fontSize: 18 }}>{lessonData.course} </td>
-            <td style={{ fontSize: 18 }} colSpan={2}>
-              {lessonTime(lessonData.time)}
-            </td>
-          </>
-        }
-      </tr>
-    </>
+    <TableRow sx={{ cursor: "pointer" }} onClick={onClick} key={data.id}>
+      <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }}>
+        {lessonData.course}
+      </TableCell>
+      <TableCell colSpan={2} sx={{ fontSize: { xs: 15, sm: 17 } }}>
+        {lessonTime(lessonData.time)}
+      </TableCell>
+    </TableRow>
   );
 };

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useRef, useState } from "react";
-import { Container, Table } from "reactstrap";
 
 import { Lesson } from "./Lesson";
 import { useScheduleFetch } from "./hooks/useScheduleFetch";
@@ -9,24 +8,19 @@ import { compare, getMonth } from "./functions/dateFunctions";
 import { GroupsContext } from "adminPanel/Context/GroupsContext";
 import { GroupModal } from "./GroupModal";
 import { MonthController } from "commonComponents/MonthController/MonthController";
+import {
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { useModalControl } from "commonComponents/Modal/useModal";
 
 export const Schedule = () => {
   const currentDateRef = useRef(null);
   const [schedule, filterDate, dispatchMonthFilter] = useScheduleFetch();
-  const groups = useContext(GroupsContext);
-  const [show, setShow] = useState({
-    status: false,
-    course: null,
-    date: null,
-  });
-
-  const handleClose = () => setShow({ status: false, course: null });
-  const handleShow = (course, date) =>
-    setShow({
-      status: true,
-      course: course,
-      date: date,
-    });
 
   const currentDate = `${new Date().getFullYear()}.${(
     "0" +
@@ -36,14 +30,14 @@ export const Schedule = () => {
   useEffect(() => {
     currentDateRef.current && currentDateRef.current.scrollIntoView();
   }, [currentDateRef.current]);
+  const { modalData, modalClose, modalOpen } = useModalControl();
 
   return (
-    <Container fluid>
+    <Container maxWidth={false}>
       <GroupModal
-        handleClose={handleClose}
-        show={show.status}
-        course={show.course}
-        date={show.date}
+        id={modalData.data?.id}
+        handleClose={modalClose}
+        show={modalData.show}
       />
 
       <MonthController
@@ -55,53 +49,38 @@ export const Schedule = () => {
       {schedule &&
         schedule.map((scheduleItem) => {
           return (
-            <Table
-              innerRef={
-                currentDate === scheduleItem.date ? currentDateRef : undefined
-              }
-              className="shadow mb-4"
-              key={scheduleItem.id}
-              responsive
-              hover
-            >
-              <thead
-                style={{ backgroundColor: "rgb(58 130 214)", width: 100 + "%" }}
+            <Table className="shadow mb-4" key={scheduleItem.id}>
+              <TableHead
+                ref={currentDate === scheduleItem.date ? currentDateRef : null}
               >
-                <tr>
-                  <th
+                <TableRow>
+                  <TableCell
                     colSpan={4}
-                    style={{ fontSize: 18, color: "#fff", fontWeight: 700 }}
+                    sx={{ fontSize: { xs: 16, sm: 18 }, color: "#fff" }}
                   >
                     {getMonth(scheduleItem.date)}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {scheduleItem.schedule.length !== 0 ? (
                   scheduleItem.schedule.sort(compare).map((item) => {
                     return (
                       <Lesson
-                        onClick={() =>
-                          handleShow(
-                            item.course,
-                            scheduleItem.date + " " + item.time
-                          )
-                        }
+                        onClick={() => modalOpen(item)}
                         key={item.id}
                         data={item}
-                        date={scheduleItem.date}
-                        groups={groups}
                       />
                     );
                   })
                 ) : (
-                  <tr key={scheduleItem.id}>
-                    <td colSpan={3} style={{ fontSize: 16 }}>
-                      нет расписания
-                    </td>
-                  </tr>
+                  <TableRow key={scheduleItem.id}>
+                    <TableCell colSpan={3} style={{ fontSize: 16 }}>
+                      Нет расписания
+                    </TableCell>
+                  </TableRow>
                 )}
-              </tbody>
+              </TableBody>
             </Table>
           );
         })}

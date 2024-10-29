@@ -1,24 +1,18 @@
-import { useEffect, useReducer } from "react";
-import {
-  Col,
-  Container,
-  Label,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Row,
-} from "reactstrap";
+import { useEffect, useState } from "react";
 
-import { getStatus } from "./paymentControl";
-import { paymentReducer } from "adminPanel/reducers/finance/paymentReducer";
+import { Dialog, Paper, Stack, Typography } from "@mui/material";
+import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
+import { PaymentStatus } from "adminPanel/components/StatusButtonsPayments/PaymentControl";
+import { ModalBody } from "commonComponents/Modal/ModalTemplate";
+import { CardTitle } from "commonComponents/Card/Card";
 
-export const GroupModal = ({ handleClose, show, course, date }) => {
-  const [status, dispatch] = useReducer(paymentReducer, null);
+export const GroupModal = ({ handleClose, id, show }) => {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (show) {
       fetch(
-        `${process.env.REACT_APP_API_HOST_COMMON}/api/schedule/lesson/${course}?date=${date}`,
+        `${process.env.REACT_APP_API_HOST_COMMON}/api/schedule/lesson/${id}`,
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -26,46 +20,37 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
         }
       )
         .then((res) => res.json())
-        .then((data) => dispatch({ type: "set", data }));
+        .then((data) => setData(data));
     }
     // eslint-disable-next-line
   }, [show]);
 
   return (
-    <Modal isOpen={show} toggle={handleClose} backdrop={true}>
-      <ModalHeader toggle={handleClose}>{course}</ModalHeader>
+    <Dialog fullWidth open={show} onClose={handleClose}>
+      <ModalTitle toggle={handleClose}>{data?.course}</ModalTitle>
+
       <ModalBody>
-        <Container>
-          {status &&
-            status.map((i, key) => {
-              return (
-                <Col className="p-3 mb-1" key={key}>
-                  <Row className="mb-2">
-                    {i.first_name} {i.last_name}
-                    {getStatus(i.payment_status)}
-                  </Row>
-                  <Row>
-                    <Label for="comment">Комментарий: </Label>
-                    <Container
-                      style={{
-                        border: "1px solid gray",
-                        borderRadius: "5px",
-                        minHeight: "100px",
-                      }}
-                      fluid
-                    >
-                      {i.comment ? (
-                        i.comment
-                      ) : (
-                        <span style={{ color: "gray" }}>Без комментария</span>
-                      )}
-                    </Container>
-                  </Row>
-                </Col>
-              );
-            })}
-        </Container>
+        <Stack spacing={2} sx={{ p: 1 }}>
+          <Stack alignItems={"center"} spacing={1} direction={"row"}>
+            <Typography>Дата: </Typography>
+            <Typography variant="subtitle2"> {data?.date}</Typography>
+          </Stack>
+          <Stack direction={"row"}>
+            <PaymentStatus
+              sx={{ fontSize: 16 }}
+              status={data?.payment_status}
+            />
+          </Stack>
+          <Paper sx={{ maxWidth: 400, p: 2 }} elevation={5}>
+            <CardTitle sx={{ m: 0 }} variant="h6">
+              Комментарий
+            </CardTitle>
+            <Typography component={"pre"}>
+              {data?.comment ? data.comment : "Нет комментария"}
+            </Typography>
+          </Paper>
+        </Stack>
       </ModalBody>
-    </Modal>
+    </Dialog>
   );
 };
