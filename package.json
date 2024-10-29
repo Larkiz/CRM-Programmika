@@ -1,18 +1,15 @@
 {
   "name": "programmika",
-  "version": "1.2.4",
+  "version": "3.0",
   "description": "Programmika CRM",
   "main": "index.js",
   "homepage": "https://storescript.ru",
   "keywords": [
     "react",
     "reactjs",
-    "argon",
-    "argon-react",
+    "programmika",
     "dashboard",
-    "dashboard-react",
-    "argon-dashboard",
-    "argon-dashboard-react"
+    "dashboard-react"
   ],
   "scripts": {
     "start": "react-scripts start",
@@ -58,8 +55,7 @@
     "sass": "1.69.5"
   },
   "optionalDependencies": {
-    "eslint-plugin-flowtype": "8.0.3",
-    "typescript": "5.3.3"
+    "eslint-plugin-flowtype": "8.0.3"
   },
   "overrides": {
     "svgo": "3.0.2",
