@@ -59,7 +59,12 @@
   }
 }
 .bg-programmika {
-  background-color: #121883;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 30%,
+    rgba(18, 24, 131, 1) 30%,
+    rgba(18, 24, 131, 1) 100%
+  );
 }
 
 .green-text {

@@ -1,15 +1,15 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
-export function getButtons(payment_status, onClick) {
-  if (payment_status === 0) {
+export function PaymentButtons({ paymentStatus, onClick, sx }) {
+  if (paymentStatus === 0) {
     return (
       <>
         <Button
           variant="contained"
           color="success"
           size="small"
-          sx={{ textTransform: "none" }}
-          className="payment-btn green-bg"
+          className="green-bg"
+          sx={{ textTransform: "none", ...sx }}
           onClick={() => onClick(1)}
         >
           Оплатил
@@ -18,8 +18,7 @@ export function getButtons(payment_status, onClick) {
         <Button
           variant="contained"
           size="small"
-          sx={{ textTransform: "none" }}
-          className="payment-btn"
+          sx={{ textTransform: "none", maxWidth: "max-content", ...sx }}
           onClick={() => onClick(-1)}
         >
           Не пришел
@@ -31,37 +30,36 @@ export function getButtons(payment_status, onClick) {
   }
 }
 
-export function getStatus(payment_status) {
-  const centeredText = { textAlign: "center" };
-  const style = { marginLeft: 0 };
-  if (payment_status === 0) {
+export function PaymentStatus({ status, sx }) {
+  const style = { textAlign: "center", marginLeft: 0 };
+  if (status === 0) {
     return (
-      <div
-        style={{ ...style, ...centeredText }}
+      <Box
+        sx={{ fontSize: 13, ...style, ...sx }}
         className="payment-status payment-status-false"
       >
         Не оплачено
-      </div>
+      </Box>
     );
   }
-  if (payment_status === 1) {
+  if (status === 1) {
     return (
-      <div
-        style={{ ...style, ...centeredText }}
+      <Box
+        sx={{ fontSize: 13, ...style, ...sx }}
         className="payment-status payment-status-true"
       >
         Оплачено
-      </div>
+      </Box>
     );
   }
-  if (payment_status === -1 || payment_status === null) {
+  if (status === -1 || status === null) {
     return (
-      <div
-        style={{ ...style, ...centeredText }}
+      <Box
+        sx={{ ...style, ...sx }}
         className="payment-status payment-status-null"
       >
         Не пришел
-      </div>
+      </Box>
     );
   }
 }

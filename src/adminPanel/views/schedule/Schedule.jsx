@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
-import { Button, Container, Table } from "reactstrap";
+import { useEffect, useRef } from "react";
 
 import { Lesson } from "./Lesson";
 import { useScheduleFetch } from "./hooks/useScheduleFetch";
@@ -11,28 +10,20 @@ import { GroupModal } from "./modals/GroupModal/GroupModal";
 import { NewLessonModal } from "./modals/NewLessonModal/NewLesson";
 import { MonthController } from "commonComponents/MonthController/MonthController";
 import { useModalControl } from "commonComponents/Modal/useModal";
+import {
+  Button,
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export const Schedule = () => {
   const currentDateRef = useRef(null);
   const [schedule, handleAdd, deleteSchedule, filterDate, dispatchMonthFilter] =
     useScheduleFetch();
-
-  const [groupModal, setGroupModal] = useState({
-    status: false,
-    course: null,
-    date: null,
-  });
-  const [lessonModal, setLessonModal] = useState({
-    status: false,
-    date: null,
-  });
-
-  const handleLessonModalClose = () => {
-    setLessonModal({ status: false, date: null });
-  };
-  // const handleLessonModalShow = (date) => {
-  //   setLessonModal({ status: true, date: date });
-  // };
 
   const currentDate = `${new Date().getFullYear()}.${(
     "0" +
@@ -72,7 +63,7 @@ export const Schedule = () => {
   } = useModalControl();
 
   return (
-    <Container style={{ marginBottom: "70px" }} fluid>
+    <Container maxWidth={"sx"}>
       <GroupModal
         handleClose={lessonModalClose}
         show={lessonModalData.show}
@@ -89,22 +80,20 @@ export const Schedule = () => {
       {schedule &&
         schedule.map((scheduleItem) => {
           return (
-            <Table
-              className="shadow mb-4"
-              key={scheduleItem.id}
-              responsive
-              hover
-            >
-              <thead
+            <Table className="shadow mb-4" key={scheduleItem.id}>
+              <TableHead
                 ref={currentDate === scheduleItem.date ? currentDateRef : null}
               >
-                <tr>
-                  <th colSpan={4} style={{ fontSize: 18 }}>
+                <TableRow>
+                  <TableCell
+                    colSpan={4}
+                    sx={{ fontSize: { xs: 16, sm: 18 }, color: "#fff" }}
+                  >
                     {getMonth(scheduleItem.date)}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {scheduleItem.schedule.length !== 0 ? (
                   scheduleItem.schedule.sort(compare).map((item) => {
                     return (
@@ -125,25 +114,25 @@ export const Schedule = () => {
                     );
                   })
                 ) : (
-                  <tr key={scheduleItem.id}>
-                    <td colSpan={3} style={{ fontSize: 16 }}>
+                  <TableRow key={scheduleItem.id}>
+                    <TableCell colSpan={3} style={{ fontSize: 16 }}>
                       Нет расписания
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 )}
-                <tr>
-                  <td colSpan={3}>
+                <TableRow>
+                  <TableCell colSpan={3}>
                     <Button
-                      color="primary"
+                      variant="contained"
                       onClick={() =>
                         newLessonModalOpen({ date: scheduleItem.date })
                       }
                     >
                       Добавить
                     </Button>
-                  </td>
-                </tr>
-              </tbody>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
             </Table>
           );
         })}

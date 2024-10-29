@@ -1,12 +1,13 @@
 import { ScheduleInput } from "./ScheduleInput";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
 import { authFetch } from "adminPanel/views/Index/functions/authFetch";
 import { Box, Button, Chip, Container, Dialog, Stack } from "@mui/material";
 import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
 import { ModalBody } from "commonComponents/Modal/ModalTemplate";
-
+import Grid from "@mui/material/Grid2";
+import { GroupsContext } from "adminPanel/Context/GroupsContext";
 function studentFilter(student, filterName) {
   const name = new RegExp(filterName, "i");
   const fullName = student.first_name + " " + student.last_name;
@@ -19,6 +20,8 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
   const [data, setData] = useState({ time: null, course: null, students: [] });
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState({ name: "", allStudents: false });
+
+  const courses = useContext(GroupsContext);
 
   function checkboxHandle(e, student) {
     if (e.target.checked) {
@@ -57,6 +60,10 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
         .then((fetchData) => {
           handleAdd({
             ...data,
+            shortCourse:
+              courses.data[
+                courses.data.findIndex((i) => i.name === data.course)
+              ].short_name,
             students: data.students.reduce(
               (acc, i) => [...acc, { id: i.id }],
               []
@@ -120,19 +127,20 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
             >
               Поиск студентов
             </FormElement>
-            <Stack flexWrap={"wrap"} direction={"row"}>
+            <Grid rowGap={1} container>
               {data.students &&
                 data.students.map((student) => {
                   return (
-                    <Chip
-                      key={student.id}
-                      label={student.first_name + " " + student.last_name}
-                      onClick={() => onDeleteChip(student)}
-                      onDelete={() => onDeleteChip(student)}
-                    />
+                    <Grid key={student.id} size={6}>
+                      <Chip
+                        label={student.first_name + " " + student.last_name}
+                        onClick={() => onDeleteChip(student)}
+                        onDelete={() => onDeleteChip(student)}
+                      />
+                    </Grid>
                   );
                 })}
-            </Stack>
+            </Grid>
           </Stack>
           <Container
             className="mt-3 mb-3 border border-secondary rounded"
@@ -147,7 +155,10 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
                 Фамилия
               </Box>
             </Stack>
-            <Stack style={{ height: "300px", overflowY: "scroll" }}>
+            <Stack
+              sx={{ height: { xs: 200, sm: 300 } }}
+              style={{ overflowY: "scroll" }}
+            >
               {students.length ? (
                 students.map((student) => {
                   if (studentFilter(student, filter.name)) {

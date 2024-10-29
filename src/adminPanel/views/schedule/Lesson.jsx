@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { TableCell, TableRow } from "@mui/material";
 import { toast } from "react-toastify";
 
 function addTime(inputTime) {
@@ -18,22 +18,23 @@ function lessonTime(time) {
   return time + " - " + addTime(time);
 }
 export const Lesson = ({ deleteSchedule, data, onClick }) => {
-  const [lessonData, setLesson] = useState({
-    course: data.course,
-    time: data.time,
-  });
-
   return (
-    <tr
-      style={{ cursor: "pointer" }}
-      onClick={() => onClick(lessonData.course)}
+    <TableRow
+      sx={{ cursor: "pointer" }}
+      onClick={() => onClick(data.course)}
       key={data.id}
     >
-      <td style={{ fontSize: 18 }}>{lessonData.course} </td>
-      <td style={{ fontSize: 18 }} colSpan={2}>
-        {lessonTime(lessonData.time)}
-      </td>
-      <td className="button-control-cont" style={{ fontSize: 25 }} colSpan={2}>
+      <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }}>
+        {data.course.length > 15 ? data.shortCourse : data.course}
+      </TableCell>
+      <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }} colSpan={2}>
+        {lessonTime(data.time)}
+      </TableCell>
+      <TableCell
+        className="button-control-cont"
+        sx={{ fontSize: 25 }}
+        colSpan={2}
+      >
         <button
           className="ni ni-fat-remove button-control red"
           onClick={(e) => {
@@ -43,7 +44,7 @@ export const Lesson = ({ deleteSchedule, data, onClick }) => {
             }
           }}
         ></button>
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 };

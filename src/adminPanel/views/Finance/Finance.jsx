@@ -1,4 +1,3 @@
-import { Button, Col, Container, Row, Table } from "reactstrap";
 import { FinanceCard } from "./FInanceCard";
 import { FormElement } from "adminPanel/components/FormElements/FormElement";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,15 @@ import { OperationCell } from "./OperationCell";
 import { toast } from "react-toastify";
 import { authFetch } from "../Index/functions/authFetch";
 import { MonthController } from "commonComponents/MonthController/MonthController";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Table,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export const Finance = () => {
   const { register, handleSubmit } = useForm();
@@ -67,55 +75,58 @@ export const Finance = () => {
         });
       });
   }
-
+  const cardBorder = { border: "1px solid rgba(0, 0, 0, .125)" };
   return (
-    <Container style={{ marginBottom: 75 }} className="mt-5" fluid>
-      <Row>
-        <Col>
-          <Row style={{ display: "flex", justifyContent: "center" }}>
-            <Col>
-              <FinanceCard value={finances.income}>Доход</FinanceCard>
-            </Col>
-            <Col>
-              <FinanceCard value={finances.earnings} type="earning">
-                Прибыль
-              </FinanceCard>
-            </Col>
-          </Row>
-          <Row>
-            <Container>
-              <Row>
-                <FormElement
-                  register={{ ...register("name", { required: true }) }}
-                >
-                  Название
-                </FormElement>
-                <FormElement
-                  register={{
-                    ...register("amount", {
-                      required: true,
-                      valueAsNumber: true,
-                    }),
-                  }}
-                  type={"number"}
-                >
-                  Сумма
-                </FormElement>
-              </Row>
-              <Row className="mb-4" style={{ paddingLeft: 15 }}>
-                <Button
-                  color="primary"
-                  onClick={handleSubmit((data) => operationPost(data))}
-                >
-                  Добавить
-                </Button>
-              </Row>
-            </Container>
-          </Row>
-        </Col>
-        <Col>
+    <Container maxWidth="sx">
+      <Stack sx={{ flexDirection: { xs: "column", sm: "row" } }} gap={2}>
+        <Stack>
+          <Stack spacing={2} direction={"row"}>
+            <FinanceCard sx={cardBorder} value={finances.income}>
+              Доход
+            </FinanceCard>
+
+            <FinanceCard
+              sx={cardBorder}
+              value={finances.earnings}
+              type="earning"
+            >
+              Прибыль
+            </FinanceCard>
+          </Stack>
+          <Stack spacing={2}>
+            <Stack spacing={4} direction={"row"}>
+              <FormElement
+                register={{ ...register("name", { required: true }) }}
+              >
+                Название
+              </FormElement>
+              <FormElement
+                register={{
+                  ...register("amount", {
+                    required: true,
+                    valueAsNumber: true,
+                  }),
+                }}
+                type={"number"}
+              >
+                Сумма
+              </FormElement>
+            </Stack>
+            <Box>
+              <Button
+                variant="contained"
+                onClick={handleSubmit((data) => operationPost(data))}
+              >
+                Добавить
+              </Button>
+            </Box>
+          </Stack>
+        </Stack>
+
+        <Stack flexGrow={1}>
           <Button
-            style={{ backgroundColor: "#c53939", margin: 0, width: "100%" }}
+            variant="contained"
+            color="error"
             onClick={() => deleteRow(selectedId)}
             disabled={finances.operations && !finances.operations.length}
             className="mb-2"
@@ -124,26 +135,23 @@ export const Finance = () => {
           </Button>
           <Table
             style={{
-              height: "100%",
-              minWidth: 440,
+              width: "100%",
               borderRadius: "0.5rem",
             }}
-            responsive
-            className="finance-table"
           >
-            <thead>
-              <tr>
+            <TableHead>
+              <TableRow>
                 <th
                   style={{
                     backgroundColor: "#fff",
                     color: "rgb(58, 130, 214)",
-                    fontSize: 13,
+                    fontSize: 20,
                   }}
                 >
                   Операции
                 </th>
-              </tr>
-            </thead>
+              </TableRow>
+            </TableHead>
             <tbody>
               {finances.operations && finances.operations.length ? (
                 finances.operations.map((data) => {
@@ -167,8 +175,8 @@ export const Finance = () => {
               )}
             </tbody>
           </Table>
-        </Col>
-      </Row>
+        </Stack>
+      </Stack>
       <MonthController
         fixedBottom
         filterDate={filterDate}

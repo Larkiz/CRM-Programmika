@@ -34,7 +34,15 @@ export const AdminLayout = (props) => {
       </Box>
 
       <Container
-        style={{ marginBottom: "90px", overflowX: "hidden" }}
+        style={{
+          marginBottom: "90px",
+
+          overflowX: "hidden",
+        }}
+        sx={{
+          marginLeft: { xs: 0, sm: "30px" },
+          marginRight: { xs: 0, sm: "30px" },
+        }}
         maxWidth="sx"
         className="mt-5"
         ref={mainContent}

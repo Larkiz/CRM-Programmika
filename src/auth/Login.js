@@ -1,20 +1,28 @@
-import { useForm } from "react-hook-form";
+import { AccountCircle, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  TextField,
+} from "@mui/material";
+
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  Button,
-  Card,
-  CardBody,
-  FormGroup,
-  Form,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Col,
-} from "reactstrap";
-
+import logo from "assets/img/brand/logo.png";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { useState } from "react";
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
   let navigate = useNavigate();
 
@@ -46,77 +54,111 @@ const Login = () => {
         }
       });
   }
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
   return (
-    <>
-      <Col lg="5" md="7">
-        <Card className="shadow border-0">
-          <CardBody className="px-lg-5 py-lg-5">
-            <Form>
-              <FormGroup className="mb-3">
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni  ni-single-02" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <input
-                    name="username"
-                    className="form-control"
-                    {...register("login", { required: true })}
-                    placeholder="Логин"
-                  />
-                </InputGroup>
-              </FormGroup>
-              <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
-                    </InputGroupText>
-                  </InputGroupAddon>
+    <Paper sx={{ maxWidth: 350, margin: "auto" }} elevation={3}>
+      <Box sx={{ p: 3, width: 350 }}>
+        <Stack spacing={2}>
+          <img className="navbar-brand-img" src={logo} alt="logo" />
+          <Controller
+            name="login"
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange } }) => (
+              <TextField
+                onChange={onChange}
+                label="Логин"
+                error={!!errors.login}
+                required
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+                variant="standard"
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange } }) => (
+              <TextField
+                onChange={onChange}
+                label="Пароль"
+                error={!!errors.password}
+                required
+                type={showPassword ? "text" : "password"}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOpenIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label={
+                            showPassword
+                              ? "hide the password"
+                              : "display the password"
+                          }
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          onMouseUp={handleMouseUpPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+                variant="standard"
+              />
+            )}
+          />
+          <Controller
+            name="rememberMe"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <FormControlLabel
+                onChange={onChange}
+                control={<Checkbox defaultChecked />}
+                label="Запомнить меня"
+              />
+            )}
+          />
 
-                  <input
-                    className="form-control"
-                    {...register("password", { required: true })}
-                    placeholder="Пароль"
-                    type="password"
-                    name="password"
-                    autoComplete="current-password"
-                  />
-                </InputGroup>
-              </FormGroup>
-              <div className="custom-control  custom-control-alternative custom-checkbox">
-                <input
-                  className="custom-control-input"
-                  id=" customCheckLogin"
-                  type="checkbox"
-                  {...register("rememberMe")}
-                />
-                <label
-                  className=" custom-control-label"
-                  htmlFor=" customCheckLogin"
-                >
-                  <span>Запомнить меня</span>
-                </label>
-              </div>
-              <div className="text-center">
-                <Button
-                  onClick={handleSubmit((data) => {
-                    auth(data);
-                  })}
-                  className="my-4"
-                  color="primary"
-                  type="button"
-                >
-                  Войти
-                </Button>
-              </div>
-            </Form>
-          </CardBody>
-        </Card>
-      </Col>
-    </>
+          <div className="text-center">
+            <Button
+              onClick={handleSubmit((data) => {
+                auth(data);
+              })}
+              className="my-4"
+              variant="contained"
+            >
+              Войти
+            </Button>
+          </div>
+        </Stack>
+      </Box>
+    </Paper>
   );
 };
 

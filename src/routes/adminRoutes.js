@@ -1,7 +1,6 @@
 import { AdminIndex } from "adminPanel/views/Index/Index";
 import { Schedule } from "adminPanel/views/Schedule/Schedule";
 
-import Login from "auth/Login";
 import { GroupsContextProvider } from "adminPanel/Context/GroupsContext";
 import { StudentsTable } from "adminPanel/views/Tables/Students/StudentsTable";
 import { Debts } from "adminPanel/views/Debts/Debts";

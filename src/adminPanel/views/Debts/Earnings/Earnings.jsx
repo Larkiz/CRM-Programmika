@@ -1,22 +1,28 @@
-import { Col, Row } from "reactstrap";
 import { Bar } from "react-chartjs-2";
+import { Stack } from "@mui/material";
 
 export const Earnings = ({ chartEarningsData, chartDebtsData, options }) => {
   return (
-    <Row className="justify-content-around ">
-      <Col style={{ maxWidth: 650 }} className="mt-4 mb-3">
+    <Stack flexWrap="wrap" direction={"row"} justifyContent={"center"}>
+      <div
+        style={{ flexBasis: 0, flexGrow: 1, maxWidth: "100%" }}
+        className="mt-4 mb-3"
+      >
         <h2>Доход </h2>
 
         {chartEarningsData && (
           <Bar data={chartEarningsData} options={options} />
         )}
-      </Col>
+      </div>
 
-      <Col style={{ maxWidth: 650 }} className="mt-4 mb-3">
+      <div
+        style={{ flexBasis: 0, flexGrow: 1, maxWidth: "100%" }}
+        className="mt-4 mb-3"
+      >
         <h2>Не оплачено</h2>
 
         {chartDebtsData && <Bar data={chartDebtsData} options={options} />}
-      </Col>
-    </Row>
+      </div>
+    </Stack>
   );
 };

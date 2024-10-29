@@ -15,8 +15,6 @@ import "ag-grid-community/styles/ag-theme-material.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import "./assets/css/index.css";
-
 import "react-toastify/dist/ReactToastify.css";
 
 import "moment/locale/ru";

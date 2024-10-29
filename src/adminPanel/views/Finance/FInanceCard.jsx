@@ -1,15 +1,20 @@
-import { numberIsNegative } from "functions/numberIsNegatibe";
-import { Card, CardText, CardTitle } from "reactstrap";
+import { Card, Typography } from "@mui/material";
+import { CardTitle } from "commonComponents/Card/Card";
 
-export const FinanceCard = ({ children, type, value }) => {
+import { numberIsNegative } from "functions/numberIsNegatibe";
+
+export const FinanceCard = ({ children, type, value, sx }) => {
   const icon =
     type === "earning"
       ? "fa-solid fa-money-bill-trend-up"
       : "fa-solid fa-building-columns";
 
   return (
-    <Card className="shadow p-3 mb-5 bg-white rounded text-center finance-card">
-      <CardTitle>
+    <Card
+      sx={{ ...sx }}
+      className="shadow p-3 mb-5 bg-white rounded text-center finance-card"
+    >
+      <CardTitle noBorder>
         <i
           style={{
             fontSize: 20,
@@ -22,8 +27,8 @@ export const FinanceCard = ({ children, type, value }) => {
         ></i>
       </CardTitle>
 
-      <CardText style={{ fontWeight: 500, fontSize: 15 }}>{children}</CardText>
-      <CardText style={{ fontWeight: 600, fontSize: 20 }}>
+      <Typography sx={{ fontWeight: 500, fontSize: 15 }}>{children}</Typography>
+      <Typography sx={{ fontSize: 18 }}>
         {
           <span
             className={
@@ -38,7 +43,7 @@ export const FinanceCard = ({ children, type, value }) => {
             <i className="fa-solid fa-ruble-sign"></i>
           </span>
         }
-      </CardText>
+      </Typography>
     </Card>
   );
 };

@@ -14,7 +14,7 @@ export const DebtModal = ({ handleClose, open, data, paymentDispatch }) => {
           </>
         )}
       </ModalTitle>
-      <ModalBody sx={{ width: "100%" }}>
+      <ModalBody sx={{ width: "100%", padding: "24px 5px" }}>
         {data !== null &&
           data.debts.map((debt, key) => {
             return (
@@ -23,7 +23,7 @@ export const DebtModal = ({ handleClose, open, data, paymentDispatch }) => {
                   {debt.course}
                 </ListSubheader>
 
-                <div className="debts">
+                <div className="debts-modal">
                   {debt.debts.map((debt, key) => {
                     return (
                       <Debt

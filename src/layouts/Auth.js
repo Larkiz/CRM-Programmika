@@ -1,15 +1,11 @@
-import React from "react";
+import { Container } from "@mui/material";
+import { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-// reactstrap components
-import { Container, Row } from "reactstrap";
 
-import logo from "assets/img/brand/logo.png";
 import authRoutes from "routes/authRoutes";
 
 export const AuthLayout = () => {
-  const mainContent = React.useRef(null);
-
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.classList.add("bg-programmika");
     return () => {
       document.body.classList.remove("bg-programmika");
@@ -29,27 +25,15 @@ export const AuthLayout = () => {
   };
 
   return (
-    <>
-      <div className="main-content" ref={mainContent}>
-        <div className="header py-7 py-lg-8">
-          <Container>
-            <div className="header-body text-center mb-7">
-              <Row className="justify-content-center">
-                <img className="navbar-brand-img" src={logo} alt="logo" />
-              </Row>
-            </div>
-          </Container>
-        </div>
-
-        <Container className="mt--8 pb-5">
-          <Row className="justify-content-center">
-            <Routes>
-              {getRoutes(authRoutes)}
-              <Route path="*" element={<Navigate to="/auth" replace />} />
-            </Routes>
-          </Row>
-        </Container>
-      </div>
-    </>
+    <Container
+      sx={{ padding: "50px 0 50px 0" }}
+      className="main-content"
+      maxWidth={false}
+    >
+      <Routes>
+        {getRoutes(authRoutes)}
+        <Route path="*" element={<Navigate to="/auth" replace />} />
+      </Routes>
+    </Container>
   );
 };

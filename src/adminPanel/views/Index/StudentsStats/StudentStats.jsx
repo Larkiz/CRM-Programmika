@@ -50,6 +50,7 @@ export const StudentStats = ({ filterDate }) => {
           />
         )}
       </Stack>
+
       <DataGrid
         className="mb-3"
         sx={{ minHeight: 350, maxWidth: "100%", overflowX: "scroll" }}

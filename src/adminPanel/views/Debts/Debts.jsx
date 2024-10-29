@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useState } from "react";
-import { Card, CardBody, CardHeader, Container } from "reactstrap";
 
 import { FormElement } from "../../components/FormElements/FormElement";
 
@@ -9,9 +8,11 @@ import { useChartData } from "./hooks/useChartData";
 import { authFetch } from "../Index/functions/authFetch";
 import { MonthController } from "commonComponents/MonthController/MonthController";
 import { DebtModal } from "./DebtModal/DebtModal";
-import { Button } from "@mui/material";
+import { Button, Card, Container, Typography } from "@mui/material";
 import { useModalControl } from "commonComponents/Modal/useModal";
-import { ModalTemplate } from "commonComponents/Modal/ModalTemplate";
+import { Notes } from "adminPanel/components/Notes/Notes";
+import { CardTitle } from "commonComponents/Card/Card";
+import { CardBody } from "commonComponents/Card/Card";
 
 function debtFilter(i, filters) {
   const name = new RegExp(filters.name, "i");
@@ -56,7 +57,7 @@ export const Debts = () => {
     dispatchMonthFilter,
   ] = useChartData();
   return (
-    <Container fluid>
+    <Container maxWidth="sx">
       <DebtModal
         open={modalData.show}
         data={modalData.data}
@@ -91,11 +92,19 @@ export const Debts = () => {
           debts.map((debt, key) => {
             if (debtFilter(debt, filters)) {
               return (
-                <Card key={key} className="p-3 mb-1 ">
-                  <CardHeader>
+                <Card variant="none" key={key}>
+                  <CardTitle
+                    sx={{
+                      padding: ".75rem 1.25rem",
+                      minHeight: 81,
+                      backgroundColor: "#00000010",
+                    }}
+                    variant="subtitle1"
+                  >
                     {debt.first_name} {debt.last_name}
-                  </CardHeader>
-                  <CardBody>
+                  </CardTitle>
+
+                  <CardBody sx={{ padding: ".75rem 1.25rem" }}>
                     <Button variant="contained" onClick={() => modalOpen(debt)}>
                       Посмотреть
                     </Button>
@@ -106,6 +115,10 @@ export const Debts = () => {
             return false;
           })}
       </div>
+      <Typography className="mb-2" variant="h5">
+        Заметки
+      </Typography>
+      <Notes sitePath="debts" />
     </Container>
   );
 };

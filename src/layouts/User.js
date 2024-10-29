@@ -1,10 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Sidebar } from "commonComponents/Sidebar/Sidebar";
 
 import { useEffect, useRef } from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 import userRoutes from "routes/userRoutes";
-// reactstrap components
 
 export const UserLayout = (props) => {
   const mainContent = useRef(null);
@@ -30,29 +29,27 @@ export const UserLayout = (props) => {
   return (
     <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
       <Box sx={{ width: { sm: 216 }, height: 56, flexShrink: { sm: 0 } }}>
-        <Sidebar
-          {...props}
-          routes={userRoutes}
-          logo={{
-            innerLink: "/index",
-            imgSrc: require("../assets/img/brand/logo.png"),
-            imgAlt: "...",
-          }}
-        />
+        <Sidebar routes={userRoutes} />
       </Box>
-      <Box
-        ref={mainContent}
-        sx={{
-          flexGrow: 1,
+      <Container
+        style={{
+          marginBottom: "90px",
 
-          width: { sm: `calc(100% - ${216}px)` },
+          overflowX: "hidden",
         }}
+        sx={{
+          marginLeft: { xs: 0, sm: "30px" },
+          marginRight: { xs: 0, sm: "30px" },
+        }}
+        maxWidth="sx"
+        className="mt-5"
+        ref={mainContent}
       >
         <Routes>
           {getRoutes(userRoutes)}
           <Route path="*" element={<Navigate to="/index" replace />} />
         </Routes>
-      </Box>
+      </Container>
     </Box>
   );
 };
