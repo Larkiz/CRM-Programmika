@@ -20,6 +20,7 @@ function lessonTime(time) {
 export const Lesson = ({ deleteSchedule, data, onClick }) => {
   return (
     <TableRow
+      hover
       sx={{ cursor: "pointer" }}
       onClick={() => onClick(data.course)}
       key={data.id}
