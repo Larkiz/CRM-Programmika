@@ -20,6 +20,14 @@ export const monthFilterReducer = (state, action) => {
       }
 
       return { month: month, year: year };
+    case "nextYear":
+      year += 1;
+
+      return { month: month, year: year };
+    case "prevYear":
+      year -= 1;
+
+      return { month: month, year: year };
 
     default:
       return state;

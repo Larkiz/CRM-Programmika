@@ -47,7 +47,6 @@ const Login = () => {
             sessionStorage.setItem("token", resJson.token);
             sessionStorage.setItem("role", resJson.role);
           }
-
           return navigate("/index");
         } else {
           toast.error(resJson.message);
@@ -136,10 +135,15 @@ const Login = () => {
           <Controller
             name="rememberMe"
             control={control}
-            render={({ field: { onChange } }) => (
+            defaultValue={false}
+            render={({ field: { value, onChange } }) => (
               <FormControlLabel
-                onChange={onChange}
-                control={<Checkbox defaultChecked />}
+                control={
+                  <Checkbox
+                    checked={value}
+                    onChange={(e) => onChange(e.target.checked)}
+                  />
+                }
                 label="Запомнить меня"
               />
             )}

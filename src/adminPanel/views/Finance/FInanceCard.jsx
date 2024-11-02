@@ -2,6 +2,7 @@ import { Card, Typography } from "@mui/material";
 import { CardTitle } from "commonComponents/Card/Card";
 
 import { numberIsNegative } from "functions/numberIsNegatibe";
+import { numberWithDots } from "functions/numberWithDots";
 
 export const FinanceCard = ({ children, type, value, sx }) => {
   const icon =
@@ -39,7 +40,7 @@ export const FinanceCard = ({ children, type, value, sx }) => {
                 : "green-text"
             }
           >
-            {value ? value : 0}
+            {value ? numberWithDots(value) : 0}
             <i className="fa-solid fa-ruble-sign"></i>
           </span>
         }

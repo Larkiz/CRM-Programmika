@@ -3,10 +3,10 @@ import { UserLayout } from "layouts/User";
 import { Navigate } from "react-router-dom";
 
 export const CheckAuth = ({ children }) => {
-  let token = null;
+  let token = localStorage.getItem("token");
   let role = null;
 
-  if (localStorage.getItem("token") !== null) {
+  if (token !== null) {
     sessionStorage.setItem("token", localStorage.getItem("token"));
     sessionStorage.setItem("role", localStorage.getItem("role"));
   }
