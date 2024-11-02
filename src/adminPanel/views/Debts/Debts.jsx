@@ -97,6 +97,7 @@ export const Debts = () => {
                     sx={{
                       padding: ".75rem 1.25rem",
                       minHeight: 81,
+                      margin: 0,
                       backgroundColor: "#00000010",
                     }}
                     variant="subtitle1"
@@ -104,7 +105,7 @@ export const Debts = () => {
                     {debt.first_name} {debt.last_name}
                   </CardTitle>
 
-                  <CardBody sx={{ padding: ".75rem 1.25rem" }}>
+                  <CardBody sx={{ padding: ".75rem 0" }}>
                     <Button variant="contained" onClick={() => modalOpen(debt)}>
                       Посмотреть
                     </Button>
