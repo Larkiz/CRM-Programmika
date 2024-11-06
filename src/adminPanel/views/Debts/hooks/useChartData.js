@@ -1,5 +1,5 @@
-import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { monthFilterReducer } from "@/adminPanel/reducers/filters/monthFilterReducer";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { useEffect, useReducer, useState } from "react";
 const options = {
   barPercentage: 0.4,

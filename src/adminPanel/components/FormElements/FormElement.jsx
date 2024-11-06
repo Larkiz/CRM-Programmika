@@ -1,12 +1,18 @@
-import { Checkbox, FormControl, FormControlLabel, styled } from "@mui/material";
-import React from "react";
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const LabelText = styled(({ children, required = false }) => {
   return (
-    <p>
+    <Typography>
       {children}
       {required ? " *" : ""}
-    </p>
+    </Typography>
   );
 })`
   font-family: "IBM Plex Sans", sans-serif;
@@ -21,7 +27,6 @@ const LabelText = styled(({ children, required = false }) => {
 export const FormElement = ({
   onChange,
   register,
-
   children,
   type = "text",
   value,
@@ -29,6 +34,7 @@ export const FormElement = ({
   required,
   sx,
   inputStyle,
+  floatLabel = false,
 }) => {
   if (type === "checkbox") {
     return (
@@ -43,15 +49,17 @@ export const FormElement = ({
 
   return (
     <FormControl sx={{ ...sx }}>
-      {label && <LabelText required={required}>{children}</LabelText>}
-      <input
+      {label && !floatLabel && (
+        <LabelText required={required}>{children}</LabelText>
+      )}
+      <TextField
         type={type}
-        className="form-control"
         value={value}
         style={{ ...inputStyle }}
         onChange={onChange ? onChange : null}
         {...register}
-        placeholder={children}
+        placeholder={!floatLabel ? children : null}
+        label={floatLabel ? children : null}
       />
     </FormControl>
   );

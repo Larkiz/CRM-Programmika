@@ -10,12 +10,12 @@ export const CoursePicker = ({
 }) => {
   return (
     <FormControl sx={{ ...sx, maxWidth: "100%" }}>
-      <InputLabel id="age">Курс</InputLabel>
+      <InputLabel id="course">Курс</InputLabel>
       <Select
         label="Курс"
         multiple={multiple}
         id="course"
-        defaultValue={[]}
+        value={value}
         sx={{ minWidth: 147, maxWidth: "100%" }}
         onChange={onChange ? onChange : null}
         renderValue={(value) => {

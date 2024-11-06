@@ -1,5 +1,5 @@
-import { UserIndex } from "userPanel/views/Index/Index";
-import { Schedule } from "userPanel/views/schedule/Schedule";
+import { UserIndex } from "@/userPanel/views/Index/Index";
+import { Schedule } from "@/userPanel/views/schedule/Schedule";
 
 const userRoutes = [
   {

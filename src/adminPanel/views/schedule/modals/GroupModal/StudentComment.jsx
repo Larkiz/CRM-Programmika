@@ -5,10 +5,9 @@ import {
   Collapse,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
-import { CardTitle } from "commonComponents/Card/Card";
-import { CardBody } from "commonComponents/Card/Card";
+
+import { CardBody } from "@/commonComponents/Card/Card";
 import { TransitionGroup } from "react-transition-group";
 
 export const StudentComment = ({

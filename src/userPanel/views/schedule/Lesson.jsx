@@ -24,7 +24,7 @@ export const Lesson = ({ data, onClick }) => {
   });
 
   return (
-    <TableRow sx={{ cursor: "pointer" }} onClick={onClick} key={data.id}>
+    <TableRow hover sx={{ cursor: "pointer" }} onClick={onClick} key={data.id}>
       <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }}>
         {lessonData.course}
       </TableCell>

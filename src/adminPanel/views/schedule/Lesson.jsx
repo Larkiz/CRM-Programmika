@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow, useMediaQuery, useTheme } from "@mui/material";
 import { toast } from "react-toastify";
 
 function addTime(inputTime) {
@@ -17,7 +17,10 @@ function addTime(inputTime) {
 function lessonTime(time) {
   return time + " - " + addTime(time);
 }
+
 export const Lesson = ({ deleteSchedule, data, onClick }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xsm"));
   return (
     <TableRow
       hover
@@ -26,7 +29,7 @@ export const Lesson = ({ deleteSchedule, data, onClick }) => {
       key={data.id}
     >
       <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }}>
-        {data.course.length > 15 ? data.shortCourse : data.course}
+        {data.course.length > 15 || isMobile ? data.shortCourse : data.course}
       </TableCell>
       <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }} colSpan={2}>
         {lessonTime(data.time)}

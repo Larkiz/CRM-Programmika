@@ -1,11 +1,11 @@
-import { AdminIndex } from "adminPanel/views/Index/Index";
-import { Schedule } from "adminPanel/views/Schedule/Schedule";
+import { AdminIndex } from "@/adminPanel/views/Index/Index";
+import { Schedule } from "@/adminPanel/views/Schedule/Schedule";
 
-import { GroupsContextProvider } from "adminPanel/Context/GroupsContext";
-import { StudentsTable } from "adminPanel/views/Tables/Students/StudentsTable";
-import { Debts } from "adminPanel/views/Debts/Debts";
-import { Finance } from "adminPanel/views/Finance/Finance";
-import { Statistics } from "adminPanel/views/Statistics/Statistics";
+import { StudentsTable } from "@/adminPanel/views/Tables/Students/StudentsTable";
+import { Debts } from "@/adminPanel/views/Debts/Debts";
+import { Finance } from "@/adminPanel/views/Finance/Finance";
+import { Statistics } from "@/adminPanel/views/Statistics/Statistics";
+import { GroupsContextProvider } from "@/adminPanel/Context/GroupsContextProvider";
 
 const adminRoutes = [
   {

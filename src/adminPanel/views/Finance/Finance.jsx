@@ -1,19 +1,20 @@
 import { FinanceCard } from "./FInanceCard";
-import { FormElement } from "adminPanel/components/FormElements/FormElement";
+import { FormElement } from "@/adminPanel/components/FormElements/FormElement";
 import { useForm } from "react-hook-form";
 import { useEffect, useReducer, useState } from "react";
-import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
-import { numberIsNegative } from "functions/numberIsNegatibe";
+import { monthFilterReducer } from "@/adminPanel/reducers/filters/monthFilterReducer";
+import { numberIsNegative } from "@/functions/numberIsNegatibe";
 import { OperationCell } from "./OperationCell";
 import { toast } from "react-toastify";
-import { authFetch } from "../Index/functions/authFetch";
-import { MonthController } from "commonComponents/MonthController/MonthController";
+import { authFetch } from "@/adminPanel/functions/authFetch";
+import { MonthController } from "@/commonComponents/MonthController/MonthController";
 import {
   Box,
   Button,
   Container,
   Stack,
   Table,
+  TableCell,
   TableHead,
   TableRow,
 } from "@mui/material";
@@ -33,8 +34,6 @@ export const Finance = () => {
     authFetch(`/finance?month=${filterDate.month}&year=${filterDate.year}`)
       .then((res) => res.json())
       .then((data) => setFinances(data));
-
-    // eslint-disable-next-line
   }, [filterDate]);
 
   function deleteRow() {
@@ -77,10 +76,10 @@ export const Finance = () => {
   }
   const cardBorder = { border: "1px solid rgba(0, 0, 0, .125)" };
   return (
-    <Container maxWidth="sx">
+    <Container sx={{ mt: 3 }} maxWidth={false}>
       <Stack sx={{ flexDirection: { xs: "column", sm: "row" } }} gap={2}>
         <Stack>
-          <Stack spacing={2} direction={"row"}>
+          <Stack sx={{ mb: 3 }} spacing={2} direction={"row"}>
             <FinanceCard sx={cardBorder} value={finances.income}>
               Доход
             </FinanceCard>
@@ -141,15 +140,16 @@ export const Finance = () => {
           >
             <TableHead>
               <TableRow>
-                <th
-                  style={{
+                <TableCell
+                  sx={{
                     backgroundColor: "#fff",
                     color: "rgb(58, 130, 214)",
                     fontSize: 20,
+                    pl: 0,
                   }}
                 >
                   Операции
-                </th>
+                </TableCell>
               </TableRow>
             </TableHead>
             <tbody>

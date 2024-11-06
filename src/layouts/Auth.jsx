@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import authRoutes from "routes/authRoutes";
+import authRoutes from "@/routes/authRoutes";
 
 export const AuthLayout = () => {
   useEffect(() => {

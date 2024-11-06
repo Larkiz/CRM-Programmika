@@ -1,4 +1,4 @@
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 
 export function paymentHandle(dispatch, { id, payment_status }) {
   let path = `/payments/payment_history`;

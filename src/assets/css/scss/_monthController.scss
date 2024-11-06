@@ -1,3 +1,5 @@
+@use "animations";
+
 .fixed-bottom-custom {
   position: fixed;
   bottom: 0;
@@ -30,7 +32,7 @@
     font-size: 30px;
     padding: 15px;
     &:hover {
-      animation: $rotateButtonAnim;
+      animation: animations.$rotateButtonAnim;
       background-color: #1e62af;
     }
   }

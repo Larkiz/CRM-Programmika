@@ -1,3 +1,5 @@
+@use "../animations";
+
 .button-control-cont {
   display: flex;
   gap: 10px;
@@ -13,8 +15,35 @@
     }
     &:hover {
       // @include rotateButtonAnim();
-      animation: $rotateButtonAnim;
+      animation: animations.$rotateButtonAnim;
       background-color: #c9c9c9;
     }
   }
+}
+
+// FilterTypeSelector
+.mask-box {
+  border-radius: 20px;
+  position: relative;
+  background-color: #fff;
+  box-shadow: 1px 1px 2px rgb(165, 165, 165) inset;
+}
+.mask-box .mask {
+  width: 160px;
+  height: 50px;
+  border-radius: 20px;
+  background-color: #1976d2;
+  position: absolute;
+
+  transition: all 0.5s ease;
+}
+.mask-box .MuiButton-root {
+  border-radius: 20px;
+  width: 160px;
+  height: 50px;
+  font-weight: bold;
+  transition: all 0.2s 0.1s ease;
+}
+.mask-box .MuiButton-root:hover {
+  opacity: 0.8;
 }

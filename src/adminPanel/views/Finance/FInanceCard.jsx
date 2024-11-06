@@ -1,8 +1,8 @@
 import { Card, Typography } from "@mui/material";
-import { CardTitle } from "commonComponents/Card/Card";
+import { CardTitle } from "@/commonComponents/Card/Card";
 
-import { numberIsNegative } from "functions/numberIsNegatibe";
-import { numberWithDots } from "functions/numberWithDots";
+import { numberIsNegative } from "@/functions/numberIsNegatibe";
+import { numberWithDots } from "@/functions/numberWithDots";
 
 export const FinanceCard = ({ children, type, value, sx }) => {
   const icon =
@@ -12,8 +12,9 @@ export const FinanceCard = ({ children, type, value, sx }) => {
 
   return (
     <Card
-      sx={{ ...sx }}
-      className="shadow p-3 mb-5 bg-white rounded text-center finance-card"
+      sx={{ p: 3, mb: 5, textAlign: "center", ...sx }}
+      elevation={2}
+      className="finance-card"
     >
       <CardTitle noBorder>
         <i

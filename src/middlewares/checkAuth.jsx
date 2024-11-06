@@ -1,5 +1,5 @@
-import { AdminLayout } from "layouts/Admin";
-import { UserLayout } from "layouts/User";
+import { AdminLayout } from "@/layouts/Admin";
+import { UserLayout } from "@/layouts/User";
 import { Navigate } from "react-router-dom";
 
 export const CheckAuth = ({ children }) => {

@@ -1,8 +1,8 @@
 import { Dialog, ListSubheader } from "@mui/material";
 
 import { Debt } from "./Debt";
-import { ModalBody } from "commonComponents/Modal/ModalTemplate";
-import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
+import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
+import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
 
 export const DebtModal = ({ handleClose, open, data, paymentDispatch }) => {
   return (
@@ -14,7 +14,7 @@ export const DebtModal = ({ handleClose, open, data, paymentDispatch }) => {
           </>
         )}
       </ModalTitle>
-      <ModalBody sx={{ width: "100%", padding: "24px 5px" }}>
+      <ModalBody sx={{ width: "auto", padding: "24px 5px" }}>
         {data !== null &&
           data.debts.map((debt, key) => {
             return (

@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 
 import { Dialog, Paper, Stack, Typography } from "@mui/material";
-import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
-import { PaymentStatus } from "adminPanel/components/StatusButtonsPayments/PaymentControl";
-import { ModalBody } from "commonComponents/Modal/ModalTemplate";
-import { CardTitle } from "commonComponents/Card/Card";
+import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
+import { PaymentStatus } from "@/adminPanel/components/StatusButtonsPayments/PaymentControl";
+import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
+import { CardTitle } from "@/commonComponents/Card/Card";
+import { authFetch } from "@/userPanel/functions/authFetch";
 
 export const GroupModal = ({ handleClose, id, show }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     if (show) {
-      fetch(
-        `${process.env.REACT_APP_API_HOST_COMMON}/api/schedule/lesson/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        }
-      )
+      authFetch(`/schedule/lesson/${id}`)
         .then((res) => res.json())
         .then((data) => setData(data));
     }

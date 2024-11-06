@@ -13,11 +13,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import { NewNote } from "./NewNote";
 import { useEffect, useReducer, useState } from "react";
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { notesReducer } from "./notesReducer";
 import { toast } from "react-toastify";
-import { CardTitle } from "commonComponents/Card/Card";
-import { CardBody } from "commonComponents/Card/Card";
+import { CardTitle } from "@/commonComponents/Card/Card";
+import { CardBody } from "@/commonComponents/Card/Card";
 import { TransitionGroup } from "react-transition-group";
 
 export const Notes = ({ sitePath }) => {
@@ -56,7 +56,7 @@ export const Notes = ({ sitePath }) => {
   }
 
   return (
-    <Box className="mb-3">
+    <Box sx={{ mb: 3 }}>
       <Stack spacing={2} alignItems={"center"} direction={"row"}>
         {notesShow && (
           <Button onClick={setNewPedingToggle} variant="contained">
@@ -75,9 +75,9 @@ export const Notes = ({ sitePath }) => {
             <Stack
               flexWrap={"wrap"}
               direction={"row"}
-              spacing={2}
+              spacing={1}
               useFlexGap
-              sx={{ margin: "15px 0px", maxWidth: 700 }}
+              sx={{ margin: "10px 0px", maxWidth: 700 }}
             >
               {newPending && (
                 <NewNote

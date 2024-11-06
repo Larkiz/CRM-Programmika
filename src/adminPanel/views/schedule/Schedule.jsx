@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from "react";
 
 import { Lesson } from "./Lesson";
@@ -8,11 +7,12 @@ import { compare, getMonth } from "./functions/dateFunctions";
 
 import { GroupModal } from "./modals/GroupModal/GroupModal";
 import { NewLessonModal } from "./modals/NewLessonModal/NewLesson";
-import { MonthController } from "commonComponents/MonthController/MonthController";
-import { useModalControl } from "commonComponents/Modal/useModal";
+import { MonthController } from "@/commonComponents/MonthController/MonthController";
+import { useModalControl } from "@/commonComponents/Modal/useModal";
 import {
   Button,
   Container,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -63,7 +63,7 @@ export const Schedule = () => {
   } = useModalControl();
 
   return (
-    <Container maxWidth={"sx"}>
+    <Container sx={{ mt: 3 }} maxWidth={false}>
       <GroupModal
         handleClose={lessonModalClose}
         show={lessonModalData.show}
@@ -80,60 +80,64 @@ export const Schedule = () => {
       {schedule &&
         schedule.map((scheduleItem) => {
           return (
-            <Table className="shadow mb-4" key={scheduleItem.id}>
-              <TableHead
-                ref={currentDate === scheduleItem.date ? currentDateRef : null}
-              >
-                <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    sx={{ fontSize: { xs: 16, sm: 18 }, color: "#fff" }}
-                  >
-                    {getMonth(scheduleItem.date)}
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {scheduleItem.schedule.length !== 0 ? (
-                  scheduleItem.schedule.sort(compare).map((item) => {
-                    return (
-                      <Lesson
-                        onClick={(course) =>
-                          handleLessonModalShow(
-                            course,
-                            scheduleItem.date + " " + item.time
-                          )
-                        }
-                        key={item.id}
-                        data={item}
-                        date={scheduleItem.date}
-                        deleteSchedule={() =>
-                          deleteSchedule(scheduleItem.date, item.id)
-                        }
-                      />
-                    );
-                  })
-                ) : (
-                  <TableRow key={scheduleItem.id}>
-                    <TableCell colSpan={3} style={{ fontSize: 16 }}>
-                      Нет расписания
+            <Paper elevation={6} key={scheduleItem.id}>
+              <Table sx={{ mb: 4 }}>
+                <TableHead
+                  ref={
+                    currentDate === scheduleItem.date ? currentDateRef : null
+                  }
+                >
+                  <TableRow>
+                    <TableCell
+                      colSpan={4}
+                      sx={{ fontSize: { xs: 16, sm: 18 }, color: "#fff" }}
+                    >
+                      {getMonth(scheduleItem.date)}
                     </TableCell>
                   </TableRow>
-                )}
-                <TableRow>
-                  <TableCell colSpan={3}>
-                    <Button
-                      variant="contained"
-                      onClick={() =>
-                        newLessonModalOpen({ date: scheduleItem.date })
-                      }
-                    >
-                      Добавить
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {scheduleItem.schedule.length !== 0 ? (
+                    scheduleItem.schedule.sort(compare).map((item) => {
+                      return (
+                        <Lesson
+                          onClick={(course) =>
+                            handleLessonModalShow(
+                              course,
+                              scheduleItem.date + " " + item.time
+                            )
+                          }
+                          key={item.id}
+                          data={item}
+                          date={scheduleItem.date}
+                          deleteSchedule={() =>
+                            deleteSchedule(scheduleItem.date, item.id)
+                          }
+                        />
+                      );
+                    })
+                  ) : (
+                    <TableRow key={scheduleItem.id}>
+                      <TableCell colSpan={3} style={{ fontSize: 16 }}>
+                        Нет расписания
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          newLessonModalOpen({ date: scheduleItem.date })
+                        }
+                      >
+                        Добавить
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Paper>
           );
         })}
       <MonthController

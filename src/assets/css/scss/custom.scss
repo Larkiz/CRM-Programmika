@@ -1,23 +1,28 @@
 // admin
-@import "./animations";
-@import "./colors";
-@import "./paymentStatuses";
+@use "animations";
+@use "colors";
+@use "paymentStatuses";
 
-@import "./monthController";
+@use "monthController";
 
-@import "./inputs/buttons";
-@import "./inputs/input";
+@use "inputs/buttons";
+@use "inputs/input";
 
-@import "./modals/newLesson";
-@import "./modals/lesson";
-@import "./authorization/auth";
-@import "./table";
-@import "./views/debts";
+@use "modals/newLesson";
+@use "modals/lesson";
+@use "authorization/auth";
+@use "table";
+@use "views/debts";
 
-@import "./sidebar";
+@use "sidebar";
 
 // user
-@import "./userProfile/index";
+@use "userProfile/index";
+
+* {
+  margin: 0;
+  padding: 0;
+}
 
 .center-text {
   text-align: center;

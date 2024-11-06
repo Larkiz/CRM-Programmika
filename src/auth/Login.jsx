@@ -14,10 +14,11 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import logo from "assets/img/brand/logo.png";
+import logo from "@/assets/img/brand/logo.png";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { useState } from "react";
-const Login = () => {
+import { authFetch } from "@/userPanel/functions/authFetch";
+export const Login = () => {
   const {
     handleSubmit,
     control,
@@ -27,9 +28,9 @@ const Login = () => {
   let navigate = useNavigate();
 
   function auth(data) {
-    fetch(`${process.env.REACT_APP_API_HOST_COMMON}/auth/login`, {
+    authFetch(`/login`, {
       method: "post",
-      headers: { "Content-type": "application/json" },
+
       body: JSON.stringify({
         login: data.login,
         password: data.password,
@@ -65,9 +66,9 @@ const Login = () => {
   };
   return (
     <Paper sx={{ maxWidth: 350, margin: "auto" }} elevation={3}>
-      <Box sx={{ p: 3, width: 350 }}>
+      <Box sx={{ p: 3 }}>
         <Stack spacing={2}>
-          <img className="navbar-brand-img" src={logo} alt="logo" />
+          <img src={logo} alt="logo" />
           <Controller
             name="login"
             control={control}
@@ -149,21 +150,17 @@ const Login = () => {
             )}
           />
 
-          <div className="text-center">
-            <Button
-              onClick={handleSubmit((data) => {
-                auth(data);
-              })}
-              className="my-4"
-              variant="contained"
-            >
-              Войти
-            </Button>
-          </div>
+          <Button
+            onClick={handleSubmit((data) => {
+              auth(data);
+            })}
+            className="my-4"
+            variant="contained"
+          >
+            Войти
+          </Button>
         </Stack>
       </Box>
     </Paper>
   );
 };
-
-export default Login;

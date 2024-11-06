@@ -1,7 +1,7 @@
-import { Button, Container, Stack } from "@mui/material";
-import { CoursePicker } from "adminPanel/components/FormElements/CoursePicker";
-import { FormElement } from "adminPanel/components/FormElements/FormElement";
-import { GroupsContext } from "adminPanel/Context/GroupsContext";
+import { Button, Container } from "@mui/material";
+import { CoursePicker } from "@/adminPanel/components/FormElements/CoursePicker";
+import { FormElement } from "@/adminPanel/components/FormElements/FormElement";
+import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Grid from "@mui/material/Grid2";

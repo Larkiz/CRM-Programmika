@@ -1,4 +1,5 @@
-import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
+import { monthFilterReducer } from "@/adminPanel/reducers/filters/monthFilterReducer";
+import { authFetch } from "@/userPanel/functions/authFetch";
 import { useEffect, useReducer, useState } from "react";
 
 export const useScheduleFetch = () => {
@@ -9,12 +10,7 @@ export const useScheduleFetch = () => {
   });
 
   useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_API_HOST_COMMON}/api/schedule?year=${filterDate.year}&month=${filterDate.month}`,
-      {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-      }
-    )
+    authFetch(`/schedule?year=${filterDate.year}&month=${filterDate.month}`)
       .then((res) => res.json())
       .then((data) => {
         setSchedule(data);

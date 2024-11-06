@@ -1,3 +1,5 @@
+import { CourseEdit } from "@/adminPanel/views/Tables/Students/CourseEdit/CourseEdit";
+
 export const defaultColDef = {
   floatingFilter: true,
   filter: "agTextColumnFilter",
@@ -8,7 +10,12 @@ export const colDef = [
   { field: "id", filter: true, editable: false },
   { field: "first_name", headerName: "Имя" },
   { field: "last_name", headerName: "Фамилия" },
-  { field: "course", filter: "agSetColumnFilter", headerName: "Курс" },
+  {
+    field: "course",
+    filter: "agSetColumnFilter",
+    headerName: "Курс",
+    cellEditor: CourseEdit,
+  },
   { field: "city", headerName: "Город" },
   {
     field: "birthday",

@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 export function PaymentButtons({ paymentStatus, onClick, sx }) {
   if (paymentStatus === 0) {
@@ -34,32 +34,35 @@ export function PaymentStatus({ status, sx }) {
   const style = { textAlign: "center", marginLeft: 0 };
   if (status === 0) {
     return (
-      <Box
+      <Typography
         sx={{ fontSize: 13, ...style, ...sx }}
         className="payment-status payment-status-false"
+        variant="body2"
       >
         Не оплачено
-      </Box>
+      </Typography>
     );
   }
   if (status === 1) {
     return (
-      <Box
+      <Typography
         sx={{ fontSize: 13, ...style, ...sx }}
         className="payment-status payment-status-true"
+        variant="body2"
       >
         Оплачено
-      </Box>
+      </Typography>
     );
   }
   if (status === -1 || status === null) {
     return (
-      <Box
-        sx={{ ...style, ...sx }}
+      <Typography
+        sx={{ fontSize: 13, ...style, ...sx }}
         className="payment-status payment-status-null"
+        variant="body2"
       >
         Не пришел
-      </Box>
+      </Typography>
     );
   }
 }

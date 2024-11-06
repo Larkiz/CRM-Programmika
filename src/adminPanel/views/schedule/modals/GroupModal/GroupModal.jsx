@@ -1,15 +1,15 @@
 import { useEffect, useReducer, useState } from "react";
 
-import { paymentReducer } from "adminPanel/reducers/finance/paymentReducer";
+import { paymentReducer } from "@/adminPanel/reducers/finance/paymentReducer";
 
 import { ModalStudent } from "./ModalStudent";
 import { toast } from "react-toastify";
 import { AddStudentsModal } from "./AddStudentsModal";
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { Button, Dialog, Stack } from "@mui/material";
-import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
-import { ModalBody } from "commonComponents/Modal/ModalTemplate";
-import { useModalControl } from "commonComponents/Modal/useModal";
+import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
+import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
+import { useModalControl } from "@/commonComponents/Modal/useModal";
 
 export const GroupModal = ({ handleClose, show, course, date }) => {
   const [students, paymentDispatch] = useReducer(paymentReducer, null);

@@ -1,8 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-import { CheckAuth } from "Middlewares/checkAuth";
 
 import { ToastContainer } from "react-toastify";
 
@@ -12,11 +9,9 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import "react-toastify/dist/ReactToastify.css";
 
-import "moment/locale/ru";
+import "moment/dist/locale/ru";
 import "./assets/css/scss/custom.scss";
 
 import "@fontsource/roboto/300.css";
@@ -24,10 +19,10 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-import { AuthLayout } from "layouts/Auth";
 import { createTheme, ThemeProvider } from "@mui/material";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+import { AuthLayout } from "@/layouts/Auth";
+import { CheckAuth } from "@/middlewares/checkAuth";
 
 const theme = createTheme({
   breakpoints: {
@@ -42,11 +37,12 @@ const theme = createTheme({
   },
 });
 
-root.render(
+createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Routes>
         <Route path="/auth/*" element={<AuthLayout />} />
+
         <Route path="/*" element={<CheckAuth />} />
       </Routes>
     </BrowserRouter>

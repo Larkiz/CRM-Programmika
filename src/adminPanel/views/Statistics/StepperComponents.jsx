@@ -1,16 +1,20 @@
-const { default: styled } = require("@emotion/styled");
-const { stepConnectorClasses, StepConnector, Box } = require("@mui/material");
+import {
+  StepConnector,
+  stepConnectorClasses,
+  styled,
+  Typography,
+} from "@mui/material";
 
 export const MonthStepIcon = (props) => {
-  const { completed, children } = props;
+  const { completed, label } = props;
 
   return (
-    <Box
+    <Typography
       sx={{
         backgroundColor: completed ? "#3a82d6" : "#dbdbdb",
         color: "#fff",
-        width: 100,
-        height: 100,
+        width: 20,
+        height: 20,
         padding: 5,
         fontSize: 15,
         display: "flex",
@@ -20,8 +24,8 @@ export const MonthStepIcon = (props) => {
         fontWeight: 500,
       }}
     >
-      {children}
-    </Box>
+      {label}
+    </Typography>
   );
 };
 

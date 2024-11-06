@@ -1,4 +1,4 @@
-import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
+import { monthFilterReducer } from "@/adminPanel/reducers/filters/monthFilterReducer";
 import { useReducer } from "react";
 
 export const useMonthControl = () => {

@@ -8,11 +8,11 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { toast } from "react-toastify";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { CardTitle } from "commonComponents/Card/Card";
-import { CardBody } from "commonComponents/Card/Card";
+import { CardTitle } from "@/commonComponents/Card/Card";
+import { CardBody } from "@/commonComponents/Card/Card";
 export const NewNote = ({ sitePath, onAdd }) => {
   const [newNote, setNewNote] = useState({
     title: null,

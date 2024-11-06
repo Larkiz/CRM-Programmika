@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { useEffect, useState } from "react";
 
 export const useFetchTable = (tableName) => {

@@ -6,9 +6,13 @@ import "ag-grid-enterprise";
 import { toast } from "react-toastify";
 
 import { NewStudent } from "./NewStudent";
-import { colDef, defaultColDef } from "./tableOptions";
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
+
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { Button, Container, Stack, Typography } from "@mui/material";
+import {
+  colDef,
+  defaultColDef,
+} from "@/adminPanel/views/Tables/Students/tableOptions";
 
 export const StudentsTable = () => {
   const [tableData, addNew, deleteRow] = useFetchTable("students");
@@ -44,7 +48,7 @@ export const StudentsTable = () => {
   }
 
   return (
-    <Container maxWidth="sx">
+    <Container sx={{ mt: 3 }} maxWidth={false}>
       <Typography className="mb-4" variant="h4">
         Студенты
       </Typography>

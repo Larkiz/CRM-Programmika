@@ -2,17 +2,17 @@ import { useEffect, useReducer, useState } from "react";
 
 import { FormElement } from "../../components/FormElements/FormElement";
 
-import { debtsReducer } from "adminPanel/reducers/finance/debtsReducer";
+import { debtsReducer } from "@/adminPanel/reducers/finance/debtsReducer";
 import { Earnings } from "./Earnings/Earnings";
 import { useChartData } from "./hooks/useChartData";
-import { authFetch } from "../Index/functions/authFetch";
-import { MonthController } from "commonComponents/MonthController/MonthController";
+import { authFetch } from "@/adminPanel/functions/authFetch";
+import { MonthController } from "@/commonComponents/MonthController/MonthController";
 import { DebtModal } from "./DebtModal/DebtModal";
 import { Button, Card, Container, Typography } from "@mui/material";
-import { useModalControl } from "commonComponents/Modal/useModal";
-import { Notes } from "adminPanel/components/Notes/Notes";
-import { CardTitle } from "commonComponents/Card/Card";
-import { CardBody } from "commonComponents/Card/Card";
+import { useModalControl } from "@/commonComponents/Modal/useModal";
+import { Notes } from "@/adminPanel/components/Notes/Notes";
+import { CardTitle } from "@/commonComponents/Card/Card";
+import { CardBody } from "@/commonComponents/Card/Card";
 
 function debtFilter(i, filters) {
   const name = new RegExp(filters.name, "i");
@@ -57,7 +57,7 @@ export const Debts = () => {
     dispatchMonthFilter,
   ] = useChartData();
   return (
-    <Container maxWidth="sx">
+    <Container sx={{ mt: 3 }} maxWidth={false}>
       <DebtModal
         open={modalData.show}
         data={modalData.data}
@@ -82,7 +82,6 @@ export const Debts = () => {
         onChange={(e) => {
           setFilters({ ...filters, name: e.target.value });
         }}
-        id={"name"}
       >
         Имя
       </FormElement>
@@ -116,7 +115,7 @@ export const Debts = () => {
             return false;
           })}
       </div>
-      <Typography className="mb-2" variant="h5">
+      <Typography sx={{ mb: 2 }} variant="h5">
         Заметки
       </Typography>
       <Notes sitePath="debts" />

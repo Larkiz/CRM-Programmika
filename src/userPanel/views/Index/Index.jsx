@@ -10,16 +10,12 @@ import { useEffect, useState } from "react";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { authFetch } from "@/userPanel/functions/authFetch";
 
 export const UserIndex = () => {
   const [profile, setProfile] = useState(null);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_HOST_COMMON}/api/account`, {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-      },
-    })
+    authFetch(`/account`)
       .then((res) => res.json())
       .then((data) => setProfile(data));
   }, []);

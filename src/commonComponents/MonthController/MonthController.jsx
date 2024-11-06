@@ -1,4 +1,5 @@
-import { ucFirst } from "functions/uppercaseFirst";
+import { ucFirst } from "@/functions/uppercaseFirst";
+import { Typography } from "@mui/material";
 import moment from "moment";
 import { useRef } from "react";
 
@@ -24,18 +25,22 @@ export const MonthController = ({
     >
       <button
         className="ni ni-bold-left"
+        style={{ cursor: "pointer" }}
         onClick={() => dispatch(disptachNamePrev)}
       ></button>
-      {onlyYear
-        ? filterDate.year
-        : ucFirst(
-            moment(`${filterDate.year}.${filterDate.month}`, "YYYY.MM").format(
-              "MMMM"
-            )
-          )}
-
+      <Typography sx={{ fontSize: 23 }}>
+        {onlyYear
+          ? filterDate.year
+          : ucFirst(
+              moment(
+                `${filterDate.year}.${filterDate.month}`,
+                "YYYY.MM"
+              ).format("MMMM")
+            )}
+      </Typography>
       <button
         className="ni ni-bold-right"
+        style={{ cursor: "pointer" }}
         onClick={() => dispatch(dispatchNameNext)}
       ></button>
     </div>

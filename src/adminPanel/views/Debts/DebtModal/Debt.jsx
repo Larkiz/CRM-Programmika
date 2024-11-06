@@ -1,21 +1,21 @@
-import { paymentHandle } from "functions/paymentHandle";
-import { Card, Stack } from "@mui/material";
-import { PaymentButtons } from "adminPanel/components/StatusButtonsPayments/PaymentControl";
-import { PaymentStatus } from "adminPanel/components/StatusButtonsPayments/PaymentControl";
-import { CardBody } from "commonComponents/Card/Card";
+import { paymentHandle } from "@/functions/paymentHandle";
+import { Card, Stack, Typography } from "@mui/material";
+import { PaymentButtons } from "@/adminPanel/components/StatusButtonsPayments/PaymentControl";
+import { PaymentStatus } from "@/adminPanel/components/StatusButtonsPayments/PaymentControl";
+import { CardBody } from "@/commonComponents/Card/Card";
 
 export const Debt = ({ debt, paymentDispatch }) => {
   return (
     <Card>
       <CardBody sx={{ padding: 1 }}>
-        <div style={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 12 }}>
           <i
             className="fa-solid fa-calendar icon-blue"
             style={{ color: "#3860bc", marginRight: "5px" }}
           ></i>
           {debt.date}
-        </div>
-        <Stack direction={"row"} className="mt-2 mb-2">
+        </Typography>
+        <Stack direction={"row"} sx={{ mt: 1, mb: 1 }}>
           <PaymentStatus
             sx={{ fontSize: { xs: 11, sm: 15 } }}
             status={debt.payment_status}

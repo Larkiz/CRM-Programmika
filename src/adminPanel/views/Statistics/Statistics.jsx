@@ -10,13 +10,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useEffect, useReducer, useState } from "react";
-import { authFetch } from "../Index/functions/authFetch";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import moment from "moment";
-import { ucFirst } from "functions/uppercaseFirst";
-import { numberIsNegative } from "functions/numberIsNegatibe";
-import { MonthController } from "commonComponents/MonthController/MonthController";
-import { monthFilterReducer } from "adminPanel/reducers/filters/monthFilterReducer";
-import { numberWithDots } from "functions/numberWithDots";
+import { ucFirst } from "@/functions/uppercaseFirst";
+import { numberIsNegative } from "@/functions/numberIsNegatibe";
+import { MonthController } from "@/commonComponents/MonthController/MonthController";
+import { monthFilterReducer } from "@/adminPanel/reducers/filters/monthFilterReducer";
+import { numberWithDots } from "@/functions/numberWithDots";
 import { ColorlibConnector, MonthStepIcon } from "./StepperComponents";
 
 import ClassIcon from "@mui/icons-material/Class";
@@ -25,8 +25,9 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import TourIcon from "@mui/icons-material/Tour";
 import { DataGrid } from "@mui/x-data-grid";
 import { filterData, studentsColumns } from "../Index/StudentsStats/options";
-import { GroupsContext } from "adminPanel/Context/GroupsContext";
-import { CoursePicker } from "adminPanel/components/FormElements/CoursePicker";
+import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
+import { CoursePicker } from "@/adminPanel/components/FormElements/CoursePicker";
+import { FilterTypeSelector } from "@/adminPanel/views/Statistics/FilterTypeSelector";
 
 const StepperSx = {
   flexWrap: "wrap",
@@ -46,7 +47,7 @@ const ConnectorLabelSx = {
 const cardIconSx = {
   backgroundColor: "#3a82d6",
   color: "#fff",
-  fontSize: { xs: 50, sm: 70 },
+  fontSize: { xs: 35, sm: 70 },
   p: 1,
   m: 1,
   borderRadius: "0.5rem",
@@ -82,15 +83,23 @@ const StatCard = ({ children, value, icon, sx }) => {
 
 export const Statistics = () => {
   const [stats, setStats] = useState({ yearMonths: [] });
+
   const [filterDate, dispatchMonthFilter] = useReducer(monthFilterReducer, {
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
   });
+  const [onlyYear, setOnlyYear] = useState(true);
+
   const [activeStep, setActiveStep] = useState(
     stats.yearMonths.findLastIndex((month) => month !== 0)
   );
+
   useEffect(() => {
-    authFetch(`/finance/${filterDate.year}`)
+    let path = `${filterDate.year}`;
+    if (!onlyYear) {
+      path += `/${filterDate.month}`;
+    }
+    authFetch(`/finance/${path}`)
       .then((res) => res.json())
       .then((data) => {
         setStats({
@@ -104,68 +113,76 @@ export const Statistics = () => {
           data.yearMonths.findLastIndex((month) => month.amount !== 0) + 1
         );
       });
-  }, [filterDate]);
+  }, [filterDate, onlyYear]);
+
   const [filter, setFilter] = useState({ name: "", course: "" });
   const { coursesNames } = useContext(GroupsContext);
+
   return (
     <Container
-      sx={{ marginBottom: 1, paddingLeft: "5px!important" }}
+      sx={{ marginBottom: 1, paddingLeft: "5px!important", mt: 3 }}
       maxWidth={false}
     >
-      <Typography className="mb-5" variant="h4">
-        {filterDate.year} Год
-      </Typography>
-      <Stepper
-        sx={StepperSx}
-        connector={<ColorlibConnector />}
-        alternativeLabel
-        activeStep={activeStep}
-      >
-        {stats.yearMonths.length &&
-          stats.yearMonths.map((month, key) => {
-            const diff =
-              key !== 0 && month.amount - stats.yearMonths[key - 1].amount;
-            return (
-              <Step key={key}>
-                {key !== 0 && (
-                  <Typography
-                    sx={ConnectorLabelSx}
-                    align="center"
-                    className={
-                      numberIsNegative(diff) ? "red-text" : "green-text"
-                    }
+      <FilterTypeSelector
+        filterData={filterDate}
+        onChange={setOnlyYear}
+        onlyYear={onlyYear}
+        sx={{ mt: 3, mb: 5 }}
+      />
+      {onlyYear && (
+        <Stepper
+          sx={StepperSx}
+          connector={<ColorlibConnector />}
+          alternativeLabel
+          activeStep={activeStep}
+        >
+          {stats.yearMonths.length &&
+            stats.yearMonths.map((month, key) => {
+              const diff =
+                key !== 0 && month.amount - stats.yearMonths[key - 1].amount;
+              return (
+                <Step key={key}>
+                  {key !== 0 && (
+                    <Typography
+                      sx={ConnectorLabelSx}
+                      align="center"
+                      className={
+                        numberIsNegative(diff) ? "red-text" : "green-text"
+                      }
+                    >
+                      {month.amount !== 0 && (
+                        <>
+                          {numberWithDots(diff)}
+                          <i className="fa-solid fa-ruble-sign"></i>
+                        </>
+                      )}
+                    </Typography>
+                  )}
+
+                  <StepLabel
+                    StepIconComponent={(props) => (
+                      <MonthStepIcon label={month.month} {...props} />
+                    )}
+                    sx={{
+                      ".MuiStepLabel-label": {
+                        color: "#000",
+                        fontWeight: 500,
+                      },
+                    }}
                   >
                     {month.amount !== 0 && (
                       <>
-                        {numberWithDots(diff)}
+                        {numberWithDots(month.amount)}
                         <i className="fa-solid fa-ruble-sign"></i>
                       </>
                     )}
-                  </Typography>
-                )}
+                  </StepLabel>
+                </Step>
+              );
+            })}
+        </Stepper>
+      )}
 
-                <StepLabel
-                  StepIconComponent={(props) => (
-                    <MonthStepIcon children={month.month} {...props} />
-                  )}
-                  sx={{
-                    ".MuiStepLabel-label": {
-                      color: "#000",
-                      fontWeight: 500,
-                    },
-                  }}
-                >
-                  {month.amount !== 0 && (
-                    <>
-                      {numberWithDots(month.amount)}
-                      <i className="fa-solid fa-ruble-sign"></i>
-                    </>
-                  )}
-                </StepLabel>
-              </Step>
-            );
-          })}
-      </Stepper>
       <Stack sx={{ marginTop: 5 }} spacing={3}>
         <Stack sx={{ width: "100%" }} spacing={3} direction={"row"}>
           <StatCard
@@ -211,8 +228,8 @@ export const Statistics = () => {
       <Box sx={{ pt: 3 }}>
         <Stack
           className="mb-3"
+          sx={{ marginTop: 3, gap: 2, margin: 0 }}
           direction={"row"}
-          style={{ gap: 20, margin: 0 }}
         >
           <TextField
             id="outlined-number"
@@ -238,8 +255,7 @@ export const Statistics = () => {
           )}
         </Stack>
         <DataGrid
-          className="mb-3"
-          sx={{ minHeight: 350, maxWidth: "100%", overflowX: "scroll" }}
+          sx={{ minHeight: 350, maxWidth: "100%", overflowX: "scroll", mt: 3 }}
           rows={filterData(stats.studentsStats, filter)}
           columns={studentsColumns}
           initialState={{
@@ -254,7 +270,7 @@ export const Statistics = () => {
         />
       </Box>
       <MonthController
-        onlyYear
+        onlyYear={onlyYear}
         fixedBottom
         filterDate={filterDate}
         dispatch={dispatchMonthFilter}

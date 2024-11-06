@@ -1,20 +1,15 @@
 import { ScheduleInput } from "./ScheduleInput";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { FormElement } from "adminPanel/components/FormElements/FormElement";
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
-import { Box, Button, Chip, Container, Dialog, Stack } from "@mui/material";
-import { ModalTitle } from "commonComponents/Modal/ModalTemplate";
-import { ModalBody } from "commonComponents/Modal/ModalTemplate";
-import Grid from "@mui/material/Grid2";
-import { GroupsContext } from "adminPanel/Context/GroupsContext";
-function studentFilter(student, filterName) {
-  const name = new RegExp(filterName, "i");
-  const fullName = student.first_name + " " + student.last_name;
+import { FormElement } from "@/adminPanel/components/FormElements/FormElement";
+import { authFetch } from "@/adminPanel/functions/authFetch";
+import { Box, Button, Chip, Dialog, Stack } from "@mui/material";
+import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
+import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
 
-  if (filterName === "" || (filterName !== "" && name.test(fullName)))
-    return true;
-}
+import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
+import { StudentsSelect } from "@/adminPanel/components/FormElements/StudentSelect";
+import { studentsFilter } from "@/adminPanel/functions/studentsFilter";
 
 export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
   const [data, setData] = useState({ time: null, course: null, students: [] });
@@ -95,12 +90,6 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
     }
   }, [data.course, filter.allStudents]);
 
-  function checkStudentOnAdd(student) {
-    return data.students.findIndex((i) => i.id === student.id) >= 0
-      ? true
-      : false;
-  }
-
   return (
     <Dialog fullWidth open={show} onClose={close}>
       <ModalTitle toggle={close}>Добавление урока на {date}</ModalTitle>
@@ -127,70 +116,26 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
             >
               Поиск студентов
             </FormElement>
-            <Grid rowGap={1} container>
+            <Stack gap={1} useFlexGap flexWrap={"wrap"} direction={"row"}>
               {data.students &&
                 data.students.map((student) => {
                   return (
-                    <Grid key={student.id} size={6}>
-                      <Chip
-                        label={student.first_name + " " + student.last_name}
-                        onClick={() => onDeleteChip(student)}
-                        onDelete={() => onDeleteChip(student)}
-                      />
-                    </Grid>
+                    <Chip
+                      key={student.id}
+                      sx={{ maxWidth: 180 }}
+                      label={student.first_name + " " + student.last_name}
+                      onClick={() => onDeleteChip(student)}
+                      onDelete={() => onDeleteChip(student)}
+                    />
                   );
                 })}
-            </Grid>
+            </Stack>
           </Stack>
-          <Container
-            className="mt-3 mb-3 border border-secondary rounded"
-            maxWidth="sm"
-          >
-            <Stack direction={"row"}>
-              <Box flexGrow={1}></Box>
-              <Box sx={{ flexBasis: 0 }} flexGrow={2}>
-                Имя
-              </Box>
-              <Box sx={{ flexBasis: 0 }} flexGrow={2}>
-                Фамилия
-              </Box>
-            </Stack>
-            <Stack
-              sx={{ height: { xs: 200, sm: 300 } }}
-              style={{ overflowY: "scroll" }}
-            >
-              {students.length ? (
-                students.map((student) => {
-                  if (studentFilter(student, filter.name)) {
-                    return (
-                      <label style={{ cursor: "pointer" }} key={student.id}>
-                        <Stack direction={"row"}>
-                          <Box flexGrow={1}>
-                            <input
-                              onChange={(e) => checkboxHandle(e, student)}
-                              style={{ fontSize: "30px" }}
-                              type="checkbox"
-                              checked={checkStudentOnAdd(student)}
-                            />
-                          </Box>
-                          <Box sx={{ flexBasis: 0 }} flexGrow={2}>
-                            {student.first_name}
-                          </Box>
-                          <Box sx={{ flexBasis: 0 }} flexGrow={2}>
-                            {student.last_name}
-                          </Box>
-                        </Stack>
-                      </label>
-                    );
-                  } else {
-                    return false;
-                  }
-                })
-              ) : (
-                <Box>Список студентов пуст</Box>
-              )}
-            </Stack>
-          </Container>
+          <StudentsSelect
+            students={studentsFilter(students, filter.name)}
+            value={data.students}
+            onChange={(e, student) => checkboxHandle(e, student)}
+          />
         </Box>
         <Button variant="contained" onClick={add}>
           Добавить

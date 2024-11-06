@@ -1,9 +1,9 @@
 import { Box, Container } from "@mui/material";
-import { Sidebar } from "commonComponents/Sidebar/Sidebar";
+import { Sidebar } from "@/commonComponents/Sidebar/Sidebar";
 
 import { useEffect, useRef } from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
-import userRoutes from "routes/userRoutes";
+import userRoutes from "@/routes/userRoutes";
 
 export const UserLayout = (props) => {
   const mainContent = useRef(null);

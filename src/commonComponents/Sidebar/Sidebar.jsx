@@ -7,15 +7,16 @@ import {
   ListItem,
   ListItemButton,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 
-import { exitAccount } from "functions/exitAccount";
+import { exitAccount } from "@/functions/exitAccount";
 
-import { HideOnScroll } from "commonComponents/HideOnScroll/HideOnScroll";
-import { LogoBrand } from "commonComponents/LogoBrand/LogoBrand";
+import { HideOnScroll } from "@/commonComponents/HideOnScroll/HideOnScroll";
+import { LogoBrand } from "@/commonComponents/LogoBrand/LogoBrand";
 
 export const Sidebar = ({ routes }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,16 +39,16 @@ export const Sidebar = ({ routes }) => {
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
       return (
-        <ListItem className="nav-link" key={key} disablePadding>
+        <ListItem className="nav-link" sx={{ p: 1 }} key={key} disablePadding>
           <ListItemButton
             component={NavLink}
             className="sidebar-link"
             to={prop.path}
             onClick={handleDrawerClose}
-            style={{ color: "#00000080", fontSize: 15 }}
+            sx={{ color: "#00000080", fontSize: 15 }}
           >
             <i className={prop.icon} />
-            {prop.name}
+            <Typography variant="body2">{prop.name}</Typography>
           </ListItemButton>
         </ListItem>
       );
@@ -78,7 +79,7 @@ export const Sidebar = ({ routes }) => {
               exitAccount(navigate("/auth"))
             }
           >
-            Выйти из аккаунта
+            <Typography variant="body2">Выйти из аккаунта</Typography>
           </ListItemButton>
         </ListItem>
       </List>

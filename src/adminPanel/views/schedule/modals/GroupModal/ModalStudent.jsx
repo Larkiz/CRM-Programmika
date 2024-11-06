@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { paymentHandle } from "functions/paymentHandle";
+import { paymentHandle } from "@/functions/paymentHandle";
 
-import { authFetch } from "adminPanel/views/Index/functions/authFetch";
-import { Button, Stack } from "@mui/material";
-import { PaymentStatus } from "adminPanel/components/StatusButtonsPayments/PaymentControl";
-import { PaymentButtons } from "adminPanel/components/StatusButtonsPayments/PaymentControl";
+import { authFetch } from "@/adminPanel/functions/authFetch";
+import { Button, Stack, Typography } from "@mui/material";
+import { PaymentStatus } from "@/adminPanel/components/StatusButtonsPayments/PaymentControl";
+import { PaymentButtons } from "@/adminPanel/components/StatusButtonsPayments/PaymentControl";
 import { StudentComment } from "./StudentComment";
 
 export const ModalStudent = ({
@@ -30,11 +30,16 @@ export const ModalStudent = ({
   }
 
   return (
-    <Stack marginBottom={3} gap={1}>
-      <Stack sx={{ "*": { fontSize: 14 } }} direction={"row"} gap={1}>
-        <div type={"name"}>
+    <Stack sx={{ p: 1 }} gap={1}>
+      <Stack
+        sx={{ "*": { fontSize: 13 } }}
+        alignItems={"center"}
+        direction={"row"}
+        gap={1}
+      >
+        <Typography>
           {student.first_name} {student.last_name}
-        </div>
+        </Typography>
         <PaymentStatus status={student.payment_status} />
 
         {!disableControls && student.payment_status !== -1 && (
@@ -50,7 +55,7 @@ export const ModalStudent = ({
       </Stack>
 
       {!disableControls && (
-        <Stack direction={"row"} gap={1} className="gap-5">
+        <Stack direction={"row"} gap={1}>
           <PaymentButtons
             paymentStatus={student.payment_status}
             onClick={(payment_status) =>

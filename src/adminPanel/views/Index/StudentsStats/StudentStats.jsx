@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 
-import { GroupsContext } from "adminPanel/Context/GroupsContext";
-import { CoursePicker } from "adminPanel/components/FormElements/CoursePicker";
-import { authFetch } from "../functions/authFetch";
+import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
+import { CoursePicker } from "@/adminPanel/components/FormElements/CoursePicker";
+import { authFetch } from "@/adminPanel/functions/authFetch";
 import { Stack, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { filterData, studentsColumns } from "./options";
@@ -26,10 +26,10 @@ export const StudentStats = ({ filterDate }) => {
 
   return (
     <>
-      <Stack className="mb-3" direction={"row"} style={{ gap: 20, margin: 0 }}>
+      <Stack sx={{ marginBottom: 3 }} direction={"row"} gap={1}>
         <TextField
           id="outlined-number"
-          label="Имя"
+          label="Поиск"
           type="text"
           onChange={(e) => setFilter({ ...filter, name: e.target.value })}
           slotProps={{
@@ -52,8 +52,7 @@ export const StudentStats = ({ filterDate }) => {
       </Stack>
 
       <DataGrid
-        className="mb-3"
-        sx={{ minHeight: 350, maxWidth: "100%", overflowX: "scroll" }}
+        sx={{ minHeight: 350, maxWidth: "100%", overflowX: "scroll", mb: 3 }}
         rows={filterData(tableData, filter)}
         columns={studentsColumns}
         initialState={{
