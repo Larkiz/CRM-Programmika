@@ -73,7 +73,7 @@ export const Sidebar = ({ routes }) => {
         >
           <ListItemButton
             className="exit-btn red-bg"
-            sx={{ justifyContent: "center" }}
+            sx={{ justifyContent: "center", mt: 4 }}
             onClick={() =>
               window.confirm("Вы хотите выйти из аккаунта?") &&
               exitAccount(navigate("/auth"))

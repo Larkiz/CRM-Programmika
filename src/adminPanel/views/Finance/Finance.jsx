@@ -17,6 +17,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 
 export const Finance = () => {
@@ -169,7 +170,9 @@ export const Finance = () => {
               ) : (
                 <tr>
                   <td>
-                    <h3 className="center-text">Операции не найдены</h3>
+                    <Typography className="center-text">
+                      Операции не найдены
+                    </Typography>
                   </td>
                 </tr>
               )}

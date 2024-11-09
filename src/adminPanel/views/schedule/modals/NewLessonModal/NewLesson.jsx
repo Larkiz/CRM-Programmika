@@ -122,7 +122,7 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
                   return (
                     <Chip
                       key={student.id}
-                      sx={{ maxWidth: 180 }}
+                      sx={{ maxWidth: { xs: 135, sx: 180 } }}
                       label={student.first_name + " " + student.last_name}
                       onClick={() => onDeleteChip(student)}
                       onDelete={() => onDeleteChip(student)}

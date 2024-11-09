@@ -1,7 +1,6 @@
 import {
   Box,
   Container,
-  Paper,
   Stack,
   Step,
   StepLabel,
@@ -28,11 +27,13 @@ import { filterData, studentsColumns } from "../Index/StudentsStats/options";
 import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
 import { CoursePicker } from "@/adminPanel/components/FormElements/CoursePicker";
 import { FilterTypeSelector } from "@/adminPanel/views/Statistics/FilterTypeSelector";
+import { StatCard } from "@/adminPanel/views/Statistics/StatCard";
 
 const StepperSx = {
   flexWrap: "wrap",
   gap: 5,
   p: 2,
+  pr: 0,
 };
 
 const ConnectorLabelSx = {
@@ -51,34 +52,6 @@ const cardIconSx = {
   p: 1,
   m: 1,
   borderRadius: "0.5rem",
-};
-
-const StatCard = ({ children, value, icon, sx }) => {
-  return (
-    <Paper sx={{ maxWidth: 340, width: "100%", ...sx }} elevation={3}>
-      <Stack
-        justifyContent={"space-between"}
-        alignItems={"center"}
-        direction={"row"}
-      >
-        {icon}
-
-        <Stack sx={{ p: 2 }}>
-          <Typography
-            sx={{ color: "#939393" }}
-            alignSelf={"end"}
-            variant="subtitle2"
-          >
-            {children}
-          </Typography>
-
-          <Typography alignSelf={"end"} variant="h4">
-            {value && value}
-          </Typography>
-        </Stack>
-      </Stack>
-    </Paper>
-  );
 };
 
 export const Statistics = () => {
@@ -152,6 +125,7 @@ export const Statistics = () => {
                     >
                       {month.amount !== 0 && (
                         <>
+                          {!numberIsNegative(diff) && "+"}
                           {numberWithDots(diff)}
                           <i className="fa-solid fa-ruble-sign"></i>
                         </>
@@ -183,19 +157,23 @@ export const Statistics = () => {
         </Stepper>
       )}
 
-      <Stack sx={{ marginTop: 5 }} spacing={3}>
-        <Stack sx={{ width: "100%" }} spacing={3} direction={"row"}>
+      <Stack sx={{ marginTop: 5, width: "100%" }} spacing={3}>
+        <Stack
+          spacing={1}
+          justifyContent={{ xs: "space-between", sm: "normal" }}
+          direction={"row"}
+        >
           <StatCard
             icon={<ClassIcon sx={{ ...cardIconSx }} />}
             value={stats.totalLessons}
-            sx={{ width: { xs: 170, sm: "100%" } }}
+            sx={{ width: 340 }}
           >
             Уроков
           </StatCard>
           <StatCard
             icon={<HourglassDisabledIcon sx={{ ...cardIconSx }} />}
             value={stats.totalOmissions || 0}
-            sx={{ width: { xs: 160, sm: "100%" } }}
+            sx={{ width: 340 }}
           >
             Пропуски
           </StatCard>
@@ -209,6 +187,7 @@ export const Statistics = () => {
           <StatCard
             icon={<TourIcon sx={cardIconSx} />}
             value={stats.totalVisited}
+            sx={{ width: { xs: "100%", lg: 340 } }}
           >
             Посещений
           </StatCard>
@@ -220,6 +199,7 @@ export const Statistics = () => {
                 <i className="fa-solid fa-ruble-sign"></i>
               </div>
             }
+            sx={{ width: { xs: "100%", lg: 340 } }}
           >
             Выручка
           </StatCard>

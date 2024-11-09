@@ -23,7 +23,7 @@ export const Debt = ({ debt, paymentDispatch }) => {
         </Stack>
         <Stack direction={"row"} gap={1}>
           <PaymentButtons
-            sx={{ fontSize: { xs: 10, sm: 13 } }}
+            sx={{ padding: "4px 5px", fontSize: { xs: 11, sm: 13 } }}
             onClick={(payment_status) =>
               paymentHandle(
                 () =>
