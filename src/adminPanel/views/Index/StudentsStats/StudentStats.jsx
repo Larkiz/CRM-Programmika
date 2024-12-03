@@ -12,7 +12,9 @@ export const StudentStats = ({ filterDate }) => {
 
   const [filter, setFilter] = useState({ name: "", course: "" });
 
-  const { coursesNames } = useContext(GroupsContext);
+  const {
+    groups: { coursesNames },
+  } = useContext(GroupsContext);
 
   useEffect(() => {
     authFetch(

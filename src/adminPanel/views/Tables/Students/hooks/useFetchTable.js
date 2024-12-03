@@ -1,5 +1,6 @@
 import { authFetch } from "@/adminPanel/functions/authFetch";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const useFetchTable = (tableName) => {
   const [tableData, setTableData] = useState(null);
@@ -23,6 +24,7 @@ export const useFetchTable = (tableName) => {
       .then((res) => res.json())
       .then((resJson) => {
         setTableData([...tableData, { id: resJson.insertedId, ...data }]);
+        toast.success("Студент добавлен");
       });
   }
 
@@ -36,6 +38,7 @@ export const useFetchTable = (tableName) => {
           setTableData(
             tableData.filter((student) => student.id !== resJson.deleted)
           );
+          toast.success("Студент удален");
         });
     }
   }

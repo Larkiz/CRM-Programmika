@@ -82,6 +82,7 @@ export const Debts = () => {
         onChange={(e) => {
           setFilters({ ...filters, name: e.target.value });
         }}
+        value={filters.name}
       >
         Имя
       </FormElement>

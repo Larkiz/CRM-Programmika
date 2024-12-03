@@ -24,6 +24,9 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { AuthLayout } from "@/layouts/Auth";
 import { CheckAuth } from "@/middlewares/checkAuth";
 
+import { GroupsContextProvider } from "@/adminPanel/Context/GroupsContextProvider";
+import { ClipboardSnackbar } from "@/adminPanel/components/SnackBar/ClipboardSnackbar";
+
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -39,24 +42,27 @@ const theme = createTheme({
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/auth/*" element={<AuthLayout />} />
+    <GroupsContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/auth/*" element={<AuthLayout />} />
 
-        <Route path="/*" element={<CheckAuth />} />
-      </Routes>
-    </BrowserRouter>
-    <ToastContainer
-      position={"top-right"}
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      pauseOnHover
-      draggable
-      theme={"colored"}
-    />
+          <Route path="/*" element={<CheckAuth />} />
+        </Routes>
+      </BrowserRouter>
+      <ClipboardSnackbar />
+      <ToastContainer
+        position={"top-right"}
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        draggable
+        theme={"colored"}
+      />{" "}
+    </GroupsContextProvider>
   </ThemeProvider>
 );

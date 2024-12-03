@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 const LabelText = styled(({ children, required = false }) => {
   return (
@@ -34,9 +35,11 @@ export const FormElement = ({
   required,
   sx,
   inputStyle,
+  error = false,
   floatLabel = false,
 }) => {
   if (type === "checkbox") {
+    value = value ? value : false;
     return (
       <FormControlLabel
         label={children}
@@ -45,22 +48,53 @@ export const FormElement = ({
         }
       />
     );
+  } else {
+    value = value ? value : "";
+    return (
+      <FormControl sx={{ ...sx }}>
+        {label && !floatLabel && (
+          <LabelText required={required}>{children}</LabelText>
+        )}
+        <TextField
+          type={type}
+          value={value}
+          error={error}
+          style={{ ...inputStyle }}
+          onChange={onChange ? onChange : null}
+          {...register}
+          placeholder={!floatLabel ? children : null}
+          label={floatLabel ? children : null}
+        />
+      </FormControl>
+    );
   }
+};
 
+export const ControlledFormElement = ({
+  control,
+  required = false,
+  name,
+  label,
+  asNumber = false,
+  error = false,
+}) => {
   return (
-    <FormControl sx={{ ...sx }}>
-      {label && !floatLabel && (
-        <LabelText required={required}>{children}</LabelText>
-      )}
-      <TextField
-        type={type}
-        value={value}
-        style={{ ...inputStyle }}
-        onChange={onChange ? onChange : null}
-        {...register}
-        placeholder={!floatLabel ? children : null}
-        label={floatLabel ? children : null}
-      />
-    </FormControl>
+    <Controller
+      name={name}
+      control={control}
+      rules={{ required: required }}
+      render={({ field: { onChange, value } }) => {
+        return (
+          <FormElement
+            value={value}
+            required={required}
+            error={error}
+            onChange={(e) => onChange(asNumber ? parseInt(e.target.value) : e)}
+          >
+            {label}
+          </FormElement>
+        );
+      }}
+    />
   );
 };

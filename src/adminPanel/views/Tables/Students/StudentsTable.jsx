@@ -22,6 +22,7 @@ export const StudentsTable = () => {
 
   function startEdit() {
     const row = gridRef.current.api.getSelectedNodes()[0];
+
     if (row) {
       gridRef.current.api.startEditingCell({
         rowIndex: row.rowIndex,
@@ -104,7 +105,7 @@ export const StudentsTable = () => {
           onRowEditingStopped={() => {
             setEditing(false);
           }}
-          onCellValueChanged={(data) => {
+          onRowValueChanged={(data) => {
             update(data.data);
           }}
           suppressCellFocus

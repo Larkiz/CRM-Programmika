@@ -5,62 +5,41 @@ import { StudentsTable } from "@/adminPanel/views/Tables/Students/StudentsTable"
 import { Debts } from "@/adminPanel/views/Debts/Debts";
 import { Finance } from "@/adminPanel/views/Finance/Finance";
 import { Statistics } from "@/adminPanel/views/Statistics/Statistics";
-import { GroupsContextProvider } from "@/adminPanel/Context/GroupsContextProvider";
 
 const adminRoutes = [
   {
     path: "/index",
     name: "Главная",
     icon: "ni ni-app icon-blue",
-    component: (
-      <GroupsContextProvider>
-        <AdminIndex />
-      </GroupsContextProvider>
-    ),
+    component: <AdminIndex />,
     layout: "/admin",
   },
   {
     path: "/schedule",
     name: "Расписание",
     icon: "ni ni-calendar-grid-58 icon-blue",
-    component: (
-      <GroupsContextProvider>
-        <Schedule />
-      </GroupsContextProvider>
-    ),
+    component: <Schedule />,
     layout: "/admin",
   },
   {
     path: "/debts",
     name: "Оплата",
     icon: "ni ni-credit-card icon-blue",
-    component: (
-      <GroupsContextProvider>
-        <Debts />
-      </GroupsContextProvider>
-    ),
+    component: <Debts />,
     layout: "/admin",
   },
   {
     path: "/students",
     name: "Студенты",
     icon: "fa-solid fa-graduation-cap icon-blue",
-    component: (
-      <GroupsContextProvider>
-        <StudentsTable />
-      </GroupsContextProvider>
-    ),
+    component: <StudentsTable />,
     layout: "/admin",
   },
   {
     path: "/statistics",
     name: "Статистика",
     icon: "fa-solid fa-chart-simple icon-blue",
-    component: (
-      <GroupsContextProvider>
-        <Statistics />
-      </GroupsContextProvider>
-    ),
+    component: <Statistics />,
     layout: "/admin",
   },
 
@@ -68,11 +47,7 @@ const adminRoutes = [
     path: "/finance",
     name: "Финансы",
     icon: "fa-solid fa-coins icon-blue",
-    component: (
-      <GroupsContextProvider>
-        <Finance />
-      </GroupsContextProvider>
-    ),
+    component: <Finance />,
     layout: "/admin",
   },
 ];

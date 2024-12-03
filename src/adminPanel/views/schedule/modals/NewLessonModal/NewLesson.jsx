@@ -16,7 +16,7 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState({ name: "", allStudents: false });
 
-  const courses = useContext(GroupsContext);
+  const { groups: courses, copiedLesson } = useContext(GroupsContext);
 
   function checkboxHandle(e, student) {
     if (e.target.checked) {
@@ -41,6 +41,10 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
     setFilter({ name: "", allStudents: false });
     setData({ time: null, course: null, students: [] });
     setStudents([]);
+  }
+
+  function pasteFromClipboard() {
+    setData(copiedLesson);
   }
 
   function add() {
@@ -97,12 +101,18 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
       <ModalBody>
         <Box>
           <Stack gap={1}>
-            <ScheduleInput data={data} handleChange={setData} />
+            <ScheduleInput
+              course={data?.course ? data?.course : ""}
+              data={data}
+              time={data?.time ? data?.time : ""}
+              handleChange={setData}
+            />
             <FormElement
               style={{ padding: 0, gap: 5 }}
               onChange={(e) => {
                 setFilter({ ...filter, allStudents: e.target.checked });
               }}
+              value={filter.allStudents}
               type="checkbox"
             >
               Включить всех студентов
@@ -137,9 +147,19 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
             onChange={(e, student) => checkboxHandle(e, student)}
           />
         </Box>
-        <Button variant="contained" onClick={add}>
-          Добавить
-        </Button>
+        <Stack direction={"row"} spacing={2}>
+          <Button sx={{ width: "100%" }} variant="contained" onClick={add}>
+            Добавить
+          </Button>
+          <Button
+            sx={{ width: "100%" }}
+            disabled={!copiedLesson}
+            variant="contained"
+            onClick={pasteFromClipboard}
+          >
+            Вставить
+          </Button>
+        </Stack>
       </ModalBody>
     </Dialog>
   );

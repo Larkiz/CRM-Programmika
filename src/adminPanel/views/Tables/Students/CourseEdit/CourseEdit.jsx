@@ -4,13 +4,18 @@ import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
 import { useContext } from "react";
 
 export const CourseEdit = ({ value, onValueChange }) => {
-  const courses = useContext(GroupsContext).coursesNames;
-  const defaultValue = value ? value.split(", ") : [];
+  const {
+    groups: { coursesNames },
+  } = useContext(GroupsContext);
+
+  const defaultValue = typeof value !== "string" ? value : value.split(", ");
+
   return (
     <CoursePicker
       multiple
-      value={defaultValue}
-      courses={courses}
+      // value={defaultValue}
+      value={defaultValue ? defaultValue : []}
+      courses={coursesNames}
       onChange={({ target: { value } }) => onValueChange(value.join(", "))}
     />
   );

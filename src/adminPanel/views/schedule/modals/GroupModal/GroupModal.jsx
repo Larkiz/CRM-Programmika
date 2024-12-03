@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 
 import { paymentReducer } from "@/adminPanel/reducers/finance/paymentReducer";
 
@@ -10,10 +10,21 @@ import { Button, Dialog, Stack } from "@mui/material";
 import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
 import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
 import { useModalControl } from "@/commonComponents/Modal/useModal";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
 
 export const GroupModal = ({ handleClose, show, course, date }) => {
   const [students, paymentDispatch] = useReducer(paymentReducer, null);
   const [deletePending, setDeletePending] = useState(false);
+
+  const { copyLesson } = useContext(GroupsContext);
+  function copyLessonHandle() {
+    copyLesson({
+      course: course,
+      students: students,
+      time: date?.split(" ")[1],
+    });
+  }
 
   useEffect(() => {
     if (show) {
@@ -103,6 +114,14 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                     variant="contained"
                   >
                     Удалить
+                  </Button>
+                  <Button
+                    style={{ fontSize: 14 }}
+                    type="button"
+                    variant="contained"
+                    onClick={copyLessonHandle}
+                  >
+                    <ContentCopyIcon color="rgb(25, 118, 210)" />
                   </Button>
                 </>
               ) : (

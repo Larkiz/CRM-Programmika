@@ -4,12 +4,18 @@ export const CoursePicker = ({
   courses,
   onChange,
   asFilter = false,
-  value,
+  value = "",
   multiple = false,
+  required = false,
+  error = false,
   sx,
 }) => {
   return (
-    <FormControl sx={{ ...sx, maxWidth: "100%" }}>
+    <FormControl
+      required={required}
+      error={error}
+      sx={{ ...sx, maxWidth: "100%" }}
+    >
       <InputLabel id="course">Курс</InputLabel>
       <Select
         label="Курс"

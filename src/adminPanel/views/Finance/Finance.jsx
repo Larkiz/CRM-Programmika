@@ -1,5 +1,5 @@
 import { FinanceCard } from "./FInanceCard";
-import { FormElement } from "@/adminPanel/components/FormElements/FormElement";
+import { ControlledFormElement } from "@/adminPanel/components/FormElements/FormElement";
 import { useForm } from "react-hook-form";
 import { useEffect, useReducer, useState } from "react";
 import { monthFilterReducer } from "@/adminPanel/reducers/filters/monthFilterReducer";
@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 export const Finance = () => {
-  const { register, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm();
   const [finances, setFinances] = useState([]);
 
   const [filterDate, dispatchMonthFilter] = useReducer(monthFilterReducer, {
@@ -95,22 +95,19 @@ export const Finance = () => {
           </Stack>
           <Stack spacing={2}>
             <Stack spacing={4} direction={"row"}>
-              <FormElement
-                register={{ ...register("name", { required: true }) }}
-              >
-                Название
-              </FormElement>
-              <FormElement
-                register={{
-                  ...register("amount", {
-                    required: true,
-                    valueAsNumber: true,
-                  }),
-                }}
-                type={"number"}
-              >
-                Сумма
-              </FormElement>
+              <ControlledFormElement
+                control={control}
+                label={"Название"}
+                name={"name"}
+                required
+              />
+              <ControlledFormElement
+                control={control}
+                label={"Сумма"}
+                name={"amount"}
+                required
+                asNumber
+              />
             </Stack>
             <Box>
               <Button

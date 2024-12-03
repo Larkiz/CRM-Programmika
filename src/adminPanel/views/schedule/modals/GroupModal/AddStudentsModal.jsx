@@ -60,6 +60,7 @@ export const AddStudentsModal = ({ handleClose, show, date, handleAdd }) => {
               setFilter({ ...filter, name: e.target.value });
             }}
             label={false}
+            value={filter.name}
             sx={{ mt: 1 }}
           >
             Поиск студентов
