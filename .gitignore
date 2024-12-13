@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# adds
+package.json
+jest.config.js
+jest.setup.ts
+tsconfig.json
+src/adminPanel/tests

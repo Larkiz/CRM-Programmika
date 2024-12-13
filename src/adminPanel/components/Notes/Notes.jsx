@@ -41,7 +41,7 @@ export const Notes = ({ sitePath }) => {
     if (window.confirm("Удалить заметку?")) {
       authFetch(`/notes/${id}`, { method: "delete" })
         .then((res) => res.json())
-        .then((data) => {
+        .then(() => {
           notesDispatch({ type: "delete", id: id });
           toast.success("Заметка удалена");
         });
