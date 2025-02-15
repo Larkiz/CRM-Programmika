@@ -49,7 +49,7 @@ export const NewStudent = ({ onSubmit }) => {
                   courses={coursesNames}
                   multiple
                   value={value}
-                  required
+                  required sx={{width:345}}
                   error={!!errors.course}
                   onChange={onChange}
                 />

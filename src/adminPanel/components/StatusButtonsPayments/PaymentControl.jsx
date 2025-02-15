@@ -35,7 +35,7 @@ export function PaymentStatus({ status, sx }) {
   if (status === 0) {
     return (
       <Typography
-        sx={{ fontSize: 13, ...style, ...sx }}
+        sx={{ fontSize: 12, ...style, ...sx }}
         className="payment-status payment-status-false"
         variant="body2"
       >
@@ -46,7 +46,7 @@ export function PaymentStatus({ status, sx }) {
   if (status === 1) {
     return (
       <Typography
-        sx={{ fontSize: 13, ...style, ...sx }}
+        sx={{ fontSize: 12, ...style, ...sx }}
         className="payment-status payment-status-true"
         variant="body2"
       >

@@ -86,15 +86,15 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
         handleAdd={handleAdd}
       />
 
-      <Dialog fullWidth open={show} onClose={handleCloseLesson}>
-        <ModalTitle toggle={handleCloseLesson}>
-          <Stack>
+      <Dialog  fullWidth open={show} onClose={handleCloseLesson}>
+        <ModalTitle sx={{paddingLeft:2}} toggle={handleCloseLesson}>
+          <Stack  >
             {course}
             <Stack gap={1} direction={"row"}>
               {!deletePending ? (
                 <>
                   <Button
-                    style={{ fontSize: 14 }}
+                    style={{ fontSize: 10 }}
                     type="button"
                     variant="contained"
                     className="green-bg"
@@ -107,7 +107,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                     onClick={() => {
                       setDeletePending(true);
                     }}
-                    style={{ fontSize: 14 }}
+                    style={{ fontSize: 10 }}
                     type="button"
                     className="red-bg"
                     color="error"
@@ -116,7 +116,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                     Удалить
                   </Button>
                   <Button
-                    style={{ fontSize: 14 }}
+                    style={{ fontSize: 5 }}
                     type="button"
                     variant="contained"
                     onClick={copyLessonHandle}
@@ -137,7 +137,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
           </Stack>
         </ModalTitle>
 
-        <ModalBody sx={{ marginTop: 2 }}>
+        <ModalBody  sx={{ marginTop: 2,paddingLeft: 1 }}>
           {students &&
             students.map((i, key) => {
               return (

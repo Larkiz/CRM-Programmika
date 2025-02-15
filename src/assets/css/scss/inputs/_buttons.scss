@@ -10,12 +10,13 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 5px 15px;
+    cursor: pointer;
     &.red {
       color: rgb(221, 16, 16);
     }
     &:hover {
       // @include rotateButtonAnim();
-      animation: animations.$rotateButtonAnim;
+      /* animation: animations.$rotateButtonAnim; */
       background-color: #c9c9c9;
     }
   }

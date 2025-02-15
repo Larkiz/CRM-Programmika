@@ -32,12 +32,12 @@ export const ModalStudent = ({
   return (
     <Stack sx={{ p: 1 }} gap={1}>
       <Stack
-        sx={{ "*": { fontSize: 13 } }}
+     
         alignItems={"center"}
         direction={"row"}
         gap={1}
       >
-        <Typography>
+        <Typography sx={{fontSize:14}}>
           {student.first_name} {student.last_name}
         </Typography>
         <PaymentStatus status={student.payment_status} />
