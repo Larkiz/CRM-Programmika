@@ -62,7 +62,7 @@ createRoot(document.getElementById("root")).render(
         pauseOnHover
         draggable
         theme={"colored"}
-      />{" "}
+      />
     </GroupsContextProvider>
   </ThemeProvider>
 );
