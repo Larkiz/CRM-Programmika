@@ -6,15 +6,16 @@ import { ModalStudent } from "./ModalStudent";
 import { toast } from "react-toastify";
 import { AddStudentsModal } from "./AddStudentsModal";
 import { authFetch } from "@/adminPanel/functions/authFetch";
-import { Button, Dialog, Stack } from "@mui/material";
+import { Box, Button, Dialog, Stack } from "@mui/material";
 import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
 import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
 import { useModalControl } from "@/commonComponents/Modal/useModal";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const GroupModal = ({ handleClose, show, course, date }) => {
-  const [students, paymentDispatch] = useReducer(paymentReducer, null);
+  const [students, paymentDispatch] = useReducer(paymentReducer, []);
   const [deletePending, setDeletePending] = useState(false);
 
   const { copyLesson } = useContext(GroupsContext);
@@ -87,7 +88,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
       />
 
       <Dialog  fullWidth open={show} onClose={handleCloseLesson}>
-        <ModalTitle sx={{paddingLeft:2}} toggle={handleCloseLesson}>
+        <ModalTitle  sx={{paddingLeft:2}} toggle={handleCloseLesson}>
           <Stack  >
             {course}
             <Stack gap={1} direction={"row"}>
@@ -137,8 +138,8 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
           </Stack>
         </ModalTitle>
 
-        <ModalBody  sx={{ marginTop: 2,paddingLeft: 1 }}>
-          {students &&
+        <ModalBody   sx={{ marginTop: 2,paddingLeft: 1}}>
+          {!students.length ?
             students.map((i, key) => {
               return (
                 <div
@@ -153,7 +154,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                   />
                 </div>
               );
-            })}
+            }):<Box sx={{display:"flex",justifyContent:"center",minHeight:100}}><CircularProgress  /></Box>}
         </ModalBody>
       </Dialog>
     </>
