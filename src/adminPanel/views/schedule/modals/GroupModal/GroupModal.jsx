@@ -139,7 +139,7 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
         </ModalTitle>
 
         <ModalBody   sx={{ marginTop: 2,paddingLeft: 1}}>
-          {!students.length ?
+          {students.length ?
             students.map((i, key) => {
               return (
                 <div
