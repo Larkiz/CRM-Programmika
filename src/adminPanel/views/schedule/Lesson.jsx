@@ -1,4 +1,12 @@
-import { TableCell, TableRow, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Grid2,
+  IconButton,
+  TableCell,
+  TableRow,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { toast } from "react-toastify";
 
 function addTime(inputTime) {
@@ -22,24 +30,25 @@ export const Lesson = ({ deleteSchedule, data, onClick }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xsm"));
   return (
-    <TableRow
-      hover
-      sx={{ cursor: "pointer" }}
+    <Grid2
+      container
+      sx={{ cursor: "pointer", p: 1.5, pt: 2 }}
       onClick={() => onClick(data.course)}
       key={data.id}
+      alignItems={"center"}
     >
-      <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }}>
-        {data.course.length > 15 || isMobile ? data.shortCourse : data.course}
-      </TableCell>
-      <TableCell sx={{ fontSize: { xs: 15, sm: 17 } }} colSpan={2}>
-        {lessonTime(data.time)}
-      </TableCell>
-      <TableCell
-        className="button-control-cont"
-        sx={{ fontSize: 25 }}
-        colSpan={2}
-      >
-        <button
+      <Grid2 size={6}>
+        <Typography sx={{ fontSize: { xs: 14, sm: 16 } }}>
+          {data.course}
+        </Typography>
+      </Grid2>
+      <Grid2 size={4} sx={{ fontSize: { xs: 14, sm: 16 } }}>
+        <Typography sx={{ fontSize: { xs: 12, sm: 16 } }}>
+          {lessonTime(data.time)}
+        </Typography>
+      </Grid2>
+      <Grid2 size={2} className="button-control-cont" sx={{ fontSize: 25 }}>
+        <IconButton
           className="ni ni-fat-remove button-control red"
           onClick={(e) => {
             e.stopPropagation();
@@ -47,8 +56,8 @@ export const Lesson = ({ deleteSchedule, data, onClick }) => {
               deleteSchedule().then(toast.success("Урок удалён"));
             }
           }}
-        ></button>
-      </TableCell>
-    </TableRow>
+        ></IconButton>
+      </Grid2>
+    </Grid2>
   );
 };

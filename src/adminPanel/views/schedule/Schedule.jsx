@@ -12,6 +12,7 @@ import { useModalControl } from "@/commonComponents/Modal/useModal";
 import {
   Button,
   Container,
+  Divider,
   Paper,
   Table,
   TableBody,
@@ -39,7 +40,7 @@ export const Schedule = () => {
           behavior: "smooth",
         }),
 
-      100
+      150
     );
   }, []);
 
@@ -98,27 +99,36 @@ export const Schedule = () => {
                 </TableHead>
                 <TableBody>
                   {scheduleItem.schedule.length !== 0 ? (
-                    scheduleItem.schedule.sort(compare).map((item) => {
+                    scheduleItem.schedule.sort(compare).map((item, key) => {
                       return (
-                        <Lesson
-                          onClick={(course) =>
-                            handleLessonModalShow(
-                              course,
-                              scheduleItem.date + " " + item.time
-                            )
-                          }
-                          key={item.id}
-                          data={item}
-                          date={scheduleItem.date}
-                          deleteSchedule={() =>
-                            deleteSchedule(scheduleItem.date, item.id)
-                          }
-                        />
+                        <>
+                          <Lesson
+                            onClick={(course) =>
+                              handleLessonModalShow(
+                                course,
+                                scheduleItem.date + " " + item.time
+                              )
+                            }
+                            key={item.id}
+                            data={item}
+                            date={scheduleItem.date}
+                            deleteSchedule={() =>
+                              deleteSchedule(scheduleItem.date, item.id)
+                            }
+                          />
+                          {key !== scheduleItem.schedule.length - 1 && (
+                            <Divider sx={{ borderColor: "#d6d6d6ff" }} />
+                          )}
+                        </>
                       );
                     })
                   ) : (
                     <TableRow key={scheduleItem.id}>
-                      <TableCell colSpan={3} style={{ fontSize: 16 }}>
+                      <TableCell
+                        sx={{ color: "#8a8a8aff" }}
+                        colSpan={3}
+                        style={{ fontSize: 16 }}
+                      >
                         Нет расписания
                       </TableCell>
                     </TableRow>

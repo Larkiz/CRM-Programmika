@@ -1,7 +1,7 @@
 import { Box, Button, DialogContent, DialogTitle, Stack } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-export const ModalTitle = ({ children, toggle,sx={} }) => {
+export const ModalTitle = ({ children, toggle, sx = {} }) => {
   return (
     <DialogTitle sx={sx}>
       <Stack direction={"row"}>

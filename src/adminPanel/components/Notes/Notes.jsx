@@ -94,7 +94,7 @@ export const Notes = ({ sitePath }) => {
                     <Card
                       sx={{
                         width: { xsm: 170, xs: 155, sm: 200 },
-                        height: 220,
+                        // height: 220,
                         paddingBottom: 0,
                       }}
                       key={note.id}

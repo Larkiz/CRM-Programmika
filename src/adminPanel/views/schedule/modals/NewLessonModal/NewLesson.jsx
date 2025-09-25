@@ -152,7 +152,7 @@ export const NewLessonModal = ({ handleClose, show, date, handleAdd }) => {
             Добавить
           </Button>
           <Button
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", backgroundColor: "#222222ff" }}
             disabled={!copiedLesson}
             variant="contained"
             onClick={pasteFromClipboard}

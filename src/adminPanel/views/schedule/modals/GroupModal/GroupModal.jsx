@@ -6,13 +6,34 @@ import { ModalStudent } from "./ModalStudent";
 import { toast } from "react-toastify";
 import { AddStudentsModal } from "./AddStudentsModal";
 import { authFetch } from "@/adminPanel/functions/authFetch";
-import { Box, Button, Dialog, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { ModalTitle } from "@/commonComponents/Modal/ModalTemplate";
 import { ModalBody } from "@/commonComponents/Modal/ModalTemplate";
 import { useModalControl } from "@/commonComponents/Modal/useModal";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { GroupsContext } from "@/adminPanel/Context/GroupsContextProvider";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
+
+const ModalActionButton = ({ sx, children, ...props }) => {
+  return (
+    <Button
+      sx={{ fontSize: 10, width: "fit-content", p: 0.6, ...sx }}
+      type="button"
+      variant="contained"
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+};
 
 export const GroupModal = ({ handleClose, show, course, date }) => {
   const [students, paymentDispatch] = useReducer(paymentReducer, []);
@@ -87,43 +108,45 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
         handleAdd={handleAdd}
       />
 
-      <Dialog  fullWidth open={show} onClose={handleCloseLesson}>
-        <ModalTitle  sx={{paddingLeft:2}} toggle={handleCloseLesson}>
-          <Stack  >
-            {course}
-            <Stack gap={1} direction={"row"}>
+      <Dialog fullWidth open={show} onClose={handleCloseLesson}>
+        <ModalTitle sx={{ paddingLeft: 2 }} toggle={handleCloseLesson}>
+          <Stack>
+            <Typography sx={{ fontSize: 18 }}>{course}</Typography>
+            <Stack spacing={1} direction={"row"}>
               {!deletePending ? (
                 <>
-                  <Button
-                    style={{ fontSize: 10 }}
-                    type="button"
-                    variant="contained"
+                  <ModalActionButton
                     className="green-bg"
-                    color="success"
                     onClick={addStudentsModalOpen}
                   >
                     Добавить
-                  </Button>
-                  <Button
+                  </ModalActionButton>
+
+                  <ModalActionButton
+                    className="red-bg"
                     onClick={() => {
                       setDeletePending(true);
                     }}
-                    style={{ fontSize: 10 }}
-                    type="button"
-                    className="red-bg"
-                    color="error"
-                    variant="contained"
                   >
                     Удалить
-                  </Button>
-                  <Button
-                    style={{ fontSize: 5 }}
-                    type="button"
-                    variant="contained"
+                  </ModalActionButton>
+                  <IconButton
+                    sx={{
+                      fontSize: 5,
+                      width: "fit-content",
+                      backgroundColor: "rgb(25, 118, 210)",
+                      p: 1,
+                      ":hover": { backgroundColor: "rgba(20, 103, 187, 1)" },
+                    }}
                     onClick={copyLessonHandle}
                   >
-                    <ContentCopyIcon color="rgb(25, 118, 210)" />
-                  </Button>
+                    <ContentCopyIcon
+                      sx={{
+                        fontSize: 16,
+                        color: "#fff",
+                      }}
+                    />
+                  </IconButton>
                 </>
               ) : (
                 <Button
@@ -138,8 +161,8 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
           </Stack>
         </ModalTitle>
 
-        <ModalBody   sx={{ marginTop: 2,paddingLeft: 1}}>
-          {students.length ?
+        <ModalBody sx={{ marginTop: 2, paddingLeft: 1 }}>
+          {students.length ? (
             students.map((i, key) => {
               return (
                 <div
@@ -152,9 +175,19 @@ export const GroupModal = ({ handleClose, show, course, date }) => {
                     student={i}
                     paymentDispatch={paymentDispatch}
                   />
+                  {key !== students.length - 1 && (
+                    <Divider sx={{ borderColor: "#d6d6d6ff" }} />
+                  )}
                 </div>
               );
-            }):<Box sx={{display:"flex",justifyContent:"center",minHeight:100}}><CircularProgress  /></Box>}
+            })
+          ) : (
+            <Box
+              sx={{ display: "flex", justifyContent: "center", minHeight: 100 }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
         </ModalBody>
       </Dialog>
     </>

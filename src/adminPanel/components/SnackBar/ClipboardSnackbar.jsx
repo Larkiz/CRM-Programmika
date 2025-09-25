@@ -22,6 +22,7 @@ export function ClipboardSnackbar() {
   return (
     <Snackbar
       open={snackBarOpened}
+      onClick={() => snackBarControl.close()}
       message={
         <Box>
           <Typography>Скопировано</Typography>
