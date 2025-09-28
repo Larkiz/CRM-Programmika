@@ -10,15 +10,14 @@ import { NewLessonModal } from "./modals/NewLessonModal/NewLesson";
 import { MonthController } from "@/commonComponents/MonthController/MonthController";
 import { useModalControl } from "@/commonComponents/Modal/useModal";
 import {
+  Box,
   Button,
   Container,
   Divider,
+  Grid2,
   Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
+  Stack,
+  Typography,
 } from "@mui/material";
 
 export const Schedule = () => {
@@ -78,63 +77,65 @@ export const Schedule = () => {
         handleAdd={handleAdd}
       />
 
-      {schedule &&
-        schedule.map((scheduleItem) => {
-          return (
-            <Paper elevation={6} key={scheduleItem.id}>
-              <Table sx={{ mb: 4 }}>
-                <TableHead
-                  ref={
-                    currentDate === scheduleItem.date ? currentDateRef : null
-                  }
-                >
-                  <TableRow>
-                    <TableCell
-                      colSpan={4}
-                      sx={{ fontSize: { xs: 16, sm: 18 }, color: "#fff" }}
+      <Stack spacing={4.5}>
+        {schedule &&
+          schedule.map((scheduleItem) => {
+            return (
+              <Paper elevation={6} key={scheduleItem.id}>
+                <Grid2 container>
+                  <Grid2
+                    size={12}
+                    sx={{ backgroundColor: "#2979d4", p: 2 }}
+                    ref={
+                      currentDate === scheduleItem.date ? currentDateRef : null
+                    }
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: { xs: 16, sm: 18 },
+                        color: "#fff",
+                        fontWeight: 600,
+                      }}
                     >
                       {getMonth(scheduleItem.date)}
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {scheduleItem.schedule.length !== 0 ? (
-                    scheduleItem.schedule.sort(compare).map((item, key) => {
-                      return (
-                        <>
-                          <Lesson
-                            onClick={(course) =>
-                              handleLessonModalShow(
-                                course,
-                                scheduleItem.date + " " + item.time
-                              )
-                            }
-                            key={item.id}
-                            data={item}
-                            date={scheduleItem.date}
-                            deleteSchedule={() =>
-                              deleteSchedule(scheduleItem.date, item.id)
-                            }
-                          />
-                          {key !== scheduleItem.schedule.length - 1 && (
-                            <Divider sx={{ borderColor: "#d6d6d6ff" }} />
-                          )}
-                        </>
-                      );
-                    })
-                  ) : (
-                    <TableRow key={scheduleItem.id}>
-                      <TableCell
-                        sx={{ color: "#8a8a8aff" }}
-                        colSpan={3}
-                        style={{ fontSize: 16 }}
-                      >
-                        Нет расписания
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  <TableRow>
-                    <TableCell colSpan={3}>
+                    </Typography>
+                  </Grid2>
+                  <Grid2 size={12}>
+                    {scheduleItem.schedule.length !== 0 ? (
+                      scheduleItem.schedule.sort(compare).map((item, key) => {
+                        return (
+                          <Box key={item.id}>
+                            <Lesson
+                              onClick={(course) =>
+                                handleLessonModalShow(
+                                  course,
+                                  scheduleItem.date + " " + item.time
+                                )
+                              }
+                              data={item}
+                              date={scheduleItem.date}
+                              deleteSchedule={() =>
+                                deleteSchedule(scheduleItem.date, item.id)
+                              }
+                            />
+                            {key !== scheduleItem.schedule.length - 1 && (
+                              <Divider sx={{ borderColor: "#ddddddff" }} />
+                            )}
+                          </Box>
+                        );
+                      })
+                    ) : (
+                      <Grid2 size={12} sx={{ p: 2 }} key={scheduleItem.id}>
+                        <Typography
+                          sx={{ color: "#8a8a8aff" }}
+                          colSpan={3}
+                          style={{ fontSize: 16 }}
+                        >
+                          Нет расписания
+                        </Typography>
+                      </Grid2>
+                    )}
+                    <Grid2 sx={{ p: 2 }} size={12}>
                       <Button
                         variant="contained"
                         onClick={() =>
@@ -143,13 +144,13 @@ export const Schedule = () => {
                       >
                         Добавить
                       </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Paper>
-          );
-        })}
+                    </Grid2>
+                  </Grid2>
+                </Grid2>
+              </Paper>
+            );
+          })}
+      </Stack>
       <MonthController
         fixedBottom
         filterDate={filterDate}

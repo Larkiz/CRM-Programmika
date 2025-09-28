@@ -5,5 +5,11 @@ export const authFetch = (path, options) => {
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
     ...options,
+  }).then((res) => {
+    if (res.status === 403 && location.pathname !== "/auth") {
+      location.pathname = "auth";
+    }
+
+    return res;
   });
 };

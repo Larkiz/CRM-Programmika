@@ -1,12 +1,4 @@
-import {
-  Grid2,
-  IconButton,
-  TableCell,
-  TableRow,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Grid2, IconButton, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 
 function addTime(inputTime) {
@@ -27,12 +19,18 @@ function lessonTime(time) {
 }
 
 export const Lesson = ({ deleteSchedule, data, onClick }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xsm"));
   return (
     <Grid2
       container
-      sx={{ cursor: "pointer", p: 1.5, pt: 2 }}
+      sx={{
+        cursor: "pointer",
+        p: 1.5,
+        pt: 2,
+        ":hover": {
+          backgroundColor: "#e7e7e7ff",
+          transition: "0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+        },
+      }}
       onClick={() => onClick(data.course)}
       key={data.id}
       alignItems={"center"}
